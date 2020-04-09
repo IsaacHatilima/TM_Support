@@ -100,9 +100,9 @@
 												</div>
                                                 <div class="col-md-12">
 													<div class="row">
-														<label class="col-md-4 control-label text-right">Town:<span class="text-danger">*</span> </label>
+														<label class="col-md-4 control-label text-right">Site:<span class="text-danger">*</span> </label>
 														<div class="col-md-8">
-															<input type="text" class="form-control" name="town" id="town" placeholder="Town" required="required">
+															<input type="text" class="form-control" name="town" id="town" placeholder="Site" required="required">
 														</div>
 													</div>
 												</div>
@@ -125,7 +125,7 @@
 								<th>Mechant Name</th>
 								<th>Mechant ID</th>
 								<th>Province</th>
-								<th>Town</th>
+								<th>Site</th>
 								<th>Action</th>
 							</tr>
 						</thead>
@@ -156,96 +156,7 @@
 											<td>'.$rows['mechant_town'].'</td>
                                             <td>
 
-                                            <button type="button" style ="font-size: 11px;" class="btn btn-warning btn-rounded btn-xs" value="'.$crypted_token.'" data-toggle="modal" data-target="#modal_'.$id.'""><i class="icon-pen "></i> Update</button>
-
-
-                                            <div id="modal_'.$id.'" class="modal fade" data-backdrop="static">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <form class="form-horizontal" action="" method="POST">
-                                                            <div class="modal-header">
-                                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                                <h5 class="modal-title">Update Mechant</h5>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <div class="form-group">
-                                                                    <div class="col-md-12">
-                                                                        <div class="row">
-                                                                            <label class="col-md-4 control-label text-right">Mechant Type:<span class="text-danger">*</span> </label>
-                                                                            <div class="col-md-8">
-                                                                            <select data-placeholder="Select Mechant Type" name="mechtype2" class="select-search" required="required">
-                                                                                <option></option>
-                                                                                <optgroup label="Available Mechant Types">
-                                                                                    <option value="'.$rows['mechant_type'].'" selected = "selected">'.$rows['mechant_type'].'</option>
-                                                                                    <option value="Retail">Retail</option>
-                                                                                    <option value="Forecourt">Forecourt</option>
-                                                                                </optgroup>
-                                                                            </select>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-12">
-                                                                        <div class="row">
-                                                                            <label class="col-md-4 control-label text-right">Mechant Name:<span class="text-danger">*</span> </label>
-                                                                            <div class="col-md-8">
-                                                                                <input type="text" class="form-control" name="mechname2" value="'.$rows['mechant_name'].'" required="required">
-                                                                                <input type="hidden" name="MeachantID" value="'.$crypted_token.'" required="required" readonly>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-12">
-                                                                        <div class="row">
-                                                                            <label class="col-md-4 control-label text-right">Mechant ID:<span class="text-danger">*</span> </label>
-                                                                            <div class="col-md-8">
-                                                                                <input type="text" class="form-control" name="mechID2" value="'.$rows['mechant_id'].'" required="required">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-12">
-                                                                        <div class="row">
-                                                                            <label class="col-md-4 control-label text-right">Province:<span class="text-danger">*</span> </label>
-                                                                            <div class="col-md-8">
-                                                                            <select data-placeholder="Select Province" name="prov2" class="select-search" required="required">
-                                                                                <option></option>
-                                                                                <optgroup label="Available Provinces">
-                                                                                <option value="'.$rows['mechant_province'].'" selected = "selected">'.$rows['mechant_province'].'</option>
-                                                                                    <option value="Central">Central</option>
-                                                                                    <option value="Copperbelt">Copperbelt</option>
-                                                                                    <option value="Eastern">Eastern</option>
-                                                                                    <option value="Luapula">Luapula</option>
-                                                                                    <option value="Lusaka">Lusaka</option>
-                                                                                    <option value="Muchinga">Muchinga</option>
-                                                                                    <option value="Nothern">Nothern</option>
-                                                                                    <option value="North-Westen">North-Westen</option>
-                                                                                    <option value="Southern">Southern</option>
-                                                                                    <option value="Western">Western</option>
-                                                                                </optgroup>
-                                                                            </select>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-12">
-                                                                        <div class="row">
-                                                                            <label class="col-md-4 control-label text-right">Town:<span class="text-danger">*</span> </label>
-                                                                            <div class="col-md-8">
-                                                                                <input type="text" class="form-control" name="town2" value="'.$rows['mechant_town'].'" required="required">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
-                                                                <button type="button" name="update" data-value="'.$crypted_token.'" class="btn btn-primary saveONLY">Save</button>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-
-
-
+                                            <a href="UpdateMech?id='.$crypted_token.'" style ="font-size: 11px;" class="btn btn-warning btn-rounded btn-xs"><i class="icon-pen "></i> Update</a>
 
                                             <button type="button" style ="font-size: 11px;" class="btn btn-danger btn-rounded btn-xs" value="'.$crypted_token.'" onclick="Deletes(this.value);"><i class="icon-trash "></i> Delete</button>
 

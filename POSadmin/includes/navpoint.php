@@ -52,9 +52,16 @@
     {
         $mech = "active";
     }
+    if ($page == "UpdateMech.php")
+    {
+        $mech = "active";
+    }
     if ($page == "Devices.php")
     {
         $dev = "active";
     }
-
+    if ($page == "UpdateDeviceInfo.php")
+    {
+        $dev = "active";
+    }
 ?>

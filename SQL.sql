@@ -209,9 +209,16 @@ CREATE TABLE mechants
 CREATE TABLE device_info
 (
     device_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    device_type VARCHAR(100) NOT NULL,
-    terminal_id VARCHAR(100) NOT NULL,
-    device_serial VARCHAR(100) NOT NULL,
+    mechant_log_id_fk INT NOT NULL,
+    device_type VARCHAR(100) NULL,
+    terminal_id VARCHAR(100) NULL,
+    device_serial VARCHAR(100) NULL,
+    base_serial VARCHAR(100) NULL,
+    mtn_sim_serial VARCHAR(100) NULL,
+    airtel_sim_serial VARCHAR(100) NULL,
+    installation_date VARCHAR(100) NULL,
+    ip_address VARCHAR(100) NULL,
+    fnb_asset_code VARCHAR(100) NULL,
     created_by INT NOT NULL,
     date_created DATETIME NOT NULL
 );

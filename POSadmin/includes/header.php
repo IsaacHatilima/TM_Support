@@ -56,6 +56,14 @@
     <script type="text/javascript" src="../../assets/js/plugins/notifications/bootbox.min.js"></script>
 	<script type="text/javascript" src="../../assets/js/plugins/notifications/sweet_alert.min.js"></script>
 	<script type="text/javascript" src="../../assets/js/plugins/forms/validation/validate.min.js"></script>
+
+	<script type="text/javascript" src="../../assets/js/core/libraries/jasny_bootstrap.min.js"></script>
+	<script type="text/javascript" src="../../assets/js/plugins/forms/inputs/autosize.min.js"></script>
+	<script type="text/javascript" src="../../assets/js/plugins/forms/inputs/formatter.min.js"></script>
+	<script type="text/javascript" src="../../assets/js/plugins/forms/inputs/typeahead/typeahead.bundle.min.js"></script>
+	<script type="text/javascript" src="../../assets/js/plugins/forms/inputs/typeahead/handlebars.min.js"></script>
+	<script type="text/javascript" src="../../assets/js/plugins/forms/inputs/passy.js"></script>
+	<script type="text/javascript" src="../../assets/js/plugins/forms/inputs/maxlength.min.js"></script>
 	
 	 
 	  

@@ -119,7 +119,7 @@
 						<tbody>
 							<?php
 							//AND client_id=logged_by
-								$sql = "SELECT * FROM mechants,pos_calls,clients where mechant_type=mechant_id  AND call_status != 'Closed' ORDER BY pos_call_id DESC LIMIT 10;";
+								$sql = "SELECT * FROM pos_calls,clients WHERE call_status != 'Closed' ORDER BY pos_call_id DESC LIMIT 10;";
 								$stmt = $object->connect()->prepare($sql);
 								$stmt->execute();
 								if($stmt->rowCount())
@@ -143,7 +143,7 @@
 										echo '
 											<tr>
 											<td><a href="POSTicketDetails?pos_ticket_id='.$crypted_token.'">TMSP'.$rows['pos_call_id'].'</a></td>
-											<td>'.$rows['mechants'].'</td>
+											<td>Mechant Type</td>
 											<td>'.$rows['site_location'].'</td>
 											<td>'.$rows['device_type'].'</td>
 											<td>'.$rows['client_first_name'].' '.$rows['client_last_name'].'</td>

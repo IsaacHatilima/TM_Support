@@ -39,7 +39,7 @@
 						<div id="modal_default" class="modal fade" data-backdrop="static">
 							<div class="modal-dialog">
 								<div class="modal-content">
-									<form class="form-horizontal" id="mechs" action="" method="POST">
+									<form class="form-horizontal" id="device" action="" method="POST">
 										<div class="modal-header">
 											<button type="button" class="close" data-dismiss="modal">&times;</button>
 											<h5 class="modal-title">Add Device</h5>
@@ -50,7 +50,7 @@
 													<div class="row">
 														<label class="col-md-4 control-label text-right">Mechant Type:<span class="text-danger">*</span> </label>
 														<div class="col-md-8">
-														<select data-placeholder="Select Mechant Type" name="mechtype" id="mechtype" class="select-search" required="required">
+														<select data-placeholder="Select Mechant Type" name="mechtype" id="mechtype" class="select-search" required="required" onchange="getMechID(event)">
 															<option></option>
 															<optgroup label="Available Mechant Types">
                                                                 <option value="Retail">Retail</option>
@@ -60,49 +60,88 @@
 														</div>
 													</div>
 												</div>
-												<div class="col-md-12">
-													<div class="row">
-														<label class="col-md-4 control-label text-right">Mechant Name:<span class="text-danger">*</span> </label>
-														<div class="col-md-8">
-															<input type="text" class="form-control" name="mechname" id="mechname" placeholder="Mechant Name" required="required">
-														</div>
-													</div>
-												</div>
                                                 <div class="col-md-12">
 													<div class="row">
 														<label class="col-md-4 control-label text-right">Mechant ID:<span class="text-danger">*</span> </label>
 														<div class="col-md-8">
-															<input type="text" class="form-control" name="mechID" id="mechID" placeholder="Mechant ID" required="required">
-														</div>
-													</div>
-												</div>
-                                                <div class="col-md-12">
-													<div class="row">
-														<label class="col-md-4 control-label text-right">Province:<span class="text-danger">*</span> </label>
-														<div class="col-md-8">
-														<select data-placeholder="Select Province" name="prov" id="prov" class="select-search" required="required">
+														<select data-placeholder="Select Mechant" name="mechID" id="mechID" class="select-search" required="required">
 															<option></option>
-															<optgroup label="Available Provinces">
-                                                                <option value="Central">Central</option>
-                                                                <option value="Copperbelt">Copperbelt</option>
-                                                                <option value="Eastern">Eastern</option>
-                                                                <option value="Luapula">Luapula</option>
-                                                                <option value="Lusaka">Lusaka</option>
-                                                                <option value="Muchinga">Muchinga</option>
-                                                                <option value="Nothern">Nothern</option>
-                                                                <option value="North-Westen">North-Westen</option>
-                                                                <option value="Southern">Southern</option>
-                                                                <option value="Western">Western</option>
+														 
 															</optgroup>
 														</select>
 														</div>
 													</div>
 												</div>
-                                                <div class="col-md-12">
+												<div class="col-md-12">
 													<div class="row">
-														<label class="col-md-4 control-label text-right">Town:<span class="text-danger">*</span> </label>
+														<label class="col-md-4 control-label text-right">Device Type:<span class="text-danger">*</span> </label>
 														<div class="col-md-8">
-															<input type="text" class="form-control" name="town" id="town" placeholder="Town" required="required">
+															<input type="text" name="devtype" id="devtype" class="form-control"  placeholder="Enter Device Type" required="required">
+														</div>
+													</div>
+												</div>
+												<div class="col-md-12">
+													<div class="row">
+														<label class="col-md-4 control-label text-right">Terminal ID:<span class="text-danger">*</span> </label>
+														<div class="col-md-8">
+															<input type="text" name="terminaID" id="terminaID" class="form-control"  placeholder="Enter Terminal ID" required="required">
+														</div>
+													</div>
+												</div>
+												<div class="col-md-12">
+													<div class="row">
+														<label class="col-md-4 control-label text-right">Device Serial:<span class="text-danger">*</span> </label>
+														<div class="col-md-8">
+															<input type="text" name="device_serial" id="device_serial" class="form-control"  placeholder="Enter Device Serial" required="required">
+														</div>
+													</div>
+												</div>
+												<div class="col-md-12">
+													<div class="row">
+														<label class="col-md-4 control-label text-right">Base Serial: </label>
+														<div class="col-md-8">
+															<input type="text" name="base_serial" id="base_serial" class="form-control"  placeholder="Enter Base Serial" required="required">
+														</div>
+													</div>
+												</div>
+												<div class="col-md-12">
+													<div class="row">
+														<label class="col-md-4 control-label text-right">MTN SIM Serial: </label>
+														<div class="col-md-8">
+															<input type="text" name="mtn_sim_serial" id="mtn_sim_serial" class="form-control"  placeholder="Enter MTN SIM Serial" required="required">
+														</div>
+													</div>
+												</div>
+												<div class="col-md-12">
+													<div class="row">
+														<label class="col-md-4 control-label text-right">Airtel SIM Serial: </label>
+														<div class="col-md-8">
+															<input type="text" name="airtel_sim_serial" id="airtel_sim_serial" class="form-control"  placeholder="Enter Airtel SIM Serial" required="required">
+														</div>
+													</div>
+												</div>
+												<div class="col-md-12">
+													<div class="row">
+														<label class="col-md-4 control-label text-right">IP Address:<span class="text-danger">*</span> </label>
+														<div class="col-md-8">
+															<input type="text" name="ip_address" id="ip_address" class="form-control"  placeholder="Enter IP Address" required="required">
+														</div>
+													</div>
+												</div>
+												<div class="col-md-12">
+													<div class="row">
+														<label class="col-md-4 control-label text-right">FNB Asset Code:<span class="text-danger">*</span> </label>
+														<div class="col-md-8">
+														<input type="text" name="asset_code" id="asset_code" class="form-control"  placeholder="Enter FNB Asset Code" required="required">
+														</div>
+													</div>
+												</div>
+												<div class="col-md-12">
+													<div class="row">
+														<label class="col-md-4 control-label text-right">Installation:<span class="text-danger">*</span> </label>
+														<div class="col-md-8">
+															<input type="text" name="installation_date" id="installation_date" class="form-control" data-mask="99/99/9999" placeholder="Enter Installation Date" required="required">
+															<span class="help-block">99/99/9999</span>
 														</div>
 													</div>
 												</div>
@@ -125,20 +164,20 @@
 								<th>Mechant Name</th>
 								<th>Mechant ID</th>
 								<th>Province</th>
-								<th>Town</th>
+								<th>Terminal ID</th>
 								<th>Action</th>
 							</tr>
 						</thead>
 						<tbody>
 							<?php
-								$sql = "SELECT * FROM mechants ORDER BY mechant_province ASC;";
+								$sql = "SELECT * FROM mechants,device_info WHERE mechant_log_id = mechant_log_id_fk ORDER BY mechant_province ASC;";
 								$stmt = $object->connect()->prepare($sql);
 								$stmt->execute();
 								if($stmt->rowCount())
 								{
 									while ($rows = $stmt->fetch())
 									{
-										$id = $rows['mechant_log_id'];
+										$id = $rows['device_id'];
 
 										$token = $id;
 
@@ -153,101 +192,149 @@
 											<td>'.$rows['mechant_name'].'</td>
 											<td>'.$rows['mechant_id'].'</td>
 											<td>'.$rows['mechant_province'].'</td>
-											<td>'.$rows['mechant_town'].'</td>
-                                            <td>
+											<td>'.$rows['mechant_id'].'</td>
 
-                                            <button type="button" style ="font-size: 11px;" class="btn btn-warning btn-rounded btn-xs" value="'.$crypted_token.'" data-toggle="modal" data-target="#modal_'.$id.'""><i class="icon-pen "></i> Update</button>
+											<td>
+											
+											<button type="button" style ="font-size: 11px;" class="btn btn-info btn-rounded btn-xs" value="'.$crypted_token.'" data-toggle="modal" data-target="#modal_X'.$id.'""><i class="icon-eye2 "></i> </button>
 
+											<a href="UpdateDeviceInfo?id='.$crypted_token.'" style ="font-size: 11px;" class="btn btn-warning btn-rounded btn-xs"><i class="icon-pen "></i> </a>
 
-                                            <div id="modal_'.$id.'" class="modal fade" data-backdrop="static">
+											
+                                            <div id="modal_X'.$id.'" class="modal fade" data-backdrop="static">
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <form class="form-horizontal" action="" method="POST">
                                                             <div class="modal-header">
                                                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                                <h5 class="modal-title">Update Mechant</h5>
+                                                                <h5 class="modal-title">Device Details</h5>
                                                             </div>
                                                             <div class="modal-body">
                                                                 <div class="form-group">
                                                                     <div class="col-md-12">
                                                                         <div class="row">
-                                                                            <label class="col-md-4 control-label text-right">Mechant Type:<span class="text-danger">*</span> </label>
+                                                                            <label class="col-md-4 control-label text-right">Mechant Type: </label>
                                                                             <div class="col-md-8">
-                                                                            <select data-placeholder="Select Mechant Type" name="mechtype2" class="select-search" required="required">
-                                                                                <option></option>
-                                                                                <optgroup label="Available Mechant Types">
-                                                                                    <option value="'.$rows['mechant_type'].'" selected = "selected">'.$rows['mechant_type'].'</option>
-                                                                                    <option value="Retail">Retail</option>
-                                                                                    <option value="Forecourt">Forecourt</option>
-                                                                                </optgroup>
-                                                                            </select>
+																			<input type="text" class="form-control" value="'.$rows['mechant_type'].'" readonly>
                                                                             </div>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-12">
                                                                         <div class="row">
-                                                                            <label class="col-md-4 control-label text-right">Mechant Name:<span class="text-danger">*</span> </label>
+                                                                            <label class="col-md-4 control-label text-right">Mechant Name: </label>
                                                                             <div class="col-md-8">
-                                                                                <input type="text" class="form-control" name="mechname2" value="'.$rows['mechant_name'].'" required="required">
-                                                                                <input type="hidden" name="MeachantID" value="'.$crypted_token.'" required="required" readonly>
+                                                                                <input type="text" class="form-control" value="'.$rows['mechant_name'].'" readonly>
+                                                                                
                                                                             </div>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-12">
                                                                         <div class="row">
-                                                                            <label class="col-md-4 control-label text-right">Mechant ID:<span class="text-danger">*</span> </label>
+                                                                            <label class="col-md-4 control-label text-right">Mechant ID: </label>
                                                                             <div class="col-md-8">
-                                                                                <input type="text" class="form-control" name="mechID2" value="'.$rows['mechant_id'].'" required="required">
+                                                                                <input type="text" class="form-control"  value="'.$rows['mechant_id'].'" readonly>
                                                                             </div>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-12">
                                                                         <div class="row">
-                                                                            <label class="col-md-4 control-label text-right">Province:<span class="text-danger">*</span> </label>
-                                                                            <div class="col-md-8">
-                                                                            <select data-placeholder="Select Province" name="prov2" class="select-search" required="required">
-                                                                                <option></option>
-                                                                                <optgroup label="Available Provinces">
-                                                                                <option value="'.$rows['mechant_province'].'" selected = "selected">'.$rows['mechant_province'].'</option>
-                                                                                    <option value="Central">Central</option>
-                                                                                    <option value="Copperbelt">Copperbelt</option>
-                                                                                    <option value="Eastern">Eastern</option>
-                                                                                    <option value="Luapula">Luapula</option>
-                                                                                    <option value="Lusaka">Lusaka</option>
-                                                                                    <option value="Muchinga">Muchinga</option>
-                                                                                    <option value="Nothern">Nothern</option>
-                                                                                    <option value="North-Westen">North-Westen</option>
-                                                                                    <option value="Southern">Southern</option>
-                                                                                    <option value="Western">Western</option>
-                                                                                </optgroup>
-                                                                            </select>
+                                                                            <label class="col-md-4 control-label text-right">Province: </label>
+																			<div class="col-md-8">
+																			<input type="text" class="form-control" value="'.$rows['mechant_province'].'" readonly>
                                                                             </div>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-12">
                                                                         <div class="row">
-                                                                            <label class="col-md-4 control-label text-right">Town:<span class="text-danger">*</span> </label>
+                                                                            <label class="col-md-4 control-label text-right">Site: </label>
                                                                             <div class="col-md-8">
-                                                                                <input type="text" class="form-control" name="town2" value="'.$rows['mechant_town'].'" required="required">
+                                                                                <input type="text" class="form-control"  value="'.$rows['mechant_town'].'" readonly>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
+																	</div>
+																	<div class="col-md-12">
+																		<div class="row">
+																			<label class="col-md-4 control-label text-right">Device Type: </label>
+																			<div class="col-md-8">
+																				<input type="text" class="form-control"  value="'.$rows['device_type'].'" readonly>
+																			</div>
+																		</div>
+																	</div>
+																	<div class="col-md-12">
+																		<div class="row">
+																			<label class="col-md-4 control-label text-right">Terminal ID: </label>
+																			<div class="col-md-8">
+																				<input type="text" class="form-control"  value="'.$rows['terminal_id'].'" readonly>
+																			</div>
+																		</div>
+																	</div>
+																	<div class="col-md-12">
+																		<div class="row">
+																			<label class="col-md-4 control-label text-right">Device Serial: </label>
+																			<div class="col-md-8">
+																				<input type="text" class="form-control"  value="'.$rows['device_serial'].'" readonly>
+																			</div>
+																		</div>
+																	</div>
+																	<div class="col-md-12">
+																		<div class="row">
+																			<label class="col-md-4 control-label text-right">Base Serial: </label>
+																			<div class="col-md-8">
+																				<input type="text" class="form-control"  value="'.$rows['base_serial'].'" readonly>
+																			</div>
+																		</div>
+																	</div>
+																	<div class="col-md-12">
+																		<div class="row">
+																			<label class="col-md-4 control-label text-right">MTN SIM Serial: </label>
+																			<div class="col-md-8">
+																				<input type="text" class="form-control"  value="'.$rows['mtn_sim_serial'].'" readonly>
+																			</div>
+																		</div>
+																	</div>
+																	<div class="col-md-12">
+																		<div class="row">
+																			<label class="col-md-4 control-label text-right">Airtel SIM Serial: </label>
+																			<div class="col-md-8">
+																				<input type="text" class="form-control"  value="'.$rows['airtel_sim_serial'].'" readonly>
+																			</div>
+																		</div>
+																	</div>
+																	<div class="col-md-12">
+																		<div class="row">
+																			<label class="col-md-4 control-label text-right">IP Address: </label>
+																			<div class="col-md-8">
+																				<input type="text" class="form-control"  value="'.$rows['ip_address'].'" readonly>
+																			</div>
+																		</div>
+																	</div>
+																	<div class="col-md-12">
+																		<div class="row">
+																			<label class="col-md-4 control-label text-right">FNB Asset Code: </label>
+																			<div class="col-md-8">
+																			<input type="text"class="form-control"  value="'.$rows['fnb_asset_code'].'" readonly>
+																			</div>
+																		</div>
+																	</div>
+																	<div class="col-md-12">
+																		<div class="row">
+																			<label class="col-md-4 control-label text-right">Installation: </label>
+																			<div class="col-md-8">
+																				<input type="text" class="form-control"  value="'.$rows['installation_date'].'" readonly>
+																			</div>
+																		</div>
+																	</div>
                                                                 </div>
                                                             </div>
                                                             <div class="modal-footer">
                                                                 <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
-                                                                <button type="button" name="update" data-value="'.$crypted_token.'" class="btn btn-primary saveONLY">Save</button>
                                                             </div>
                                                         </form>
                                                     </div>
                                                 </div>
-                                            </div>
-
-
-
-
-
-                                            <button type="button" style ="font-size: 11px;" class="btn btn-danger btn-rounded btn-xs" value="'.$crypted_token.'" onclick="Deletes(this.value);"><i class="icon-trash "></i> Delete</button>
+											</div>
+											
+                                            <button type="button" style ="font-size: 11px;" class="btn btn-danger btn-rounded btn-xs" value="'.$crypted_token.'" onclick="Deletes(this.value);"><i class="icon-trash "></i> </button>
 
                                             </td>
 											</tr>
@@ -263,7 +350,7 @@
 								<th>Mechant Name</th>
 								<th>Mechant ID</th>
 								<th>Province</th>
-								<th>Town</th>
+								<th>Terminal ID</th>
 								<th>Action</th>
 							</tr>
 						</tfoot>
@@ -274,6 +361,6 @@
 	</div>
 	<div id="lock-modal"></div>
     <div id="loading-circle"></div>
-    <script src="../ajax/Mechants.js"></script>
+    <script src="../ajax/DeviceInfo.js"></script>
 </body>
 </html>

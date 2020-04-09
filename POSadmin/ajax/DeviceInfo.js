@@ -1,9 +1,29 @@
+function getMechID(event)
+{
+    event.preventDefault();
+    var val = document.getElementById("mechtype").value;
+    $("#lock-modal").css("display", "block");
+    $("#loading-circle").css("display", "block");
+    $.ajax({
+        type: "POST",
+        url: "../core/CoreDeviceInfo.php",
+        data: { 'metype': val },
+        dataType: "html",
+        success: function(strMessage) {
+            console.log(strMessage);
+            $('#mechID').html(strMessage);
+            $("#lock-modal").css("display", "none");
+            $("#loading-circle").css("display", "none");
+        }
+    });
+}
+
 $('#save').click(function(e){
-    $("#mechs").valid();
-    if ($.trim($("#mechtype").val()) === "" || $.trim($("#mechname").val()) === "" || $.trim($("#mechID").val()) === "" || $.trim($("#prov").val()) === "" || $.trim($("#town").val()) === "") {
+    $("#device").valid();
+    if ($.trim($("#mechtype").val()) === "" || $.trim($("#mechID").val()) === "" || $.trim($("#terminaID").val()) === "" || $.trim($("#device_serial").val()) === "" || $.trim($("#installation_date").val()) === "" || $.trim($("#ip_address").val()) === "" || $.trim($("#asset_code").val()) === "" ) {
         iziToast.show({
             title: 'Warning!',
-            message: 'All Fields Are Required.',
+            message: 'All Fields With A * Are Required.',
             color: 'yellow',
             position: 'topRight',
             icon: 'fa fa-check',
@@ -17,7 +37,7 @@ $('#save').click(function(e){
         $("#loading-circle").css("display", "block");
         $.ajax({
             type: "post",
-            url: "../core/Mech.php",
+            url: "../core/CoreDeviceInfo.php",
             data: $("form").serialize(),
             success: function(strMessage) {
                 console.log(strMessage);
@@ -25,7 +45,7 @@ $('#save').click(function(e){
                 if (xx == 'Success') {   
                     iziToast.show({
                         title: 'Success!',
-                        message: 'Mechant Added Successfully.',
+                        message: 'Device Added Successfully.',
                         color: 'green',
                         position: 'topRight',
                         icon: 'fa fa-check',
@@ -38,7 +58,7 @@ $('#save').click(function(e){
                 if (xx == 'Failed') {    
                     iziToast.show({
                         title: 'Warning!',
-                        message: 'Failed To Add Mechant. Please Try Again.',
+                        message: 'Failed To Add Device. Please Try Again.',
                         color: 'yello',
                         position: 'topRight',
                         icon: 'fa fa-check',
@@ -65,11 +85,11 @@ $('#save').click(function(e){
 });
 
 $('#update').click(function(e){
-    $("#updatemech").valid();
-    if ($.trim($("mechtype2").val()) === null || $.trim($("mechname2").val()) === null || $.trim($("mechID2").val()) === null || $.trim($("prov2").val()) === null || $.trim($("town2").val()) === null) {
+    $("#updatedevice").valid();
+    if ($.trim($("mechID2").val()) === null || $.trim($("devtype2").val()) === null || $.trim($("terminaID2").val()) === null || $.trim($("device_serial2").val()) === null || $.trim($("ip_address2").val()) === null || $.trim($("asset_code2").val()) === null ){
         iziToast.show({
             title: 'Warning!',
-            message: 'All Fields Are Required.',
+            message: 'All Fields With A * Are Required.',
             color: 'yellow',
             position: 'topRight',
             icon: 'fa fa-check',
@@ -80,12 +100,11 @@ $('#update').click(function(e){
     else
     {
         e.preventDefault();
-        var ID = $(this).attr('data-value');
         $("#lock-modal").css("display", "block");
         $("#loading-circle").css("display", "block");
         $.ajax({
             type: "post",
-            url: "../core/Mech.php",
+            url: "../core/CoreDeviceInfo.php",
             data: $("form").serialize(),
             success: function(strMessage) {
                 console.log(strMessage);
@@ -93,20 +112,20 @@ $('#update').click(function(e){
                 if (xx == 'Success') {   
                     iziToast.show({
                         title: 'Success!',
-                        message: 'Mechant Updated Successfully.',
+                        message: 'Device Updated Successfully.',
                         color: 'green',
                         position: 'topRight',
                         icon: 'fa fa-check',
                         timeout: 2000
                     });  
                     setTimeout(function(){
-                        window.location.replace("Mechants");
+                        window.location.replace("Devices");
                     }, 2500);  
                 }
                 if (xx == 'Failed') {    
                     iziToast.show({
                         title: 'Warning!',
-                        message: 'Failed To Update Mechant. Please Try Again.',
+                        message: 'Failed To Update Device. Please Try Again.',
                         color: 'yello',
                         position: 'topRight',
                         icon: 'fa fa-check',
@@ -132,7 +151,6 @@ $('#update').click(function(e){
     }
 });
 
-
 function Deletes(x)
 {
     event.preventDefault();
@@ -140,15 +158,15 @@ function Deletes(x)
     $("#loading-circle").css("display", "block");
     $.ajax({
         type: "post",
-        url: "../core/Mech.php",
-        data: {"deleteMech" : x},
+        url: "../core/CoreDeviceInfo.php",
+        data: {"deletedev" : x},
         success: function(strMessage) {
             console.log(strMessage);
             var xx = strMessage;
             if (xx == 'Success') {   
                 iziToast.show({
                     title: 'Success!',
-                    message: 'Mechant Deleted Successfully.',
+                    message: 'Device Deleted Successfully.',
                     color: 'green',
                     position: 'topRight',
                     icon: 'fa fa-check',
@@ -161,7 +179,7 @@ function Deletes(x)
             if (xx == 'Failed') {    
                 iziToast.show({
                     title: 'Warning!',
-                    message: 'Failed To Delete Mechant. Please Try Again.',
+                    message: 'Failed To Delete Device. Please Try Again.',
                     color: 'yello',
                     position: 'topRight',
                     icon: 'fa fa-check',
