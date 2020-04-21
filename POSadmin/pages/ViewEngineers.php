@@ -58,7 +58,7 @@
 									
 										echo '
 											<tr>
-											<td>'.$rows['engineers_first_name'].' '.$rows['engineers_last_name'].'</td>
+											<td>'.$rows['engineer_first_name'].' '.$rows['engineer_last_name'].'</td>
                                             <td>'.$rows['email'].'</td>
                                             <td>'.$rows['cell'].'</td>
                                             <td>'.$rows['department'].'</td>

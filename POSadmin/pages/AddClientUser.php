@@ -76,18 +76,18 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="row">
-                                            <label class="col-md-4 control-label text-right">Bank:<span class="text-danger">*</span> </label>
+                                            <label class="col-md-4 control-label text-right">Client:<span class="text-danger">*</span> </label>
                                             <div class="col-lg-8">
-                                                <select data-placeholder="Select Bank" name="bankName" id="bankName" class="select" required="required" onchange="getContact(event)">
+                                                <select data-placeholder="Select Client" name="bankName" id="bankName" class="select" required="required" onchange="getContact(event)">
                                                     <option></option>
-                                                    <optgroup label="Available Banks">
+                                                    <optgroup label="Available Clients">
                                                         <?php
-                                                            $sql = "SELECT * FROM banks ORDER BY bank_id DESC;";
+                                                            $sql = "SELECT * FROM clients ORDER BY client_id DESC;";
                                                             $stmt = $object->connect()->prepare($sql);
                                                             $stmt->execute();
                                                             while ($rows = $stmt->fetch())
                                                             {
-                                                                $id = $rows['bank_id'];
+                                                                $id = $rows['client_id'];
 
                                                                 $token = $id;
 
@@ -96,7 +96,7 @@
                                                                 $enc_iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($cipher_method));  
                                                                 $crypted_token = openssl_encrypt($token, $cipher_method, $enc_key, 0, $enc_iv) . "::" . bin2hex($enc_iv);
 
-                                                                echo '<option value="'.$crypted_token.'">'.$rows['bank_name'].' ('.$rows['bank_name_abbr'].')</option>';
+                                                                echo '<option value="'.$crypted_token.'">'.$rows['client_name'].' ('.$rows['client_name_abbr'].')</option>';
                                                             }
                                                         ?>
                                                     </optgroup>

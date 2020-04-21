@@ -3,26 +3,14 @@
 		$object = new Database();
 		$object->connect();
 
-		$sqlClients = "SELECT * FROM clients WHERE client_id =?;";
+		$sqlClients = "SELECT * FROM engineers WHERE engineer_id =?;";
 		$stmtClients = $object->connect()->prepare($sqlClients);
 		$stmtClients->bindvalue(1, $_SESSION['person']);
 		$stmtClients->execute();
-		if($stmtClients->rowCount())
-		{
-			$rows = $stmtClients->fetch();
-			$firstName = $rows['client_first_name'];
-			$lastName = $rows['client_last_name'];
-		}
-		else
-		{
-			$sqlEngi = "SELECT * FROM engineers WHERE engineer_id = ?;";
-			$stmtEngi = $object->connect()->prepare($sqlEngi);
-			$stmtEngi->bindvalue(1, $_SESSION['person']);
-			$stmtEngi->execute();
-			$row = $stmtEngi->fetch();
-			$firstName = $row['engineers_first_name'];
-			$lastName = $row['engineers_last_name'];
-		}
+		$stmtClients->rowCount();
+		$rows = $stmtClients->fetch();
+		$firstName = $rows['engineer_first_name'];
+		$lastName = $rows['engineer_last_name'];
 		
 	 ?>
 	<!-- Top navbar -->
@@ -57,4 +45,4 @@
 			</ul>
 		</div>
 	</div>
-	<!-- /top navbar -->
+	<!-- /top navbar

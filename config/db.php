@@ -12,7 +12,7 @@
             $this->servername = "localhost";
             $this->username = "root";
             $this->password = "Password123$$";
-            $this->dbname = "tmsupport";
+            $this->dbname = "tm_support_2.0";
             $this->charset = "utf8mb4";
 
             try

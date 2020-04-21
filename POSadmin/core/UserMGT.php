@@ -26,7 +26,7 @@
         {
             try
             {
-                $sqltestu = "SELECT COUNT(user_id) FROM user_login WHERE username = ?;";
+                $sqltestu = "SELECT COUNT(user_id) FROM client_login WHERE emails = ?;";
                 $stmttestu = $this->connect()->prepare($sqltestu);
                 $stmttestu->bindvalue(1, $username);
                 $stmttestu->execute();
@@ -40,7 +40,7 @@
                 }
                 else
                 {
-                    $sql = "INSERT INTO clients(client_first_name,client_last_name,email,cell,bank_id_fk,contact_type,uuid,created_by,date_created) VALUES(?,?,?,?,?,?,?,?,?);";
+                    $sql = "INSERT INTO client_users(client_user_first_name,client_user_last_name,email,cell,client_id_fk,contact_type,uuid,created_by,date_created) VALUES(?,?,?,?,?,?,?,?,?);";
                     $stmt = $this->connect()->prepare($sql);
                     $stmt->bindvalue(1, $first_name);
                     $stmt->bindvalue(2, $last_name);
@@ -53,14 +53,14 @@
                     $stmt->bindvalue(9, date('Y-m-d H:i:s'));
                     if($stmt->execute())
                     {
-                        $sqlg = "SELECT client_id FROM clients WHERE uuid = ?;";
+                        $sqlg = "SELECT client_user_id FROM client_users WHERE uuid = ?;";
                         $stmtg = $this->connect()->prepare($sqlg);
                         $stmtg->bindvalue(1, $uuid);
                         $stmtg->execute();
                         $row = $stmtg->fetch(PDO::FETCH_ASSOC);
-                        $cliID = $row['client_id'];
+                        $cliID = $row['client_user_id'];
     
-                        $sql2 = "INSERT INTO user_login(person_id,username,password,status,role,changed_password,created_by,date_created) VALUES(?,?,?,?,?,?,?,?);";
+                        $sql2 = "INSERT INTO client_login(person_id,emails,password,status,role,changed_password,created_by,date_created) VALUES(?,?,?,?,?,?,?,?);";
                         $stmt = $this->connect()->prepare($sql2);
                         $stmt->bindvalue(1, $cliID);
                         $stmt->bindvalue(2, $username);
@@ -99,7 +99,7 @@
             {
                 $num = "1";
 
-                $sqlg = "SELECT COUNT(contact_type) AS kon FROM clients WHERE contact_type = 'Primary' AND bank_id_fk = ?;";
+                $sqlg = "SELECT COUNT(contact_type) AS kon FROM client_users WHERE contact_type = 'Primary' AND client_id_fk = ?;";
                 $stmtg = $this->connect()->prepare($sqlg);
                 $stmtg->bindvalue(1, $bank_id);
                 $stmtg->execute();
@@ -153,7 +153,7 @@
         {
             try
             {
-                $sql = "SELECT contact_type FROM clients WHERE client_id=?;";
+                $sql = "SELECT contact_type FROM client_users WHERE client_user_id=?;";
                 $stmt = $this->connect()->prepare($sql);
                 $stmt->bindvalue(1,$person);
                 $stmt->execute();
@@ -264,14 +264,14 @@
             try
             {
                 // ,"contact" => $rows['contact_type']
-                $sql = "SELECT * FROM clients, banks WHERE bank_id = bank_id_fk AND client_id=?;";
+                $sql = "SELECT * FROM client_users, clients WHERE client_id = client_id_fk AND client_user_id=?;";
                 $stmt = $this->connect()->prepare($sql);
                 $stmt->bindvalue(1, $person);
                 if($stmt->execute())
                 {
                     $rows = $stmt->fetch(PDO::FETCH_ASSOC);
 
-                    $json = array("fname" => $rows['client_first_name'],"lname" => $rows['client_last_name'], "email" => $rows['email'], "cell" => $rows['cell'], "bankname" => $rows['bank_name']."($rows[bank_name_abbr])");
+                    $json = array("fname" => $rows['client_user_first_name'],"lname" => $rows['client_user_last_name'], "email" => $rows['email'], "cell" => $rows['cell'], "bankname" => $rows['client_name']."($rows[client_name_abbr])");
                     echo json_encode($json);
                 }
                 else
@@ -290,7 +290,7 @@
             $reason = 'Details changed';
             try
             {
-                $sql = "UPDATE clients SET client_first_name =?,client_last_name =?,cell =?,contact_type =?, modified_by =?, date_modified =?, modification_reason =? WHERE client_id = ?;";
+                $sql = "UPDATE client_users SET client_user_first_name =?,client_user_last_name =?,cell =?,contact_type =?, modified_by =?, date_modified =?, modification_reason =? WHERE client_user_id = ?;";
                 $stmt = $this->connect()->prepare($sql);
                 $stmt->bindvalue(1, $first_name);
                 $stmt->bindvalue(2, $last_name);
@@ -319,12 +319,12 @@
         {
             try
             {
-                $sql = "DELETE FROM user_login WHERE person_id = ?;";
+                $sql = "DELETE FROM client_login WHERE person_id = ?;";
                 $stmt = $this->connect()->prepare($sql);
                 $stmt->bindvalue(1, $userID);
                 if($stmt->execute())
                 {
-                    $sql2 = "DELETE FROM clients WHERE client_id = ?;";
+                    $sql2 = "DELETE FROM client_users WHERE client_user_id = ?;";
                     $stmt2 = $this->connect()->prepare($sql2);
                     $stmt2->bindvalue(1, $userID);
                     if($stmt2->execute())
@@ -460,7 +460,7 @@
         {
             try
             {
-                $sqltestu = "SELECT COUNT(user_id) FROM user_login WHERE username = ?;";
+                $sqltestu = "SELECT COUNT(engineer_user_id) FROM engineer_login WHERE engineer_email = ?;";
                 $stmttestu = $this->connect()->prepare($sqltestu);
                 $stmttestu->bindvalue(1, $username);
                 $stmttestu->execute();
@@ -471,7 +471,7 @@
                 }
                 else
                 {
-                    $sql = "INSERT INTO engineers(engineers_first_name,engineers_last_name,email,cell,department,uuid,created_by,date_created) VALUES(?,?,?,?,?,?,?,?);";
+                    $sql = "INSERT INTO engineers(engineer_first_name,engineer_last_name,email,cell,department,uuid,created_by,date_created) VALUES(?,?,?,?,?,?,?,?);";
                     $stmt = $this->connect()->prepare($sql);
                     $stmt->bindvalue(1, $first_name);
                     $stmt->bindvalue(2, $last_name);
@@ -490,7 +490,7 @@
                         $row = $stmtg->fetch(PDO::FETCH_ASSOC);
                         $cliID = $row['engineer_id'];
     
-                        $sql2 = "INSERT INTO user_login(person_id,username,password,status,role,changed_password,created_by,date_created) VALUES(?,?,?,?,?,?,?,?);";
+                        $sql2 = "INSERT INTO engineer_login(tech_id,engineer_email,engineer_passcode,engineer_status,engineer_role,changed_password,created_by,date_created) VALUES(?,?,?,?,?,?,?,?);";
                         $stmt = $this->connect()->prepare($sql2);
                         $stmt->bindvalue(1, $cliID);
                         $stmt->bindvalue(2, $username);
@@ -630,7 +630,7 @@
                 {
                     $rows = $stmt->fetch(PDO::FETCH_ASSOC);
 
-                    $json = array("fname" => $rows['engineers_first_name'],"lname" => $rows['engineers_last_name'], "email" => $rows['email'], "cell" => $rows['cell']);
+                    $json = array("fname" => $rows['engineer_first_name'],"lname" => $rows['engineer_last_name'], "email" => $rows['email'], "cell" => $rows['cell']);
                     echo json_encode($json);
                 }
                 else
@@ -648,7 +648,7 @@
         {
             try
             {
-                $sql = "UPDATE engineers SET engineers_first_name =?,engineers_last_name =?,cell =?, modified_by =?, date_modified =? WHERE engineer_id = ?;";
+                $sql = "UPDATE engineers SET engineer_first_name =?,engineer_last_name =?,cell =?, modified_by =?, date_modified =? WHERE engineer_id = ?;";
                 $stmt = $this->connect()->prepare($sql);
                 $stmt->bindvalue(1, $first_name);
                 $stmt->bindvalue(2, $last_name);
@@ -675,7 +675,7 @@
         {
             try
             {
-                $sql = "DELETE FROM user_login WHERE person_id = ?;";
+                $sql = "DELETE FROM engineer_login WHERE tech_id = ?;";
                 $stmt = $this->connect()->prepare($sql);
                 $stmt->bindvalue(1, $userID);
                 if($stmt->execute())

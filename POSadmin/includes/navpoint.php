@@ -1,14 +1,14 @@
 <?php
     $page = basename($_SERVER['PHP_SELF']);
-    if ($page == "POSCalls.php")
+    if ($page == "MonthlyDeviceCalls.php")
     {
-        $allcalls = "active";
+        $monthlyR = "active";
     }
     if ($page == "AddClientUser.php")
     {
         $addClient = "active";
     }
-    if ($page == "ViewClients.php")
+    if ($page == "ViewClientUsers.php")
     {
         $viewClient = "active";
     }
@@ -28,11 +28,11 @@
     {
         $viewEng = "active";
     }
-    if ($page == "AddBank.php")
+    if ($page == "AddClient.php")
     {
         $addBank = "active";
     }
-    if ($page == "ViewBanks.php")
+    if ($page == "ViewClient.php")
     {
         $viewBank = "active";
     }
@@ -63,5 +63,22 @@
     if ($page == "UpdateDeviceInfo.php")
     {
         $dev = "active";
+    }
+    if ($page == "RepairedDevices.php")
+    {
+        $repdev = "active";
+    }
+
+    if ($page == "CreateTicket.php")
+    {
+        $newtick = "active";
+    }
+    if ($page == "RepairedDevices.php")
+    {
+        $updatetick = "active";
+    }
+    if ($page == "RepairedDevices.php")
+    {
+        $deletetick = "active";
     }
 ?>

@@ -1,8 +1,16 @@
 <?php
 // HARDWARE
+// $sql = "SELECT * FROM pos_categories;";
+// $stmt = $object->connect()->prepare($sql);
+// $stmt->execute();
+// while ($rows = $stmt->fetch())
+// {
+    
+// }
+
     // Retail Hardware
     $cate = '1';
-    $sqle = "SELECT COUNT(pos_call_id) AS Rhardware FROM pos_calls WHERE mechant_type = 10 AND category_id_fk=? AND months=? AND years = ?;";
+    $sqle = "SELECT COUNT(devcall_mechant_log_id_fk) AS Rhardware FROM pos_device_calls,mechants WHERE devcall_mechant_log_id_fk = mechant_log_id AND mechant_type = 'Retail' AND category_id_fk=? AND call_month=? AND call_year = ?;";
     $stmte = $object->connect()->prepare($sqle);
     $stmte->bindvalue(1,$cate);
     $stmte->bindvalue(2,date('F'));
@@ -14,7 +22,7 @@
 
     // Forecourt Hardware
     $cate = '1';
-    $sqle = "SELECT COUNT(pos_call_id) AS Fhardware FROM pos_calls WHERE mechant_type = 8 AND category_id_fk=? AND months=? AND years = ?;";
+    $sqle = "SELECT COUNT(devcall_mechant_log_id_fk) AS Fhardware FROM pos_device_calls,mechants WHERE devcall_mechant_log_id_fk = mechant_log_id AND mechant_type = 'Forecourt' AND category_id_fk=? AND call_month=? AND call_year = ?;";
     $stmte = $object->connect()->prepare($sqle);
     $stmte->bindvalue(1,$cate);
     $stmte->bindvalue(2,date('F'));
@@ -25,9 +33,9 @@
     }
 
 // SOFTWARE
-    // Retail Software
+    //Retail Software
     $cate = '2';
-    $sqle = "SELECT COUNT(pos_call_id) AS Rsoftware FROM pos_calls WHERE mechant_type = 10 AND category_id_fk=? AND months=? AND years = ?;";
+    $sqle = "SELECT COUNT(devcall_mechant_log_id_fk) AS Rsoftware FROM pos_device_calls,mechants WHERE devcall_mechant_log_id_fk = mechant_log_id AND mechant_type = 'Retail' AND category_id_fk=? AND call_month=? AND call_year = ?;";
     $stmte = $object->connect()->prepare($sqle);
     $stmte->bindvalue(1,$cate);
     $stmte->bindvalue(2,date('F'));
@@ -39,7 +47,7 @@
 
     // Forecourt Software
     $cate = '2';
-    $sqle = "SELECT COUNT(pos_call_id) AS Fsoftware FROM pos_calls WHERE mechant_type = 8 AND category_id_fk=? AND months=? AND years = ?;";
+    $sqle = "SELECT COUNT(devcall_mechant_log_id_fk) AS Fsoftware FROM pos_device_calls,mechants WHERE devcall_mechant_log_id_fk = mechant_log_id AND mechant_type = 'Forecourt' AND category_id_fk=? AND call_month=? AND call_year = ?;";
     $stmte = $object->connect()->prepare($sqle);
     $stmte->bindvalue(1,$cate);
     $stmte->bindvalue(2,date('F'));
@@ -49,10 +57,10 @@
         $Fsoft = $stmte->fetch(PDO::FETCH_ASSOC);
     }
 
-// INFRASTRUCTURE
-    // Retail Infrastructure
+//INFRASTRUCTURE
+    //Retail Infrastructure
     $cate = '3';
-    $sqle = "SELECT COUNT(pos_call_id) AS Rinfra FROM pos_calls WHERE mechant_type = 10 AND category_id_fk=? AND months=? AND years = ?;";
+    $sqle = "SELECT COUNT(devcall_mechant_log_id_fk) AS Rinfra FROM pos_device_calls,mechants WHERE devcall_mechant_log_id_fk = mechant_log_id AND mechant_type = 'Retail' AND category_id_fk=? AND call_month=? AND call_year = ?;";
     $stmte = $object->connect()->prepare($sqle);
     $stmte->bindvalue(1,$cate);
     $stmte->bindvalue(2,date('F'));
@@ -64,7 +72,7 @@
 
     // Forecourt Infrastructure
     $cate = '3';
-    $sqle = "SELECT COUNT(pos_call_id) AS Finfra FROM pos_calls WHERE mechant_type = 8 AND category_id_fk=? AND months=? AND years = ?;";
+    $sqle = "SELECT COUNT(devcall_mechant_log_id_fk) AS Finfra FROM pos_device_calls,mechants WHERE devcall_mechant_log_id_fk = mechant_log_id AND mechant_type = 'Forecourt' AND category_id_fk=? AND call_month=? AND call_year = ?;";
     $stmte = $object->connect()->prepare($sqle);
     $stmte->bindvalue(1,$cate);
     $stmte->bindvalue(2,date('F'));
@@ -77,7 +85,7 @@
 // INSTALLATION
     // Retail Installation
     $cate = '4';
-    $sqle = "SELECT COUNT(pos_call_id) AS Rinstall FROM pos_calls WHERE mechant_type = 10 AND category_id_fk=? AND months=? AND years = ?;";
+    $sqle = "SELECT COUNT(devcall_mechant_log_id_fk) AS Rinstall FROM pos_device_calls,mechants WHERE devcall_mechant_log_id_fk = mechant_log_id AND mechant_type = 'Retail' AND category_id_fk=? AND call_month=? AND call_year = ?;";
     $stmte = $object->connect()->prepare($sqle);
     $stmte->bindvalue(1,$cate);
     $stmte->bindvalue(2,date('F'));
@@ -89,7 +97,7 @@
 
     // Forecourt Installation
     $cate = '4';
-    $sqle = "SELECT COUNT(pos_call_id) AS Finstall FROM pos_calls WHERE mechant_type = 8 AND category_id_fk=? AND months=? AND years = ?;";
+    $sqle = "SELECT COUNT(devcall_mechant_log_id_fk) AS Finstall FROM pos_device_calls,mechants WHERE devcall_mechant_log_id_fk = mechant_log_id AND mechant_type = 'Forecourt' AND category_id_fk=? AND call_month=? AND call_year = ?;";
     $stmte = $object->connect()->prepare($sqle);
     $stmte->bindvalue(1,$cate);
     $stmte->bindvalue(2,date('F'));
@@ -102,7 +110,7 @@
 // STATIONARY
     // Retail Stationary
     $cate = '5';
-    $sqle = "SELECT COUNT(pos_call_id) AS Rstation FROM pos_calls WHERE mechant_type = 10 AND category_id_fk=? AND months=? AND years = ?;";
+    $sqle = "SELECT COUNT(devcall_mechant_log_id_fk) AS Rstation FROM pos_device_calls,mechants WHERE devcall_mechant_log_id_fk = mechant_log_id AND mechant_type = 'Retail' AND category_id_fk=? AND call_month=? AND call_year = ?;";
     $stmte = $object->connect()->prepare($sqle);
     $stmte->bindvalue(1,$cate);
     $stmte->bindvalue(2,date('F'));
@@ -114,7 +122,7 @@
 
     // Forecourt Stationary
     $cate = '5';
-    $sqle = "SELECT COUNT(pos_call_id) AS Fstation FROM pos_calls WHERE mechant_type = 8 AND category_id_fk=? AND months=? AND years = ?;";
+    $sqle = "SELECT COUNT(devcall_mechant_log_id_fk) AS Fstation FROM pos_device_calls,mechants WHERE devcall_mechant_log_id_fk = mechant_log_id AND mechant_type = 'Forecourt' AND category_id_fk=? AND call_month=? AND call_year = ?;";
     $stmte = $object->connect()->prepare($sqle);
     $stmte->bindvalue(1,$cate);
     $stmte->bindvalue(2,date('F'));
@@ -127,7 +135,7 @@
 // CONNECTIVITY
     // Retail Connectivity
     $cate = '6';
-    $sqle = "SELECT COUNT(pos_call_id) AS Rconnect FROM pos_calls WHERE mechant_type = 10 AND category_id_fk=? AND months=? AND years = ?;";
+    $sqle = "SELECT COUNT(devcall_mechant_log_id_fk) AS Rconnect FROM pos_device_calls,mechants WHERE devcall_mechant_log_id_fk = mechant_log_id AND mechant_type = 'Retail' AND category_id_fk=? AND call_month=? AND call_year = ?;";
     $stmte = $object->connect()->prepare($sqle);
     $stmte->bindvalue(1,$cate);
     $stmte->bindvalue(2,date('F'));
@@ -139,7 +147,7 @@
 
     // Forecourt Connectivity
     $cate = '6';
-    $sqle = "SELECT COUNT(pos_call_id) AS Fconnect FROM pos_calls WHERE mechant_type = 8 AND category_id_fk=? AND months=? AND years = ?;";
+    $sqle = "SELECT COUNT(devcall_mechant_log_id_fk) AS Fconnect FROM pos_device_calls,mechants WHERE devcall_mechant_log_id_fk = mechant_log_id AND mechant_type = 'Forecourt' AND category_id_fk=? AND call_month=? AND call_year = ?;";
     $stmte = $object->connect()->prepare($sqle);
     $stmte->bindvalue(1,$cate);
     $stmte->bindvalue(2,date('F'));

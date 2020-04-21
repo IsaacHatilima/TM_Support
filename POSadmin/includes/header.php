@@ -12,7 +12,7 @@
     <link rel="icon" href="../../assets/images/Logo.jpg">
 	<title>TechMasters Support System</title>
 
-	<!-- Global stylesheets -->
+	<!-- Global stylesheets _sidebar_sticky_custom.js:122 Uncaught TypeError: Cannot read property -->
 	<!-- <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css"> -->
 	<link href="../../assets/css/icons/icomoon/styles.css" rel="stylesheet" type="text/css">
 	<link href="../../assets/css/bootstrap.css" rel="stylesheet" type="text/css">
@@ -39,7 +39,7 @@
 	<script type="text/javascript" src="../../assets/js/plugins/ui/nicescroll.min.js"></script>
 
 	<script type="text/javascript" src="../../assets/js/core/app.js"></script>
-	<script type="text/javascript" src="../../assets/js/pages/layout_sidebar_sticky_custom.js"></script>
+	<script type="text/javascript" src="../../assets/js/pages/layout_sidebar_sticky_native.js"></script>
 
 	<script type="text/javascript" src="../../assets/js/plugins/ui/ripple.min.js"></script>
 	<!-- /theme JS files -->
@@ -64,13 +64,16 @@
 	<script type="text/javascript" src="../../assets/js/plugins/forms/inputs/typeahead/handlebars.min.js"></script>
 	<script type="text/javascript" src="../../assets/js/plugins/forms/inputs/passy.js"></script>
 	<script type="text/javascript" src="../../assets/js/plugins/forms/inputs/maxlength.min.js"></script>
+	<script type="text/javascript" src="../../assets/js/pages/navigation_horizontal_mega.js"></script>
+	<script type="text/javascript" src="../../assets/js/plugins/ui/nicescroll.min.js"></script>
+	<script type="text/javascript" src="../../assets/js/plugins/ui/drilldown.js"></script>
 	
 	 
 	  
 	<style>
 		body{
 			overflow: auto;
-			
+			font-size: 12px;
 		}
 		
 

@@ -18,7 +18,7 @@
         {
             try
             {
-                $sql = "INSERT INTO banks(bank_name,bank_name_abbr,created_by,date_created) VALUES(?,?,?,?);";
+                $sql = "INSERT INTO clients(client_name,client_name_abbr,created_by,date_created) VALUES(?,?,?,?);";
                 $stmt = $this->connect()->prepare($sql);
                 $stmt->bindvalue(1, $bank_name);
                 $stmt->bindvalue(2, $bank_abb);
@@ -36,6 +36,7 @@
             catch(PDOException $e)
             {
                 echo "Error";
+                //.$e->getMessage()
             }
         }
 
@@ -43,7 +44,7 @@
         {
             try
             {
-                $sql = "DELETE FROM banks WHERE bank_id = ?;";
+                $sql = "DELETE FROM clients WHERE client_id = ?;";
                 $stmt = $this->connect()->prepare($sql);
                 $stmt->bindvalue(1, $bank_id);
                 if($stmt->execute())
@@ -65,14 +66,14 @@
         {
             try
             {
-                $sql = "SELECT * FROM banks WHERE bank_id = ?;";
+                $sql = "SELECT * FROM clients WHERE client_id = ?;";
                 $stmt = $this->connect()->prepare($sql);
                 $stmt->bindvalue(1, $bank_id);
                 if($stmt->execute())
                 {
                     $rows = $stmt->fetch(PDO::FETCH_ASSOC);
 
-                    $id = $rows['bank_id'];
+                    $id = $rows['client_id'];
 
                     $token = $id;
 
@@ -81,7 +82,7 @@
                     $enc_iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($cipher_method));  
                     $crypted_token = openssl_encrypt($token, $cipher_method, $enc_key, 0, $enc_iv) . "::" . bin2hex($enc_iv);
 
-                    $json = array("bankname" => $rows['bank_name'],"bankabbs" => $rows['bank_name_abbr'], "IDBank" => $crypted_token);
+                    $json = array("bankname" => $rows['client_name'],"bankabbs" => $rows['client_name_abbr'], "IDBank" => $crypted_token);
                     echo json_encode($json);
                     unset($token, $cipher_method, $enc_key, $enc_iv);
                 }
@@ -100,7 +101,7 @@
         {
             try
             {
-                $sql = "UPDATE banks SET bank_name=?,bank_name_abbr=?,modified_by=?,date_modified=? WHERE bank_id = ?;";
+                $sql = "UPDATE clients SET client_name=?,client_name_abbr=?,modified_by=?,date_modified=? WHERE client_id = ?;";
                 $stmt = $this->connect()->prepare($sql);
                 $stmt->bindvalue(1, $bank_name);
                 $stmt->bindvalue(2, $bank_abb);

@@ -29,9 +29,9 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="row">
-                                            <label class="col-md-4 control-label text-right">Bank Name:<span class="text-danger">*</span> </label>
+                                            <label class="col-md-4 control-label text-right">Client Name:<span class="text-danger">*</span> </label>
                                             <div class="col-md-8">
-                                                <input type="text" class="form-control" name="bankName" id="bankName" placeholder="Bank Name" required="required">
+                                                <input type="text" class="form-control" name="bankName" id="bankName" placeholder="Client Name" required="required">
                                                 <input type="hidden" readonly class="form-control" name="bankID" id="bankID" value="<?php echo $_GET['id']  ?>">
                                             </div>
                                         </div>
@@ -39,9 +39,9 @@
 
                                     <div class="col-md-6">
                                         <div class="row">
-                                            <label class="col-md-4 control-label text-right">Bank Name Abbri:<span class="text-danger">*</span> </label>
+                                            <label class="col-md-4 control-label text-right">Client Name Abbri: </label>
                                             <div class="col-md-8">
-                                                <input type="text" name="bankNameAbb" id="bankNameAbb" class="form-control" placeholder="Bank Name Abbriviation" required="required">
+                                                <input type="text" name="bankNameAbb" id="bankNameAbb" class="form-control" placeholder="Client Name Abbriviation">
                                             </div>
                                         </div>
                                     </div>
@@ -67,7 +67,7 @@
             var ex = document.getElementById("bankID").value;
             $.ajax({
                 type: "post",
-                url: "../core/CoreAddBank.php",
+                url: "../core/CoreAddClient.php",
                 data: {"geting" : ex},
                 success: function(strMessage) {
                     console.log(strMessage);

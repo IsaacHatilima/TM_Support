@@ -12,24 +12,25 @@
         public $mechprov;
         public $mechtown;
 
-        function NewDevice($mechant_log_id_fk,$device_type,$terminal_id,$device_serial,$base_serial,$mtn_sim_serial,$airtel_sim_serial,$installation_date,$ip_address,$asset_code)
+        function NewDevice($mechant_log_id_fk,$device_type,$terminal_id,$device_serial,$ptid,$base_serial,$mtn_sim_serial,$airtel_sim_serial,$installation_date,$ip_address,$asset_code)
         {
             try
             {
-                $sql = "INSERT INTO device_info(mechant_log_id_fk,device_type,terminal_id,device_serial,base_serial,mtn_sim_serial,airtel_sim_serial,installation_date,ip_address,fnb_asset_code,created_by,date_created) VALUES(?,?,?,?,?,?,?,?,?,?,?,?);";
+                $sql = "INSERT INTO device_info(mechant_log_id_fk,device_type,terminal_id,device_serial,ptid,base_serial,mtn_sim_serial,airtel_sim_serial,installation_date,ip_address,fnb_asset_code,created_by,date_created) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?);";
                 $stmt = $this->connect()->prepare($sql);
                 $stmt->bindvalue(1, $mechant_log_id_fk);
                 $stmt->bindvalue(2, $device_type);
                 $stmt->bindvalue(3, $terminal_id);
                 $stmt->bindvalue(4, $device_serial);
-                $stmt->bindvalue(5, $base_serial);
-                $stmt->bindvalue(6, $mtn_sim_serial);
-                $stmt->bindvalue(7, $airtel_sim_serial);
-                $stmt->bindvalue(8, $installation_date);
-                $stmt->bindvalue(9, $ip_address);
-                $stmt->bindvalue(10, $asset_code);
-                $stmt->bindvalue(11, $_SESSION['person']);
-                $stmt->bindvalue(12, date('Y-m-d H:i:s'));
+                $stmt->bindvalue(5, $ptid);
+                $stmt->bindvalue(6, $base_serial);
+                $stmt->bindvalue(7, $mtn_sim_serial);
+                $stmt->bindvalue(8, $airtel_sim_serial);
+                $stmt->bindvalue(9, $installation_date);
+                $stmt->bindvalue(10, $ip_address);
+                $stmt->bindvalue(11, $asset_code);
+                $stmt->bindvalue(12, $_SESSION['person']);
+                $stmt->bindvalue(13, date('Y-m-d H:i:s'));
                 if($stmt->execute())
                 {
                     echo "Success";
@@ -143,7 +144,8 @@
         $installation_date = $_POST['installation_date'];
         $ip_address = $_POST['ip_address'];
         $asset_code = $_POST['asset_code'];
-        $dev -> NewDevice($mechant_log_id_fk,$device_type,$terminal_id,$device_serial,$base_serial,$mtn_sim_serial,$airtel_sim_serial,$installation_date,$ip_address,$asset_code);
+        $ptid = $_POST['ptid'];
+        $dev -> NewDevice($mechant_log_id_fk,$device_type,$terminal_id,$device_serial,$ptid,$base_serial,$mtn_sim_serial,$airtel_sim_serial,$installation_date,$ip_address,$asset_code);
     }
 
     if(isset($_POST['metype']))

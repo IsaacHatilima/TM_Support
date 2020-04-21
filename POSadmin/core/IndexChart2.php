@@ -1,7 +1,7 @@
 <?php
 // January
     // Retail
-    $sqlRjan = "SELECT COUNT(pos_call_id) AS Rjan FROM pos_calls WHERE mechant_type = 10 AND years = ? AND months = 'January';";
+    $sqlRjan = "SELECT COUNT(device_call_id) AS Rjan FROM pos_device_calls,mechants WHERE mechant_log_id = devcall_mechant_log_id_fk AND mechant_type = 'Retail' AND call_year = 2020 AND call_month = 'January';";
     $stmtRjan = $object->connect()->prepare($sqlRjan);
     $stmtRjan->bindvalue(1,date('Y'));
     if($stmtRjan->execute())
@@ -10,7 +10,7 @@
     }
 
     // Forecourt
-    $sqlFjan = "SELECT COUNT(pos_call_id) AS Fjan FROM pos_calls WHERE mechant_type = 8 AND years = ? AND months = 'January';";
+    $sqlFjan = "SELECT COUNT(device_call_id) AS Fjan FROM pos_device_calls,mechants WHERE mechant_log_id = devcall_mechant_log_id_fk AND mechant_type = 'Forecourt' AND call_year = 2020 AND call_month = 'January';";
     $stmtFjan = $object->connect()->prepare($sqlFjan);
     $stmtFjan->bindvalue(1,date('Y'));
     if($stmtFjan->execute())
@@ -20,7 +20,7 @@
 
 // February
     // Retail
-    $sqlRfeb = "SELECT COUNT(pos_call_id) AS Rfeb FROM pos_calls WHERE mechant_type = 10 AND years = ? AND months = 'February';";
+    $sqlRfeb = "SELECT COUNT(device_call_id) AS Rfeb FROM pos_device_calls,mechants WHERE mechant_log_id = devcall_mechant_log_id_fk AND mechant_type = 'Retail' AND call_year = 2020 AND call_month = 'February';";
     $stmtRfeb = $object->connect()->prepare($sqlRfeb);
     $stmtRfeb->bindvalue(1,date('Y'));
     if($stmtRfeb->execute())
@@ -29,7 +29,7 @@
     }
 
     // Forecourt
-    $sqlFfeb = "SELECT COUNT(pos_call_id) AS Ffeb FROM pos_calls WHERE mechant_type = 8 AND years = ? AND months = 'February';";
+    $sqlFfeb = "SELECT COUNT(device_call_id) AS Ffeb FROM pos_device_calls,mechants WHERE mechant_log_id = devcall_mechant_log_id_fk AND mechant_type = 'Forecourt' AND call_year = 2020 AND call_month = 'February';";
     $stmtFfeb = $object->connect()->prepare($sqlFfeb);
     $stmtFfeb->bindvalue(1,date('Y'));
     if($stmtFfeb->execute())
@@ -39,7 +39,7 @@
 
 // March
     // Retail
-    $sqle = "SELECT COUNT(pos_call_id) AS Rmar FROM pos_calls WHERE mechant_type = 10 AND years = ? AND months = 'March';";
+    $sqle = "SELECT COUNT(device_call_id) AS Rmar FROM pos_device_calls,mechants WHERE mechant_log_id = devcall_mechant_log_id_fk AND mechant_type = 'Retail' AND call_year = 2020 AND call_month = 'March';";
     $stmte = $object->connect()->prepare($sqle);
     $stmte->bindvalue(1,date('Y'));
     if($stmte->execute())
@@ -48,7 +48,7 @@
     }
 
     // Forecourt
-    $sqle = "SELECT COUNT(pos_call_id) AS Fmar FROM pos_calls WHERE mechant_type = 8 AND years = ? AND months = 'March';";
+    $sqle = "SELECT COUNT(device_call_id) AS Fmar FROM pos_device_calls,mechants WHERE mechant_log_id = devcall_mechant_log_id_fk AND mechant_type = 'Forecourt' AND call_year = 2020 AND call_month = 'March';";
     $stmte = $object->connect()->prepare($sqle);
     $stmte->bindvalue(1,date('Y'));
     if($stmte->execute())
@@ -58,7 +58,7 @@
 
 // April
     // Retail
-    $sqle = "SELECT COUNT(pos_call_id) AS Rapr FROM pos_calls WHERE mechant_type = 10 AND years = ? AND months = 'April';";
+    $sqle = "SELECT COUNT(device_call_id) AS Rapr FROM pos_device_calls,mechants WHERE mechant_log_id = devcall_mechant_log_id_fk AND mechant_type = 'Retail' AND call_year = 2020 AND call_month = 'April';";
     $stmte = $object->connect()->prepare($sqle);
     $stmte->bindvalue(1,date('Y'));
     if($stmte->execute())
@@ -67,7 +67,7 @@
     }
 
     // Forecourt
-    $sqle = "SELECT COUNT(pos_call_id) AS Fapr FROM pos_calls WHERE mechant_type = 8 AND years = ? AND months = 'April';";
+    $sqle = "SELECT COUNT(device_call_id) AS Fapr FROM pos_device_calls,mechants WHERE mechant_log_id = devcall_mechant_log_id_fk AND mechant_type = 'Forecourt' AND call_year = 2020 AND call_month = 'April';";
     $stmte = $object->connect()->prepare($sqle);
     $stmte->bindvalue(1,date('Y'));
     if($stmte->execute())
@@ -77,7 +77,7 @@
 
 // May
     // Retail
-    $sqle = "SELECT COUNT(pos_call_id) AS Rmay FROM pos_calls WHERE mechant_type = 10 AND years = ? AND months = 'May';";
+    $sqle = "SELECT COUNT(device_call_id) AS Rmay FROM pos_device_calls,mechants WHERE mechant_log_id = devcall_mechant_log_id_fk AND mechant_type = 'Retail' AND call_year = 2020 AND call_month = 'May';";
     $stmte = $object->connect()->prepare($sqle);
     $stmte->bindvalue(1,date('Y'));
     if($stmte->execute())
@@ -86,7 +86,7 @@
     }
 
     // Forecourt
-    $sqle = "SELECT COUNT(pos_call_id) AS Fmay FROM pos_calls WHERE mechant_type = 8 AND years = ? AND months = 'May';";
+    $sqle = "SELECT COUNT(device_call_id) AS Fmay FROM pos_device_calls,mechants WHERE mechant_log_id = devcall_mechant_log_id_fk AND mechant_type = 'Forecourt' AND call_year = 2020 AND call_month = 'May';";
     $stmte = $object->connect()->prepare($sqle);
     $stmte->bindvalue(1,date('Y'));
     if($stmte->execute())
@@ -96,7 +96,7 @@
 
 // June
     // Retail
-    $sqle = "SELECT COUNT(pos_call_id) AS Rjun FROM pos_calls WHERE mechant_type = 10 AND years = ? AND months = 'June';";
+    $sqle = "SELECT COUNT(device_call_id) AS Rjun FROM pos_device_calls,mechants WHERE mechant_log_id = devcall_mechant_log_id_fk AND mechant_type = 'Retail' AND call_year = 2020 AND call_month = 'June';";
     $stmte = $object->connect()->prepare($sqle);
     $stmte->bindvalue(1,date('Y'));
     if($stmte->execute())
@@ -105,7 +105,7 @@
     }
 
     // Forecourt
-    $sqle = "SELECT COUNT(pos_call_id) AS Fjun FROM pos_calls WHERE mechant_type = 8 AND years = ? AND months = 'June';";
+    $sqle = "SELECT COUNT(device_call_id) AS Fjun FROM pos_device_calls,mechants WHERE mechant_log_id = devcall_mechant_log_id_fk AND mechant_type = 'Forecourt' AND call_year = 2020 AND call_month = 'June';";
     $stmte = $object->connect()->prepare($sqle);
     $stmte->bindvalue(1,date('Y'));
     if($stmte->execute())
@@ -115,7 +115,7 @@
 
 // July
     // Retail
-    $sqle = "SELECT COUNT(pos_call_id) AS Rjul FROM pos_calls WHERE mechant_type = 10 AND years = ? AND months = 'July';";
+    $sqle = "SELECT COUNT(device_call_id) AS Rjul FROM pos_device_calls,mechants WHERE mechant_log_id = devcall_mechant_log_id_fk AND mechant_type = 'Retail' AND call_year = 2020 AND call_month = 'July';";
     $stmte = $object->connect()->prepare($sqle);
     $stmte->bindvalue(1,date('Y'));
     if($stmte->execute())
@@ -124,7 +124,7 @@
     }
 
     // Forecourt
-    $sqle = "SELECT COUNT(pos_call_id) AS Fjul FROM pos_calls WHERE mechant_type = 8 AND years = ? AND months = 'July';";
+    $sqle = "SELECT COUNT(device_call_id) AS Fjul FROM pos_device_calls,mechants WHERE mechant_log_id = devcall_mechant_log_id_fk AND mechant_type = 'Forecourt' AND call_year = 2020 AND call_month = 'July';";
     $stmte = $object->connect()->prepare($sqle);
     $stmte->bindvalue(1,date('Y'));
     if($stmte->execute())
@@ -134,7 +134,7 @@
 
 // August
     // Retail
-    $sqle = "SELECT COUNT(pos_call_id) AS Raug FROM pos_calls WHERE mechant_type = 10 AND years = ? AND months = 'August';";
+    $sqle = "SELECT COUNT(device_call_id) AS Raug FROM pos_device_calls,mechants WHERE mechant_log_id = devcall_mechant_log_id_fk AND mechant_type = 'Retail' AND call_year = 2020 AND call_month = 'August';";
     $stmte = $object->connect()->prepare($sqle);
     $stmte->bindvalue(1,date('Y'));
     if($stmte->execute())
@@ -143,7 +143,7 @@
     }
 
     // Forecourt
-    $sqle = "SELECT COUNT(pos_call_id) AS Faug FROM pos_calls WHERE mechant_type = 8 AND years = ? AND months = 'August';";
+    $sqle = "SELECT COUNT(device_call_id) AS Faug FROM pos_device_calls,mechants WHERE mechant_log_id = devcall_mechant_log_id_fk AND mechant_type = 'Forecourt' AND call_year = 2020 AND call_month = 'August';";
     $stmte = $object->connect()->prepare($sqle);
     $stmte->bindvalue(1,date('Y'));
     if($stmte->execute())
@@ -153,7 +153,7 @@
 
 // September
     // Retail
-    $sqle = "SELECT COUNT(pos_call_id) AS Rsep FROM pos_calls WHERE mechant_type = 10 AND years = ? AND months = 'September';";
+    $sqle = "SELECT COUNT(device_call_id) AS Rsep FROM pos_device_calls,mechants WHERE mechant_log_id = devcall_mechant_log_id_fk AND mechant_type = 'Retail' AND call_year = 2020 AND call_month = 'September';";
     $stmte = $object->connect()->prepare($sqle);
     $stmte->bindvalue(1,date('Y'));
     if($stmte->execute())
@@ -162,7 +162,7 @@
     }
 
     // Forecourt
-    $sqle = "SELECT COUNT(pos_call_id) AS Fsep FROM pos_calls WHERE mechant_type = 8 AND years = ? AND months = 'September';";
+    $sqle = "SELECT COUNT(device_call_id) AS Fsep FROM pos_device_calls,mechants WHERE mechant_log_id = devcall_mechant_log_id_fk AND mechant_type = 'Forecourt' AND call_year = 2020 AND call_month = 'September';";
     $stmte = $object->connect()->prepare($sqle);
     $stmte->bindvalue(1,date('Y'));
     if($stmte->execute())
@@ -172,7 +172,7 @@
 
 // October
     // Retail
-    $sqle = "SELECT COUNT(pos_call_id) AS Roct FROM pos_calls WHERE mechant_type = 10 AND years = ? AND months = 'October';";
+    $sqle = "SELECT COUNT(device_call_id) AS Roct FROM pos_device_calls,mechants WHERE mechant_log_id = devcall_mechant_log_id_fk AND mechant_type = 'Retail' AND call_year = 2020 AND call_month = 'October';";
     $stmte = $object->connect()->prepare($sqle);
     $stmte->bindvalue(1,date('Y'));
     if($stmte->execute())
@@ -181,7 +181,7 @@
     }
 
     // Forecourt
-    $sqle = "SELECT COUNT(pos_call_id) AS Foct FROM pos_calls WHERE mechant_type = 8 AND years = ? AND months = 'October';";
+    $sqle = "SELECT COUNT(device_call_id) AS Foct FROM pos_device_calls,mechants WHERE mechant_log_id = devcall_mechant_log_id_fk AND mechant_type = 'Forecourt' AND call_year = 2020 AND call_month = 'October';";
     $stmte = $object->connect()->prepare($sqle);
     $stmte->bindvalue(1,date('Y'));
     if($stmte->execute())
@@ -191,7 +191,7 @@
 
 // Novermber
     // Retail
-    $sqle = "SELECT COUNT(pos_call_id) AS Rnov FROM pos_calls WHERE mechant_type = 10 AND years = ? AND months = 'Novermber';";
+    $sqle = "SELECT COUNT(device_call_id) AS Rnov FROM pos_device_calls,mechants WHERE mechant_log_id = devcall_mechant_log_id_fk AND mechant_type = 'Retail' AND call_year = 2020 AND call_month = 'Novermber';";
     $stmte = $object->connect()->prepare($sqle);
     $stmte->bindvalue(1,date('Y'));
     if($stmte->execute())
@@ -200,7 +200,7 @@
     }
 
     // Forecourt
-    $sqle = "SELECT COUNT(pos_call_id) AS Fnov FROM pos_calls WHERE mechant_type = 8 AND years = ? AND months = 'Novermber';";
+    $sqle = "SELECT COUNT(device_call_id) AS Fnov FROM pos_device_calls,mechants WHERE mechant_log_id = devcall_mechant_log_id_fk AND mechant_type = 'Forecourt' AND call_year = 2020 AND call_month = 'Novermber';";
     $stmte = $object->connect()->prepare($sqle);
     $stmte->bindvalue(1,date('Y'));
     if($stmte->execute())
@@ -210,7 +210,7 @@
 
 // December
     // Retail
-    $sqle = "SELECT COUNT(pos_call_id) AS Rdec FROM pos_calls WHERE mechant_type = 10 AND years = ? AND months = 'December';";
+    $sqle = "SELECT COUNT(device_call_id) AS Rdec FROM pos_device_calls,mechants WHERE mechant_log_id = devcall_mechant_log_id_fk AND mechant_type = 'Retail' AND call_year = 2020 AND call_month = 'December';";
     $stmte = $object->connect()->prepare($sqle);
     $stmte->bindvalue(1,date('Y'));
     if($stmte->execute())
@@ -219,7 +219,7 @@
     }
 
     // Forecourt
-    $sqle = "SELECT COUNT(pos_call_id) AS Fdec FROM pos_calls WHERE mechant_type = 8 AND years = ? AND months = 'December';";
+    $sqle = "SELECT COUNT(device_call_id) AS Fdec FROM pos_device_calls,mechants WHERE mechant_log_id = devcall_mechant_log_id_fk AND mechant_type = 'Forecourt' AND call_year = 2020 AND call_month = 'December';";
     $stmte = $object->connect()->prepare($sqle);
     $stmte->bindvalue(1,date('Y'));
     if($stmte->execute())

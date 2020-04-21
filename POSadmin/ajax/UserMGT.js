@@ -124,7 +124,7 @@ $('#update').click(function(e){
                         timeout: 2000
                     });  
                     setTimeout(function(){
-                        window.location.href = "ViewClients";
+                        window.location.href = "ViewClientUsers";
                     }, 2500);  
                 }
                 if (xx == 'Failed') {    

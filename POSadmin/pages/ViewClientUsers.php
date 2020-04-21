@@ -34,20 +34,20 @@
 								<th>Full Name</th>
 								<th>Email</th>
 								<th>Cell</th>
-								<th>Bank</th>
+								<th>Client</th>
 								<th>Action</th>
 							</tr>
 						</thead>
 						<tbody>
 							<?php
-								$sql = "SELECT * FROM clients,banks WHERE bank_id = bank_id_fk;";
+								$sql = "SELECT * FROM client_users,clients WHERE client_id = client_id_fk;";
 								$stmt = $object->connect()->prepare($sql);
 								$stmt->execute();
 								if($stmt->rowCount())
 								{
 									while ($rows = $stmt->fetch())
 									{
-										$id = $rows['client_id'];
+										$id = $rows['client_user_id'];
 
 										$token = $id;
 
@@ -58,10 +58,10 @@
 									
 										echo '
 											<tr>
-											<td>'.$rows['client_first_name'].' '.$rows['client_last_name'].'</td>
+											<td>'.$rows['client_user_first_name'].' '.$rows['client_user_last_name'].'</td>
                                             <td>'.$rows['email'].'</td>
                                             <td>'.$rows['cell'].'</td>
-                                            <td>'.$rows['bank_name'].'</td>
+                                            <td>'.$rows['client_name'].'</td>
                                             <td>
                                             <a href="UpdateClientUser?personId='.$crypted_token.'" style ="font-size: 11px;" class="btn btn-info btn-rounded btn-xs"><i class="icon-pen "></i> Update</a>
 

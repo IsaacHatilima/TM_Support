@@ -20,7 +20,7 @@ function getMechID(event)
 
 $('#save').click(function(e){
     $("#device").valid();
-    if ($.trim($("#mechtype").val()) === "" || $.trim($("#mechID").val()) === "" || $.trim($("#terminaID").val()) === "" || $.trim($("#device_serial").val()) === "" || $.trim($("#installation_date").val()) === "" || $.trim($("#ip_address").val()) === "" || $.trim($("#asset_code").val()) === "" ) {
+    if ($.trim($("#mechtype").val()) === "" || $.trim($("#mechID").val()) === "" || $.trim($("#terminaID").val()) === "" || $.trim($("#device_serial").val()) === "" || $.trim($("#installation_date").val()) === "" || $.trim($("#ip_address").val()) === "" || $.trim($("#asset_code").val()) === "" || $.trim($("ptid").val()) === null ) {
         iziToast.show({
             title: 'Warning!',
             message: 'All Fields With A * Are Required.',
@@ -86,7 +86,7 @@ $('#save').click(function(e){
 
 $('#update').click(function(e){
     $("#updatedevice").valid();
-    if ($.trim($("mechID2").val()) === null || $.trim($("devtype2").val()) === null || $.trim($("terminaID2").val()) === null || $.trim($("device_serial2").val()) === null || $.trim($("ip_address2").val()) === null || $.trim($("asset_code2").val()) === null ){
+    if ($.trim($("mechID2").val()) === null || $.trim($("devtype2").val()) === null || $.trim($("terminaID2").val()) === null || $.trim($("device_serial2").val()) === null || $.trim($("ip_address2").val()) === null || $.trim($("asset_code2").val()) === null || $.trim($("ptid").val()) === null ){
         iziToast.show({
             title: 'Warning!',
             message: 'All Fields With A * Are Required.',

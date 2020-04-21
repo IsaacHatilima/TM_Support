@@ -1,12 +1,12 @@
-CREATE TABLE clients
+CREATE TABLE client_users
 (
-    client_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    client_first_name VARCHAR(50) NOT NULL,
-    client_last_name VARCHAR(50) NOT NULL,
+    client_user_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    client_user_first_name VARCHAR(50) NOT NULL,
+    client_user_last_name VARCHAR(50) NOT NULL,
     email VARCHAR(150) NOT NULL,
     cell VARCHAR(15) NULL,
-    bank_id_fk INT NOT NULL,
-    contact_type INT NOT NULL,
+    client_id_fk INT NOT NULL,
+    contact_type VARCHAR(50) NOT NULL,
     created_by INT NOT NULL,
     date_created DATETIME NOT NULL,
     modified_by INT NULL,
@@ -14,16 +14,15 @@ CREATE TABLE clients
     modification_reason TEXT NULL 
 );
 
-CREATE TABLE user_login
+CREATE TABLE client_login
 (
     user_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    person_id INT NOT NULL
-    username VARCHAR(50) NOT NULL,
+    person_id INT NOT NULL,
+    emails VARCHAR(50) NOT NULL,
     password VARCHAR(150) not NULL,
-    status INT NOT NULL,
+    status VARCHAR(150) NOT NULL,
     role VARCHAR(20) NOT NULL,
     last_login DATETIME NULL,
-    ip_address VARCHAR(50) NULL,
     changed_password INT NOT NULL,
     created_by INT NOT NULL,
     date_created DATETIME NOT NULL,
@@ -31,106 +30,15 @@ CREATE TABLE user_login
     date_modified DATETIME NULL
 );
 
-CREATE TABLE banks
+CREATE TABLE clients
 (
-    bank_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    bank_name VARCHAR(50) NOT NULL,
-    bank_name_abbr VARCHAR(10) NULL,
+    client_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    client_name VARCHAR(50) NOT NULL,
+    client_name_abbr VARCHAR(10) NULL,
     created_by INT NOT NULL,
     date_created DATETIME NOT NULL,
     modified_by INT NULL,
     date_modified DATETIME NULL
-);
-
-CREATE TABLE atm_details
-(
-    atm_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    atm_name VARCHAR(45) NOT NULL,
-    atm_site VARCHAR(45) NOT NULL,
-    atm_type VARCHAR(45) NOT NULL,
-    atm_model VARCHAR(45) NOT NULL,
-    bank_id_fk INT NOT NULL,
-    serial_num VARCHAR(45) NOT NULL,
-    zone_id_fk INT NOT NULL,
-    created_by INT NOT NULL,
-    date_created DATETIME NOT NULL,
-    modified_by INT NULL,
-    date_modified DATETIME NULL
-);
-
-CREATE TABLE atm_call
-(
-    call_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    bank_id_fk INT NOT NULL,
-    atm_id_fk INT NOT NULL,
-    call_status VARCHAR(45) NOT NULL,
-    logged_by INT NOT NULL,
-    time_logged DATETIME NOT NULL,
-    category_id_fk VARCHAR(45) NOT NULL,
-    sub_category_id_fk VARCHAR(45) NOT NULL,
-    fault_details TEXT NOT NULL,
-    engineer_on_site INT NULL,
-    solution TEXT NULL,
-    close_time DATETIME NULL,
-    resolution_time TIME NULL,
-    custodian_name VARCHAR(45) NOT NULL,
-    custodian_contact VARCHAR(15) NOT NULL,
-    opened_by INT NULL,
-    open_date DATETIME NULL,
-    log_month VARCHAR(15) NOT NULL,
-    log_year INT NOT NULL,
-    reson_for_delay TEXT NULL,
-    custodian_status TEXT NULL
- 
-);
-
-CREATE TABLE engineers
-(
-    engineer_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    engineers_first_name VARCHAR(50) NOT NULL,
-    engineers_last_name VARCHAR(50) NOT NULL,
-    email VARCHAR(150) NOT NULL,
-    cell VARCHAR(15) NULL,
-    department VARCHAR(45) NOT NULL,
-    display_image VARCHAR(100) NOT NULL,
-    uuid VARCHAR(45) NOT NULL,
-    created_by INT NOT NULL,
-    date_created DATETIME NOT NULL,
-    modified_by INT NULL,
-    date_modified DATETIME NULL
-);
-
-CREATE TABLE pos_calls
-(
-    pos_call_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    bank_id_fk INT NOT NULL,
-    call_status VARCHAR(50) NOT NULL,
-    mechant_type INT NOT NULL,
-    mechant_name VARCHAR(50) NOT NULL,
-    category_id_fk VARCHAR(50) NOT NULL,
-    sub_category_id_fk VARCHAR(50) NOT NULL,
-    third_level_category VARCHAR(100) NULL,
-    site_location VARCHAR(50) NOT NULL,
-    device_type VARCHAR(50) NOT NULL,
-    urgency VARCHAR(50) NULL,
-    contact_name VARCHAR(50) NULL,
-    contact_cell VARCHAR(50) NULL,
-    fault_details TEXT NOT NULL,
-    solution TEXT NULL,
-    repair_time VARCHAR(50) NULL,
-    logged_by INT NOT NULL,
-    date_logged DATE NOT NULL,
-    time_logged VARCHAR (20) NOT NULL,
-    closed_by INT NULL,
-    time_closed VARCHAR(20) NULL, 
-    date_closed DATE NULL,
-    opened_by INT NULL,
-    date_opened DATETIME NULL,
-    impact_to_business TEXT NULL,
-    call_priority VARCHAR(50) NULL,
-    engineer_on_site VARCHAR(50) NULL,
-    months VARCHAR(50) NOT NULL,
-    years INT NOT NULL
 );
 
 CREATE TABLE email_notifications
@@ -147,63 +55,35 @@ CREATE TABLE email_notifications
     bankID INT NOT NULL
 );
 
-CREATE TABLE atm_categories
+CREATE TABLE engineers
 (
-    category_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    category VARCHAR(100) NOT NULL,
-    created_by INT NOT NULL,
-    date_created DATETIME NOT NULL
-);
-
-CREATE TABLE atm_sub_categories
-(
-    sub_category_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    category_id_fk INT NOT NULL,
-    sub_category VARCHAR(100) NOT NULL,
-    created_by INT NOT NULL,
-    date_created DATETIME NOT NULL
-);
-
-CREATE TABLE sla_times
-(
-    sla_time_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    bank_id_fk INT NOT NULL,
-    resolution_time INT NOT NULL,
+    engineer_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    engineer_first_name VARCHAR(50) NOT NULL,
+    engineer_last_name VARCHAR(50) NOT NULL,
+    email VARCHAR(150) NOT NULL,
+    cell VARCHAR(15) NULL,
+    department VARCHAR(15) NULL,
+    uuid VARCHAR(15) NULL,
     created_by INT NOT NULL,
     date_created DATETIME NOT NULL,
     modified_by INT NULL,
-    date_modified DATETIME NULL
+    date_modified DATETIME NULL,
 );
 
-CREATE TABLE zones
+CREATE TABLE engineer_login
 (
-    zone_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    zone_name VARCHAR(50) NOT NULL,
+    engineer_user_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    tech_id INT NOT NULL,
+    engineer_email VARCHAR(50) NOT NULL,
+    engineer_passcode VARCHAR(150) not NULL,
+    engineer_status INT NOT NULL,
+    engineer_role VARCHAR(20) NOT NULL,
+    engineer_last_login DATETIME NULL,
+    changed_password INT NOT NULL,
     created_by INT NOT NULL,
     date_created DATETIME NOT NULL,
-    modified_by INT NULL,
+    modified INT NULL,
     date_modified DATETIME NULL
-);
-
-CREATE TABLE email_list
-(
-    emailList_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    bank_id_fk INT NOT NULL,
-    emailID VARCHAR(45) NOT NULL,
-    created_by INT NOT NULL,
-    date_created DATETIME NOT NULL
-);
--- New Tables
-CREATE TABLE mechants
-(
-    mechant_log_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    mechant_type VARCHAR(100) NOT NULL,
-    mechant_name VARCHAR(100) NOT NULL,
-    mechant_id VARCHAR(100) NOT NULL,
-    mechant_province VARCHAR(100) NOT NULL,
-    mechant_town VARCHAR(100) NOT NULL,
-    created_by INT NOT NULL,
-    date_created DATETIME NOT NULL
 );
 
 CREATE TABLE device_info
@@ -213,6 +93,7 @@ CREATE TABLE device_info
     device_type VARCHAR(100) NULL,
     terminal_id VARCHAR(100) NULL,
     device_serial VARCHAR(100) NULL,
+    ptid VARCHAR(100) NULL,
     base_serial VARCHAR(100) NULL,
     mtn_sim_serial VARCHAR(100) NULL,
     airtel_sim_serial VARCHAR(100) NULL,
@@ -246,6 +127,19 @@ CREATE TABLE pos_primary_contact
     available INT NOT NULL,
     banks INT NOT NULL
 );
+
+CREATE TABLE mechants
+(
+    mechant_log_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    mechant_type VARCHAR(100) NOT NULL,
+    mechant_name VARCHAR(100) NOT NULL,
+    mechant_id VARCHAR(100) NOT NULL,
+    mechant_province VARCHAR(100) NOT NULL,
+    mechant_town VARCHAR(100) NOT NULL,
+    created_by INT NOT NULL,
+    date_created DATETIME NOT NULL
+);
+
 CREATE TABLE sms_notifications
 (
     sms_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -254,3 +148,94 @@ CREATE TABLE sms_notifications
     local_date DATE NOT NULL,
     logdate DATETIME NOT NULL
 );
+
+CREATE TABLE device_repair
+(
+    repair_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    device_type VARCHAR[200] NOT NULL,
+    device_serial VARCHAR(200) NOT NULL,
+    ptid VARCHAR(200) NOT NULL,
+    warrant_sticker VARCHAR(200) NOT NULL,
+    fault_on_screen VARCHAR(200) NOT NULL,
+    general_problem VARCHAR(200) NOT NULL,
+    parts_used VARCHAR(200) NOT NULL,
+    eos_reload VARCHAR(200) NOT NULL,
+    date_repaired VARCHAR(200) NOT NULL,
+    final_test VARCHAR(200) NOT NULL,
+    status_comment VARCHAR(200) NOT NULL,
+    created_by INT NOT NULL,
+    date_created DATETIME NOT NULL
+);
+
+CREATE TABLE pos_device_calls
+(
+    device_call_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    call_priority VARCHAR(45) NOT NULL,
+    devcall_mechant_log_id_fk VARCHAR(45) NOT NULL,
+    call_device_serial VARCHAR(45) NULL,
+    category_id_fk INT NOT NULL,
+    sub_category_id_fk INT NOT NULL,
+    fault_details VARCHAR(45) NOT NULL,
+    solution TEXT NULL,
+    managers_name VARCHAR(45) NOT NULL,
+    managers_cell VARCHAR(45) NOT NULL,
+    logged_by VARCHAR(45) NOT NULL,
+    date_loged DATETIME NOT NULL,
+    closed_by VARCHAR(45) NULL,
+    date_closed DATETIME NULL,
+    repair_time VARCHAR(50) NULL,
+    sla_status VARCHAR(45) NULL,
+    escalated INT NULL,
+    escalated_to VARCHAR(150) NULL,
+    device_call_status VARCHAR(150) NULL,
+    call_month VARCHAR(50) NOT NULL,
+    call_year VARCHAR(50) NOT NULL
+);
+-- PENDING
+
+CREATE TABLE sla_times
+(
+    sla_time_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    client_id_fk INT NOT NULL,
+    resolution_time INT NOT NULL,
+    created_by INT NOT NULL,
+    date_created DATETIME NOT NULL,
+    modified_by INT NULL,
+    date_modified DATETIME NULL
+);
+
+CREATE TABLE email_list
+(
+    emailList_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    client_id_fk INT NOT NULL,
+    emailID VARCHAR(45) NOT NULL,
+    created_by INT NOT NULL,
+    date_created DATETIME NOT NULL
+);
+
+CREATE TABLE pos_delivery_calls
+(
+    delivery_call_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    delivery_call_priority VARCHAR(45) NOT NULL,
+    delivery_mechant_log_id_fk VARCHAR(45) NOT NULL,
+    delivery_category_id_fk INT NOT NULL,
+    delivery_sub_category_id_fk INT NOT NULL,
+    item_to_deliver VARCHAR(45) NOT NULL,
+    solution TEXT NULL,
+    delivery_managers_name VARCHAR(45) NOT NULL,
+    delivery_managers_cell VARCHAR(45) NOT NULL,
+    delivery_logged_by VARCHAR(45) NOT NULL,
+    delivery_date_loged DATETIME NOT NULL,
+    delivery_closed_by VARCHAR(45) NULL,
+    delivery_date_closed DATETIME NULL,
+    resolution_time VARCHAR(50) NULL,
+    delivery_sla_status VARCHAR(45) NULL,
+    delivery_escalated INT NULL,
+    delivery_escalated_to VARCHAR(150) NULL,
+    delivery_call_status VARCHAR(150) NULL,
+    delivery_call_month VARCHAR(50) NOT NULL,
+    delivery_call_year VARCHAR(50) NOT NULL
+);
+
+
+

@@ -25,27 +25,27 @@
 			<div class="content-wrapper">
 				<div class="panel panel-flat">
 					<div class="panel-heading">
-						<h5 class="panel-title">Banks</h5>
+						<h5 class="panel-title">Clients</h5>
 					</div>
 
                     <table class="table datatable-responsive datatable-button-html5-basic">
 						<thead>
 							<tr>
-								<th>Bank Name</th>
+								<th>Client Name</th>
 								<th>Abbriviation</th>
 								<th>Action</th>
 							</tr>
 						</thead>
 						<tbody>
 							<?php
-								$sql = "SELECT * FROM banks ORDER BY bank_id DESC;";
+								$sql = "SELECT * FROM clients ORDER BY client_id DESC;";
 								$stmt = $object->connect()->prepare($sql);
 								$stmt->execute();
 								if($stmt->rowCount())
 								{
 									while ($rows = $stmt->fetch())
 									{
-										$id = $rows['bank_id'];
+										$id = $rows['client_id'];
 
 										$token = $id;
 
@@ -56,10 +56,10 @@
 									
 										echo '
 											<tr>
-											<td>'.$rows['bank_name'].'</td>
-                                            <td>'.$rows['bank_name_abbr'].'</td>
+											<td>'.$rows['client_name'].'</td>
+                                            <td>'.$rows['client_name_abbr'].'</td>
                                             <td>
-                                            <a href="UpdateBank?id='.$crypted_token.'" style ="font-size: 11px" class="btn btn-info btn-rounded btn-xs"><i class="icon-pencil4"></i> Edit</a>
+                                            <a href="UpdateClients?id='.$crypted_token.'" style ="font-size: 11px" class="btn btn-info btn-rounded btn-xs"><i class="icon-pencil4"></i> Edit</a>
 
                                             <button type="button" style ="font-size: 11px;" class="btn btn-danger btn-rounded btn-xs" value="'.$crypted_token.'" onclick="Deletes(this.value);"><i class="icon-trash "></i> Delete</button>
 

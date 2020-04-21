@@ -98,6 +98,14 @@
 												</div>
 												<div class="col-md-12">
 													<div class="row">
+														<label class="col-md-4 control-label text-right">PTID:<span class="text-danger">*</span> </label>
+														<div class="col-md-8">
+															<input type="text" name="ptid" id="ptid" class="form-control"  placeholder="Enter PTID" required="required">
+														</div>
+													</div>
+												</div>
+												<div class="col-md-12">
+													<div class="row">
 														<label class="col-md-4 control-label text-right">Base Serial: </label>
 														<div class="col-md-8">
 															<input type="text" name="base_serial" id="base_serial" class="form-control"  placeholder="Enter Base Serial" required="required">
@@ -165,6 +173,7 @@
 								<th>Mechant ID</th>
 								<th>Province</th>
 								<th>Terminal ID</th>
+								<th>Device Serial</th>
 								<th>Action</th>
 							</tr>
 						</thead>
@@ -192,7 +201,8 @@
 											<td>'.$rows['mechant_name'].'</td>
 											<td>'.$rows['mechant_id'].'</td>
 											<td>'.$rows['mechant_province'].'</td>
-											<td>'.$rows['mechant_id'].'</td>
+											<td>'.$rows['terminal_id'].'</td>
+											<td>'.$rows['device_serial'].'</td>
 
 											<td>
 											
@@ -278,6 +288,14 @@
 																	</div>
 																	<div class="col-md-12">
 																		<div class="row">
+																			<label class="col-md-4 control-label text-right">PTID:<span class="text-danger">*</span> </label>
+																			<div class="col-md-8">
+																				<input type="text" class="form-control"  value="'.$rows['ptid'].'" readonly>
+																			</div>
+																		</div>
+																	</div>
+																	<div class="col-md-12">
+																		<div class="row">
 																			<label class="col-md-4 control-label text-right">Base Serial: </label>
 																			<div class="col-md-8">
 																				<input type="text" class="form-control"  value="'.$rows['base_serial'].'" readonly>
@@ -351,6 +369,7 @@
 								<th>Mechant ID</th>
 								<th>Province</th>
 								<th>Terminal ID</th>
+								<th>Device Serial</th>
 								<th>Action</th>
 							</tr>
 						</tfoot>

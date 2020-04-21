@@ -50,7 +50,7 @@
 													<div class="row">
 														<label class="col-md-4 control-label text-right">Category:<span class="text-danger">*</span> </label>
 														<div class="col-md-8">
-														<select data-placeholder="Select Category" name="catego" id="catego" class="select-search" required="required" onchange="getCategory(event)">
+														<select data-placeholder="Select Category" name="catego" id="catego" class="select-search" required="required">
 															<option></option>
 															<optgroup label="Available Categories">
 																<?php
