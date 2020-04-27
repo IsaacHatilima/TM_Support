@@ -170,6 +170,7 @@ CREATE TABLE device_repair
 CREATE TABLE pos_device_calls
 (
     device_call_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    ticket_number INT NULL,
     call_priority VARCHAR(45) NOT NULL,
     devcall_mechant_log_id_fk VARCHAR(45) NOT NULL,
     call_device_serial VARCHAR(45) NULL,
@@ -191,6 +192,39 @@ CREATE TABLE pos_device_calls
     call_month VARCHAR(50) NOT NULL,
     call_year VARCHAR(50) NOT NULL
 );
+
+CREATE TABLE pos_delivery_calls
+(
+    delivery_call_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    ticket_number INT NULL,
+    delivery_call_priority VARCHAR(45) NOT NULL,
+    delivery_mechant_log_id_fk VARCHAR(45) NOT NULL,
+    delivery_category_id_fk INT NOT NULL,
+    delivery_sub_category_id_fk INT NOT NULL,
+    item_to_deliver VARCHAR(45) NOT NULL,
+    solution TEXT NULL,
+    delivery_managers_name VARCHAR(45) NOT NULL,
+    delivery_managers_cell VARCHAR(45) NOT NULL,
+    delivery_logged_by VARCHAR(45) NOT NULL,
+    delivery_date_loged DATETIME NOT NULL,
+    delivery_closed_by VARCHAR(45) NULL,
+    delivery_date_closed DATETIME NULL,
+    resolution_time VARCHAR(50) NULL,
+    delivery_sla_status VARCHAR(45) NULL,
+    delivery_escalated INT NULL,
+    delivery_escalated_to VARCHAR(150) NULL,
+    delivery_call_status VARCHAR(150) NULL,
+    delivery_call_month VARCHAR(50) NOT NULL,
+    delivery_call_year VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE ticket_numbers
+(
+    tik_num INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    ticket_number INT NULL
+);
+
+INSERT INTO ticket_numbers (ticket_number) VALUES ('0');
 -- PENDING
 
 CREATE TABLE sla_times
@@ -213,29 +247,11 @@ CREATE TABLE email_list
     date_created DATETIME NOT NULL
 );
 
-CREATE TABLE pos_delivery_calls
-(
-    delivery_call_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    delivery_call_priority VARCHAR(45) NOT NULL,
-    delivery_mechant_log_id_fk VARCHAR(45) NOT NULL,
-    delivery_category_id_fk INT NOT NULL,
-    delivery_sub_category_id_fk INT NOT NULL,
-    item_to_deliver VARCHAR(45) NOT NULL,
-    solution TEXT NULL,
-    delivery_managers_name VARCHAR(45) NOT NULL,
-    delivery_managers_cell VARCHAR(45) NOT NULL,
-    delivery_logged_by VARCHAR(45) NOT NULL,
-    delivery_date_loged DATETIME NOT NULL,
-    delivery_closed_by VARCHAR(45) NULL,
-    delivery_date_closed DATETIME NULL,
-    resolution_time VARCHAR(50) NULL,
-    delivery_sla_status VARCHAR(45) NULL,
-    delivery_escalated INT NULL,
-    delivery_escalated_to VARCHAR(150) NULL,
-    delivery_call_status VARCHAR(150) NULL,
-    delivery_call_month VARCHAR(50) NOT NULL,
-    delivery_call_year VARCHAR(50) NOT NULL
-);
+INSERT INTO ticket_numbers (ticket_number) VALUES ('0');
+
+
+
+
 
 
 

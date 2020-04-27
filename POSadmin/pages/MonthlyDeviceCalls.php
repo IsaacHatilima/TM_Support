@@ -1,32 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <?php include '../includes/header.php'; ?>
+	<?php include '../includes/header.php'; ?>
 	<script type="text/javascript" src="../../assets/js/plugins/forms/selects/select2.min.js"></script>
-	<script type="text/javascript" src="../../assets/js/plugins/tables/datatables/extensions/pdfmake/vfs_fonts.min.js"></script>
+	<script type="text/javascript" src="../../assets/js/pages/form_select2.js"></script>
 	<script type="text/javascript" src="../../assets/js/pages/datatables_extension_buttons_html5.js"></script>
 	<script type="text/javascript" src="../../assets/js/plugins/tables/datatables/datatables.min.js"></script>
 	<script type="text/javascript" src="../../assets/js/plugins/tables/datatables/extensions/responsive.min.js"></script>
 	<script type="text/javascript" src="../../assets/js/plugins/tables/datatables/extensions/jszip/jszip.min.js"></script>
 	<script type="text/javascript" src="../../assets/js/plugins/tables/datatables/extensions/buttons.min.js"></script>
 	<script type="text/javascript" src="../../assets/js/pages/datatables_responsive.js"></script>
-
+	<script type="text/javascript" src="../../assets/js/core/libraries/jquery_ui/interactions.min.js"></script>
 </head>
 
-<body class="navbar-bottom">
-    <?php include '../includes/topnav.php'; ?>
-	<!-- Page container -->
-	<div class="page-container" >
+<body class="navbar-bottom navbar-top">
+	<?php include '../includes/topnav.php'; ?>
 
-		<!-- Page content -->
+    <div id="lock-modal"></div>
+    <div id="loading-circle"></div>
+	<div class="page-container">
 		<div class="page-content">
-
-            <?php include '../includes/sidenav.php'; ?>
-
-
-			<!-- Main content -->
 			<div class="content-wrapper">
-                <div class="panel panel-flat">
+			<div class="panel panel-flat">
 					<div class="panel-heading">
 						<h6 class="panel-title">Create Ticket</h6>
 					</div>
@@ -66,14 +61,16 @@
 												<tbody>
 													<?php
 													//AND client_id=logged_by
-														$sql = "SELECT * FROM pos_device_calls x,device_info,client_users,mechants,pos_categories,pos_sub_categories WHERE logged_by=client_user_id AND x.call_device_serial=device_serial AND x.devcall_mechant_log_id_fk = mechant_log_id AND x.category_id_fk = category_id AND x.sub_category_id_fk = sub_category_id ORDER BY x.device_call_id DESC;";
+														$sql = "SELECT * FROM pos_device_calls x,device_info,client_users,mechants,pos_categories,pos_sub_categories WHERE logged_by=client_user_id AND x.call_device_serial=device_serial AND x.devcall_mechant_log_id_fk = mechant_log_id AND x.category_id_fk = category_id AND x.sub_category_id_fk = sub_category_id AND call_month=? AND call_year=? ORDER BY x.ticket_number DESC;";
 														$stmt = $object->connect()->prepare($sql);
+														$stmt->bindvalue(1, date('F'));
+														$stmt->bindvalue(2, date('Y'));
 														$stmt->execute();
 														if($stmt->rowCount())
 														{
 															while ($rows = $stmt->fetch())
 															{
-																$id = $rows['device_call_id'];
+																$id = $rows['ticket_number'];
 
 																$token = $id;
 
@@ -88,7 +85,7 @@
 																elseif($rows['device_call_status'] == "Open Escalation"){$color = "label label-danger";}
 																echo '
 																	<tr>
-																	<td><a href="POSTicketDetails?pos_ticket_id='.$crypted_token.'">'.sprintf("%04d", $rows['device_call_id']).'</a></td>
+																	<td><a href="POSTicketDetails?pos_ticket_id='.$crypted_token.'">'.sprintf("%04d", $rows['ticket_number']).'</a></td>
 																	<td>'.$rows['mechant_type'].'</td>
 																	<td>'.$rows['mechant_name'].'</td>
 																	<td>'.$rows['mechant_province'].'</td>
@@ -141,14 +138,16 @@
 												<tbody>
 													<?php
 													//AND client_id=logged_by
-														$sql = "SELECT * FROM pos_delivery_calls x,client_users,mechants,pos_categories,pos_sub_categories WHERE delivery_logged_by=client_user_id AND x.delivery_mechant_log_id_fk = mechant_log_id AND x.delivery_category_id_fk = category_id AND x.delivery_sub_category_id_fk = sub_category_id ORDER BY x.delivery_call_id DESC;";
+														$sql = "SELECT * FROM pos_delivery_calls x,client_users,mechants,pos_categories,pos_sub_categories WHERE delivery_logged_by=client_user_id AND x.delivery_mechant_log_id_fk = mechant_log_id AND x.delivery_category_id_fk = category_id AND x.delivery_sub_category_id_fk = sub_category_id AND delivery_call_month=? AND delivery_call_year=? ORDER BY x.ticket_number DESC;";
 														$stmt = $object->connect()->prepare($sql);
+														$stmt->bindvalue(1, date('F'));
+														$stmt->bindvalue(2, date('Y'));
 														$stmt->execute();
 														if($stmt->rowCount())
 														{
 															while ($rows = $stmt->fetch())
 															{
-																$id = $rows['delivery_call_id'];
+																$id = $rows['ticket_number'];
 
 																$token = $id;
 
@@ -163,7 +162,7 @@
 																elseif($rows['delivery_call_status'] == "Open Escalation"){$color = "label label-danger";}
 																echo '
 																	<tr>
-																	<td><a href="POSTicketDetails?pos_ticket_id='.$crypted_token.'">'.sprintf("%04d", $rows['delivery_call_id']).'</a></td>
+																	<td><a href="POSTicketDetails?pos_ticket_id='.$crypted_token.'">'.sprintf("%04d", $rows['ticket_number']).'</a></td>
 																	<td>'.$rows['mechant_type'].'</td>
 																	<td>'.$rows['mechant_name'].'</td>
 																	<td>'.$rows['mechant_province'].'</td>
@@ -196,9 +195,9 @@
 				</div>
 			</div>
 		</div>
-    </div>
-    <div id="lock-modal"></div>
+	</div>
+	<div id="lock-modal"></div>
     <div id="loading-circle"></div>
-    <script src="../ajax/LogCalls.js"></script>
+	<script src="../ajax/Mechants.js"></script>
 </body>
 </html>

@@ -1,10 +1,22 @@
 	<?php
-		    ob_start();
-			session_start();
-			if($_SESSION['person'] == null)
-			{
-				header('Location: ../../');
-			}
+		ob_start();
+		session_start();
+		if($_SESSION['person'] == null)
+		{
+			header('Location: ../../');
+		}
+		require_once('../../config/db.php');
+		$object = new Database();
+		$object->connect();
+
+		$sqlClients = "SELECT * FROM engineers WHERE engineer_id =?;";
+		$stmtClients = $object->connect()->prepare($sqlClients);
+		$stmtClients->bindvalue(1, $_SESSION['person']);
+		$stmtClients->execute();
+		$stmtClients->rowCount();
+		$rows = $stmtClients->fetch();
+		$firstName = $rows['engineer_first_name'];
+		$lastName = $rows['engineer_last_name'];
 	?>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -28,7 +40,7 @@
 	<script type="text/javascript" src="../../assets/js/plugins/loaders/blockui.min.js"></script>
 	<!-- /core JS files -->
 
-	<!-- Theme JS files -->
+	<!-- Theme JS files  sticky_native.js:77 Uncaught TypeError: Cannot read property -->
 	<script type="text/javascript" src="../../assets/js/plugins/visualization/d3/d3.min.js"></script>
 	<script type="text/javascript" src="../../assets/js/plugins/visualization/d3/d3_tooltip.js"></script>
 	<script type="text/javascript" src="../../assets/js/plugins/forms/styling/switchery.min.js"></script>
@@ -38,10 +50,15 @@
 	<script type="text/javascript" src="../../assets/js/plugins/pickers/daterangepicker.js"></script>
 	<script type="text/javascript" src="../../assets/js/plugins/ui/nicescroll.min.js"></script>
 
+	<script type="text/javascript" src="../../assets/js/plugins/ui/prism.min.js"></script>
+	<script type="text/javascript" src="../../assets/js/plugins/buttons/hover_dropdown.min.js"></script>
 	<script type="text/javascript" src="../../assets/js/core/app.js"></script>
-	<script type="text/javascript" src="../../assets/js/pages/layout_sidebar_sticky_native.js"></script>
+	<!-- <script type="text/javascript" src="../../assets/js/pages/layout_sidebar_sticky_native.js"></script> -->
 
 	<script type="text/javascript" src="../../assets/js/plugins/ui/ripple.min.js"></script>
+
+
+
 	<!-- /theme JS files -->
 	<script type="text/javascript" src="../../assets/js/plugins/visualization/c3/c3.min.js"></script>
   	<script type="text/javascript" src="../../assets/js/charts/c3/c3_advanced.js"></script>
@@ -73,6 +90,7 @@
 	<style>
 		body{
 			overflow: auto;
+			height: 100px;
 			font-size: 12px;
 		}
 		
@@ -91,7 +109,7 @@
 		}
 		#loading-circle{
 			position: absolute;
-			top: -500px;
+			top: 50px;
 			bottom: 0;
 			z-index: 9999;
 			left: 0;

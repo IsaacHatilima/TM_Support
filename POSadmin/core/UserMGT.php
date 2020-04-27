@@ -1,6 +1,16 @@
 <?php
     ob_start();
     session_start();
+
+    use PHPMailer\PHPMailer\PHPMailer;
+    use PHPMailer\PHPMailer\Exception;
+
+    // include_once('../PHPMailer/src/Exception.php');
+    // include_once('../PHPMailer/src/PHPMailer.php');
+    // include_once('../PHPMailer/src/SMTP.php');
+    include_once('../../PHPMailer/src/Exception.php');
+    include_once('../../PHPMailer/src/PHPMailer.php');
+    include_once('../../PHPMailer/src/SMTP.php');
     require_once('../../config/db.php');
     $object = new Database();
     $object->connect();
@@ -33,9 +43,6 @@
                 $num = $stmttestu->fetchColumn();
                 if($num > 0)
                 {
-                    //$rowl = $stmttestu->fetch(PDO::FETCH_ASSOC);
-                    //$num = $stmttestu->rowCount();
-                    //$usernamez = $username.$num;
                     echo "Username Taken";
                 }
                 else
@@ -168,9 +175,12 @@
 
         function logEmail($first_name,$last_name,$email,$username,$plain_password,$bank_id,$cell)
         {
-            $emailType = "User Creation";
-            $sub = 'Account Creation';
-            $status = 'PENDING';
+            $mail = new PHPMailer(true);
+            $from = "User Creation";
+            $message_subject = 'Account Creation';
+            $bank_id="0";
+            $statuse = 'SUCCESS';
+            $count = '3';
             $message = '
             <html>
                 <head>
@@ -190,7 +200,7 @@
                         <div class="container" style="font-size: 20px">
                         <br><br>
                             Dear '.$first_name.' '.$last_name.',<br><br>
-                            Your TechMasters support system account has been created successfully.<br>
+                            Your TechMasters Support System account has been created successfully.<br>
                             You can log in with the following details:<br>
                             Username <b>'.$username.'</b><br>
                             OTP <b>'.$plain_password.'</b><br>
@@ -204,21 +214,38 @@
             </html>
             ';
             
-            try
+            $mail->isSMTP(); 
+            $mail->SMTPDebug = 2;
+            $mail->Debugoutput = 'html';                                           
+            $mail->Host       = 'smtp.office365.com';  
+            $mail->SMTPAuth   = true;                                  
+            $mail->Username   = 'support@techmasters.co.zm';                     
+            $mail->Password   = 'Password123';                             
+            $mail->SMTPSecure = 'TLS'; 
+            $mail->Port       = 587;                                    
+            $mail->setFrom('support@techmasters.co.zm', 'Techmasters Support');
+            $mail->addAddress($email);
+            $mail->WordWrap = 70;
+            $mail->isHTML(true);   
+            $mail->Subject = $message_subject;
+            $mail->Body    = $message;
+            $mail->AltBody = $message;
+            if ($mail->send())
             {
-                $sql = "INSERT INTO email_notifications(email_type,email_addres,email_status,email_subject,email_message,local_date,logdate,bankID) VALUES(?,?,?,?,?,?,?,?);";
+                $sql = "INSERT INTO email_notifications(email_type,email_addres,email_status,email_subject,email_message,local_date,logdate,send_count,bankID) VALUES(?,?,?,?,?,?,?,?,?);";
                 $stmt = $this->connect()->prepare($sql);
-                $stmt->bindvalue(1, $emailType);
+                $stmt->bindvalue(1, $from);
                 $stmt->bindvalue(2, $email);
-                $stmt->bindvalue(3, $status);
-                $stmt->bindvalue(4, $sub);
+                $stmt->bindvalue(3, $statuse);
+                $stmt->bindvalue(4, $message_subject);
                 $stmt->bindvalue(5, $message);
                 $stmt->bindvalue(6, date('Y-m-d'));
                 $stmt->bindvalue(7, date('Y-m-d H:i:s'));
-                $stmt->bindvalue(8, $bank_id);
-
+                $stmt->bindvalue(8, $count);
+                $stmt->bindvalue(9, $bank_id);
                 if($stmt->execute())
                 {
+                    //echo "Success";
                     self::logSMS($first_name,$last_name,$cell,$username,$plain_password);
                 }
                 else
@@ -226,11 +253,12 @@
                     echo "Failed";
                 }
             }
-            catch(PDOException $e)
+            else
             {
-                echo 'Error'.$e->getMessage();
+                echo "Email Not Sent";
             }
         }
+        
 
         function logSMS($first_name,$last_name,$cell,$username,$plain_password)
         {
@@ -525,10 +553,12 @@
 
         function logEmail($first_name,$last_name,$email,$username,$plain_password,$cell)
         {
-            $emailType = "User Creation";
-            $sub = 'Account Creation';
-            $status = 'PENDING';
+            $mail = new PHPMailer(true);
+            $from = "User Creation";
+            $message_subject = 'Account Creation';
             $bank_id="0";
+            $statuse = 'SUCCESS';
+            $count = '3';
             $message = '
             <html>
                 <head>
@@ -561,32 +591,49 @@
                 </body>
             </html>
             ';
-            
-            try
+
+            $mail->isSMTP(); 
+            $mail->SMTPDebug = 2;
+            $mail->Debugoutput = 'html';                                           
+            $mail->Host       = 'smtp.office365.com';  
+            $mail->SMTPAuth   = true;                                  
+            $mail->Username   = 'support@techmasters.co.zm';                     
+            $mail->Password   = 'Password123';                             
+            $mail->SMTPSecure = 'TLS'; 
+            $mail->Port       = 587;                                    
+            $mail->setFrom('support@techmasters.co.zm', 'Techmasters Support');
+            $mail->addAddress($email);
+            // foreach($output as $recipient){
+            //     $mail->addCC($recipient['emailaddress']);
+            //     //print_r($recipient['emailaddress']);
+            // }
+            $mail->WordWrap = 70;
+            $mail->isHTML(true);   
+            $mail->Subject = $message_subject;
+            $mail->Body    = $message;
+            $mail->AltBody = $message;
+            if ($mail->send())
             {
-                $sql = "INSERT INTO email_notifications(email_type,email_addres,email_status,email_subject,email_message,local_date,logdate,bankID) VALUES(?,?,?,?,?,?,?,?);";
+                $sql = "INSERT INTO email_notifications(email_type,email_addres,email_status,email_subject,email_message,local_date,logdate,send_count,bankID) VALUES(?,?,?,?,?,?,?,?,?);";
                 $stmt = $this->connect()->prepare($sql);
-                $stmt->bindvalue(1, $emailType);
+                $stmt->bindvalue(1, $from);
                 $stmt->bindvalue(2, $email);
-                $stmt->bindvalue(3, $status);
-                $stmt->bindvalue(4, $sub);
+                $stmt->bindvalue(3, $statuse);
+                $stmt->bindvalue(4, $message_subject);
                 $stmt->bindvalue(5, $message);
                 $stmt->bindvalue(6, date('Y-m-d'));
                 $stmt->bindvalue(7, date('Y-m-d H:i:s'));
-                $stmt->bindvalue(8, $bank_id);
-
+                $stmt->bindvalue(8, $count);
+                $stmt->bindvalue(9, $bank_id);
                 if($stmt->execute())
                 {
+                    // echo "Success";
                     self::logSMS($first_name,$last_name,$cell,$username,$plain_password);
                 }
                 else
                 {
                     echo "Failed";
                 }
-            }
-            catch(PDOException $e)
-            {
-                echo 'Error'.$e->getMessage();
             }
         }
 

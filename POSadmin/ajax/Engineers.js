@@ -24,7 +24,7 @@ $('#saver').click(function(e){
             success: function(strMessage) {
                 console.log(strMessage);
                 var xx = strMessage;
-                if (xx == 'Success') {   
+                if (xx != 'Success' || xx != 'Username Taken' || xx != 'Failed' || xx != 'Error') {   
                     iziToast.show({
                         title: 'Success!',
                         message: 'Engineers Added Successfully.',
@@ -36,6 +36,18 @@ $('#saver').click(function(e){
                     setTimeout(function(){
                         window.location.reload(1);
                     }, 2500);  
+                }
+                if (xx == 'Username Taken') {    
+                    iziToast.show({
+                        title: 'Warning!',
+                        message: 'Email ID Already In Use. Please Try Again.',
+                        color: 'yello',
+                        position: 'topRight',
+                        icon: 'fa fa-check',
+                        timeout: 2000
+                    });   
+                    $("#lock-modal").css("display", "none");
+                    $("#loading-circle").css("display", "none"); 
                 }
                 if (xx == 'Failed') {    
                     iziToast.show({

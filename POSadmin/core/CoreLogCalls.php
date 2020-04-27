@@ -67,28 +67,46 @@
 
         function deviceNewCall($call_priority,$mechant_log_id_fk,$call_device_serial,$category_id_fk,$sub_category_id_fk,$fault_details,$managers_name,$managers_cell,$logged_by,$date_loged)
         {
+            $sql = "SELECT ticket_number FROM ticket_numbers;";
+            $stmt = $this->connect()->prepare($sql);
+            $stmt->execute();
+            $rows = $stmt->fetch(PDO::FETCH_ASSOC);
+            $ticket_number = $rows['ticket_number'];
+            $ticket_number = $ticket_number + 1;
+
             try
             {
                 $status = "New";
-                $sql = "INSERT INTO pos_device_calls(call_priority,devcall_mechant_log_id_fk,call_device_serial,category_id_fk,sub_category_id_fk,fault_details,managers_name,managers_cell,logged_by,date_loged,device_call_status,call_month,call_year) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?);";
+                $sql = "INSERT INTO pos_device_calls(ticket_number,call_priority,devcall_mechant_log_id_fk,call_device_serial,category_id_fk,sub_category_id_fk,fault_details,managers_name,managers_cell,logged_by,date_loged,device_call_status,call_month,call_year) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
                 $stmt = $this->connect()->prepare($sql);
-                $stmt->bindvalue(1, $call_priority);
-                $stmt->bindvalue(2, $mechant_log_id_fk);
-                $stmt->bindvalue(3, $call_device_serial);
-                $stmt->bindvalue(4, $category_id_fk);
-                $stmt->bindvalue(5, $sub_category_id_fk);
-                $stmt->bindvalue(6, $fault_details);
-                $stmt->bindvalue(7, $managers_name);
-                $stmt->bindvalue(8, $managers_cell);
-                $stmt->bindvalue(9, $logged_by);
-                $stmt->bindvalue(10, $date_loged);
-                $stmt->bindvalue(11, $status);
-                $stmt->bindvalue(12, date('F'));
-                $stmt->bindvalue(13, date('Y'));
+                $stmt->bindvalue(1, $ticket_number);
+                $stmt->bindvalue(2, $call_priority);
+                $stmt->bindvalue(3, $mechant_log_id_fk);
+                $stmt->bindvalue(4, $call_device_serial);
+                $stmt->bindvalue(5, $category_id_fk);
+                $stmt->bindvalue(6, $sub_category_id_fk);
+                $stmt->bindvalue(7, $fault_details);
+                $stmt->bindvalue(8, $managers_name);
+                $stmt->bindvalue(9, $managers_cell);
+                $stmt->bindvalue(10, $logged_by);
+                $stmt->bindvalue(11, $date_loged);
+                $stmt->bindvalue(12, $status);
+                $stmt->bindvalue(13, date('F'));
+                $stmt->bindvalue(14, date('Y'));
                 if($stmt->execute())
                 {
-                     //echo "Success";
-                    self::sendEmail($logged_by);
+                    $sql1 = "UPDATE ticket_numbers SET ticket_number = ?;";
+                    $stmt1 = $this->connect()->prepare($sql1);
+                    $stmt1->bindvalue(1, $ticket_number);
+                    if($stmt1->execute())
+                    {
+                        //echo "Success";
+                        self::sendEmail($logged_by);
+                    }
+                    else
+                    {
+                        echo "Failed";
+                    }
                 }
                 else
                 {
@@ -334,23 +352,30 @@
 
         function deliveryNewCall($delivery_call_priority,$delivery_mechant_log_id_fk,$delivery_category_id_fk,$delivery_sub_category_id_fk,$item_to_deliver,$delivery_managers_name,$delivery_managers_cell,$delivery_logged_by,$delivery_date_loged)
         {
+            $sql = "SELECT ticket_number FROM ticket_numbers;";
+            $stmt = $this->connect()->prepare($sql);
+            $stmt->execute();
+            $rows = $stmt->fetch(PDO::FETCH_ASSOC);
+            $ticket_number = $rows['ticket_number'];
+            $ticket_number = $ticket_number + 1;
             try
             {
                 $delivery_status = "New";
-                $sql = "INSERT INTO pos_delivery_calls(delivery_call_priority,delivery_mechant_log_id_fk,delivery_category_id_fk,delivery_sub_category_id_fk,item_to_deliver,delivery_managers_name,delivery_managers_cell,delivery_logged_by,delivery_date_loged,delivery_call_status,delivery_call_month,delivery_call_year) VALUES(?,?,?,?,?,?,?,?,?,?,?,?);";
+                $sql = "INSERT INTO pos_delivery_calls(ticket_number,delivery_call_priority,delivery_mechant_log_id_fk,delivery_category_id_fk,delivery_sub_category_id_fk,item_to_deliver,delivery_managers_name,delivery_managers_cell,delivery_logged_by,delivery_date_loged,delivery_call_status,delivery_call_month,delivery_call_year) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?);";
                 $stmt = $this->connect()->prepare($sql);
-                $stmt->bindvalue(1, $delivery_call_priority);
-                $stmt->bindvalue(2, $delivery_mechant_log_id_fk);
-                $stmt->bindvalue(3, $delivery_category_id_fk);
-                $stmt->bindvalue(4, $delivery_sub_category_id_fk);
-                $stmt->bindvalue(5, $item_to_deliver);
-                $stmt->bindvalue(6, $delivery_managers_name);
-                $stmt->bindvalue(7, $delivery_managers_cell);
-                $stmt->bindvalue(8, $delivery_logged_by);
-                $stmt->bindvalue(9, $delivery_date_loged);
-                $stmt->bindvalue(10, $delivery_status);
-                $stmt->bindvalue(11, date('F'));
-                $stmt->bindvalue(12, date('Y'));
+                $stmt->bindvalue(1, $ticket_number);
+                $stmt->bindvalue(2, $delivery_call_priority);
+                $stmt->bindvalue(3, $delivery_mechant_log_id_fk);
+                $stmt->bindvalue(4, $delivery_category_id_fk);
+                $stmt->bindvalue(5, $delivery_sub_category_id_fk);
+                $stmt->bindvalue(6, $item_to_deliver);
+                $stmt->bindvalue(7, $delivery_managers_name);
+                $stmt->bindvalue(8, $delivery_managers_cell);
+                $stmt->bindvalue(9, $delivery_logged_by);
+                $stmt->bindvalue(10, $delivery_date_loged);
+                $stmt->bindvalue(11, $delivery_status);
+                $stmt->bindvalue(12, date('F'));
+                $stmt->bindvalue(13, date('Y'));
                 if($stmt->execute())
                 {
                     //echo "Success";

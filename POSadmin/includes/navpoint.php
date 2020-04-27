@@ -1,8 +1,12 @@
 <?php
     $page = basename($_SERVER['PHP_SELF']);
-    if ($page == "MonthlyDeviceCalls.php")
+    if ($page == "index.php")
     {
-        $monthlyR = "active";
+        $index = "active";
+    }
+    if ($page == "AddClientUser.php" || $page == "ViewClientUsers.php" || $page == "UpdateClientUser.php" || $page == "AddEngineer.php" || $page == "ViewEngineers.php"  || $page == "UpdateEngineer.php")
+    {
+        $users = "active";
     }
     if ($page == "AddClientUser.php")
     {
@@ -28,6 +32,10 @@
     {
         $viewEng = "active";
     }
+    if ($page == "AddClient.php" || $page == "ViewClient.php" || $page == "UpdateClients.php")
+    {
+        $cli = "active";
+    }
     if ($page == "AddClient.php")
     {
         $addBank = "active";
@@ -36,9 +44,13 @@
     {
         $viewBank = "active";
     }
-    if ($page == "UpdateBank.php")
+    if ($page == "UpdateClients.php")
     {
         $viewBank = "active";
+    }
+    if ($page == "Categories.php" || $page == "SubCategory.php")
+    {
+        $categos = "active";
     }
     if ($page == "Categories.php")
     {
@@ -47,6 +59,10 @@
     if ($page == "SubCategory.php")
     {
         $subcate = "active";
+    }
+    if ($page == "Mechants.php" || $page == "UpdateMech.php" || $page == "Devices.php" || $page == "UpdateDeviceInfo.php" || $page == "RepairedDevices.php")
+    {
+        $mechdev = "active";
     }
     if ($page == "Mechants.php")
     {
@@ -68,17 +84,12 @@
     {
         $repdev = "active";
     }
-
+    if ($page == "CreateTicket.php")
+    {
+        $ticks = "active";
+    }
     if ($page == "CreateTicket.php")
     {
         $newtick = "active";
-    }
-    if ($page == "RepairedDevices.php")
-    {
-        $updatetick = "active";
-    }
-    if ($page == "RepairedDevices.php")
-    {
-        $deletetick = "active";
     }
 ?>

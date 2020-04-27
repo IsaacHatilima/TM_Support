@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <?php include '../includes/header.php'; ?>
+	<?php include '../includes/header.php'; ?>
 	<script type="text/javascript" src="../../assets/js/plugins/forms/selects/select2.min.js"></script>
 	<script type="text/javascript" src="../../assets/js/pages/form_select2.js"></script>
 	<script type="text/javascript" src="../../assets/js/pages/datatables_extension_buttons_html5.js"></script>
@@ -11,22 +11,20 @@
 	<script type="text/javascript" src="../../assets/js/plugins/tables/datatables/extensions/buttons.min.js"></script>
 	<script type="text/javascript" src="../../assets/js/pages/datatables_responsive.js"></script>
 	<script type="text/javascript" src="../../assets/js/core/libraries/jquery_ui/interactions.min.js"></script>
-	
-
 </head>
 
-<body class="navbar-bottom">
-    <?php include '../includes/topnav.php'; ?>
-	<!-- Page container -->
-	<div class="page-container" >
+<body class="navbar-bottom navbar-top">
+	<?php include '../includes/topnav.php'; ?>
 
-		<!-- Page content -->
+    <div id="lock-modal"></div>
+    <div id="loading-circle"></div>
+	<div class="page-container">
 		<div class="page-content">
-
-            <?php include '../includes/sidenav.php'; ?>
-			<!-- Main content -->
 			<div class="content-wrapper">
-				<div class="panel panel-flat">
+                <div class="row">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8">
+                    <div class="panel panel-flat">
 					<div class="panel-heading">
 						<div class="row">
 							<div class="col-md-6">
@@ -138,11 +136,14 @@
                     </div>
                     
                 </div>
+                    </div>
+                    <div class="col-md-2"></div>
+                </div>
 			</div>
 		</div>
 	</div>
 	<div id="lock-modal"></div>
     <div id="loading-circle"></div>
-    <script src="../ajax/Mechants.js"></script>
+	<script src="../ajax/Mechants.js"></script>
 </body>
 </html>
