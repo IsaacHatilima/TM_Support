@@ -137,7 +137,7 @@
 														</div>
 														<div class="col-md-12">
 															<div class="row">
-																<label class="col-md-4 control-label text-right">FNB Asset Code:<span class="text-danger">*</span> </label>
+																<label class="col-md-4 control-label text-right">FNB Asset Code: </label>
 																<div class="col-md-8">
 																<input type="text" name="asset_code" id="asset_code" class="form-control"  placeholder="Enter FNB Asset Code" required="required">
 																</div>
@@ -287,7 +287,7 @@
 																			</div>
 																			<div class="col-md-12">
 																				<div class="row">
-																					<label class="col-md-4 control-label text-right">PTID:<span class="text-danger">*</span> </label>
+																					<label class="col-md-4 control-label text-right">PTID: </label>
 																					<div class="col-md-8">
 																						<input type="text" class="form-control"  value="'.$rows['ptid'].'" readonly>
 																					</div>

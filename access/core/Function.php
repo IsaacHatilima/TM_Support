@@ -52,9 +52,9 @@
                                 }
                                 else
                                 {
-                                    if ($row['role'] == "POS Admin")
+                                    if ($row['role'] == "POS Client")
                                     {
-                                        echo 'POSadmin/pages';
+                                        echo 'POS-Client-User/pages';
                                     }
                                 }
                             }

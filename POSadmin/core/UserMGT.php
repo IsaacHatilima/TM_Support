@@ -396,7 +396,7 @@
         $status = 'ACTIVE';
         $plain_password = substr(str_shuffle("ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 1) . substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 7);
         $FinalPassword = password_hash($plain_password, PASSWORD_BCRYPT);
-        $role = 'Client POS';
+        $role = 'POS Client';
         $chng_password = '0';
         $uuid = substr(str_shuffle("ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 1) . substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 7);
 
@@ -582,7 +582,7 @@
                             You can log in with the following details:<br>
                             Username <b>'.$username.'</b><br>
                             OTP <b>'.$plain_password.'</b><br>
-                            You can sign in <b><a href="https://www.techmasters.co.zm/UAT2">here.</a></b><br><br><br>
+                            You can sign in <b><a href="https://www.techmasters.co.zm/UAT2/login">here.</a></b><br><br><br>
             
                             Yours Sincerely<br>
                             TechMasters Support.<br>

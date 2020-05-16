@@ -87,7 +87,7 @@
 																		<option value="Luapula">Luapula</option>
 																		<option value="Lusaka">Lusaka</option>
 																		<option value="Muchinga">Muchinga</option>
-																		<option value="Nothern">Nothern</option>
+																		<option value="Northern">Northern</option>
 																		<option value="North-Westen">North-Westen</option>
 																		<option value="Southern">Southern</option>
 																		<option value="Western">Western</option>

@@ -112,6 +112,17 @@ CREATE TABLE pos_categories
     date_created DATETIME NOT NULL
 );
 
+INSERT INTO pos_categories
+  ( category, created_by, date_created )
+VALUES
+  ('Hardware', 1, '2020-04-16 12:02:22'), 
+  ('Software', 1, '2020-04-16 12:02:22'), 
+  ('Infrastructure', 1, '2020-04-16 12:02:22'),
+  ('Installation', 1, '2020-04-16 12:02:22'),
+  ('Stationary', 1, '2020-04-16 12:02:22'),
+  ('Connectivity', 1, '2020-04-16 12:02:22');
+
+
 CREATE TABLE pos_sub_categories
 (
     sub_category_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -190,7 +201,11 @@ CREATE TABLE pos_device_calls
     escalated_to VARCHAR(150) NULL,
     device_call_status VARCHAR(150) NULL,
     call_month VARCHAR(50) NOT NULL,
-    call_year VARCHAR(50) NOT NULL
+    call_year VARCHAR(50) NOT NULL,
+    engineer_idz INT NULL,
+    mecha_type VARCHAR(45) NOT NULL,
+    device_qota INT NOT NULL,
+    clientID INT NOT NULL
 );
 
 CREATE TABLE pos_delivery_calls
@@ -215,7 +230,11 @@ CREATE TABLE pos_delivery_calls
     delivery_escalated_to VARCHAR(150) NULL,
     delivery_call_status VARCHAR(150) NULL,
     delivery_call_month VARCHAR(50) NOT NULL,
-    delivery_call_year VARCHAR(50) NOT NULL
+    delivery_call_year VARCHAR(50) NOT NULL,
+    delivery_engineer_idz INT NULL
+    mech_type VARCHAR(45) NOT NULL,
+    delivery_qota INT NOT NULL,
+    clientID INT NOT NULL
 );
 
 CREATE TABLE ticket_numbers
@@ -225,33 +244,3 @@ CREATE TABLE ticket_numbers
 );
 
 INSERT INTO ticket_numbers (ticket_number) VALUES ('0');
--- PENDING
-
-CREATE TABLE sla_times
-(
-    sla_time_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    client_id_fk INT NOT NULL,
-    resolution_time INT NOT NULL,
-    created_by INT NOT NULL,
-    date_created DATETIME NOT NULL,
-    modified_by INT NULL,
-    date_modified DATETIME NULL
-);
-
-CREATE TABLE email_list
-(
-    emailList_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    client_id_fk INT NOT NULL,
-    emailID VARCHAR(45) NOT NULL,
-    created_by INT NOT NULL,
-    date_created DATETIME NOT NULL
-);
-
-INSERT INTO ticket_numbers (ticket_number) VALUES ('0');
-
-
-
-
-
-
-

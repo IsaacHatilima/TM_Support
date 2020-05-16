@@ -1,11 +1,31 @@
+	<?php
+		ob_start();
+		session_start();
+		if($_SESSION['person'] == null)
+		{
+			header('Location: ../../');
+		}
+		require_once('../../config/db.php');
+		$object = new Database();
+		$object->connect();
+
+		$sqlClients = "SELECT * FROM engineers WHERE engineer_id =?;";
+		$stmtClients = $object->connect()->prepare($sqlClients);
+		$stmtClients->bindvalue(1, $_SESSION['person']);
+		$stmtClients->execute();
+		$stmtClients->rowCount();
+		$rows = $stmtClients->fetch();
+		$firstName = $rows['engineer_first_name'];
+		$lastName = $rows['engineer_last_name'];
+	?>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="../../assets/images/Logo.jpg">
 	<title>TechMasters Support System</title>
 
-	<!-- Global stylesheets -->
-	<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
+	<!-- Global stylesheets _sidebar_sticky_custom.js:122 Uncaught TypeError: Cannot read property -->
+	<!-- <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css"> -->
 	<link href="../../assets/css/icons/icomoon/styles.css" rel="stylesheet" type="text/css">
 	<link href="../../assets/css/bootstrap.css" rel="stylesheet" type="text/css">
 	<link href="../../assets/css/core.css" rel="stylesheet" type="text/css">
@@ -20,7 +40,7 @@
 	<script type="text/javascript" src="../../assets/js/plugins/loaders/blockui.min.js"></script>
 	<!-- /core JS files -->
 
-	<!-- Theme JS files -->
+	<!-- Theme JS files  sticky_native.js:77 Uncaught TypeError: Cannot read property -->
 	<script type="text/javascript" src="../../assets/js/plugins/visualization/d3/d3.min.js"></script>
 	<script type="text/javascript" src="../../assets/js/plugins/visualization/d3/d3_tooltip.js"></script>
 	<script type="text/javascript" src="../../assets/js/plugins/forms/styling/switchery.min.js"></script>
@@ -30,35 +50,54 @@
 	<script type="text/javascript" src="../../assets/js/plugins/pickers/daterangepicker.js"></script>
 	<script type="text/javascript" src="../../assets/js/plugins/ui/nicescroll.min.js"></script>
 
+	<script type="text/javascript" src="../../assets/js/plugins/ui/prism.min.js"></script>
+	<script type="text/javascript" src="../../assets/js/plugins/buttons/hover_dropdown.min.js"></script>
 	<script type="text/javascript" src="../../assets/js/core/app.js"></script>
-	<script type="text/javascript" src="../../assets/js/pages/dashboard.js"></script>
-	<script type="text/javascript" src="../../assets/js/pages/layout_sidebar_sticky_custom.js"></script>
+	<!-- <script type="text/javascript" src="../../assets/js/pages/layout_sidebar_sticky_native.js"></script> -->
 
-	<script type="text/javascript" src="../../assets/js/plugins/ui/ripple.min.js"></script>
 	<!-- /theme JS files -->
 	<script type="text/javascript" src="../../assets/js/plugins/visualization/c3/c3.min.js"></script>
   	<script type="text/javascript" src="../../assets/js/charts/c3/c3_advanced.js"></script>
   	<script type="text/javascript" src="../../assets/js/charts/c3/c3_axis.js"></script>
-	<script type="text/javascript" src="../../assets/js/plugins/tables/datatables/datatables.min.js"></script>
-	<script type="text/javascript" src="../../assets/js/plugins/tables/datatables/extensions/responsive.min.js"></script>
-  	<script type="text/javascript" src="../../assets/js/plugins/forms/selects/select2.min.js"></script>
-	<script type="text/javascript" src="../../assets/js/plugins/tables/datatables/extensions/jszip/jszip.min.js"></script>
-	<script type="text/javascript" src="../../assets/js/plugins/tables/datatables/extensions/buttons.min.js"></script>
-	<script type="text/javascript" src="../../assets/js/pages/datatables_extension_buttons_html5.js"></script>
-	
-	<script type="text/javascript" src="../../assets/js/pages/datatables_responsive.js"></script>
+	  <script type="text/javascript" src="../../assets/js/pages/form_inputs.js"></script>
+
     <link rel="stylesheet" href="../../iziToast/dist/css/iziToast.min.css">
     <script src="../../iziToast/dist/js/iziToast.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="../../assets/js/pages/components_modals.js"></script>
     <script type="text/javascript" src="../../assets/js/plugins/notifications/bootbox.min.js"></script>
 	<script type="text/javascript" src="../../assets/js/plugins/notifications/sweet_alert.min.js"></script>
-	  <script type="text/javascript" src="../../assets/js/pages/form_select2.js"></script>
+	<script type="text/javascript" src="../../assets/js/plugins/forms/validation/validate.min.js"></script>
+
+	<script type="text/javascript" src="../../assets/js/core/libraries/jasny_bootstrap.min.js"></script>
+	<script type="text/javascript" src="../../assets/js/plugins/forms/inputs/autosize.min.js"></script>
+	<script type="text/javascript" src="../../assets/js/plugins/forms/inputs/formatter.min.js"></script>
+	<script type="text/javascript" src="../../assets/js/plugins/forms/inputs/typeahead/typeahead.bundle.min.js"></script>
+	<script type="text/javascript" src="../../assets/js/plugins/forms/inputs/typeahead/handlebars.min.js"></script>
+	<script type="text/javascript" src="../../assets/js/plugins/forms/inputs/passy.js"></script>
+	<script type="text/javascript" src="../../assets/js/plugins/forms/inputs/maxlength.min.js"></script>
+	<script type="text/javascript" src="../../assets/js/plugins/ui/nicescroll.min.js"></script>
+	<script type="text/javascript" src="../../assets/js/plugins/ui/drilldown.js"></script>
+
+	<!-- charts -->
+	<!-- <script type="text/javascript" src="../../assets/js/charts/c3/c3_bars_pies.js"></script> -->
+
+	<script type="text/javascript" src="../../assets/js/plugins/ui/ripple.min.js"></script>
+	
+	 
 	  
 	<style>
+		body{
+			overflow: auto;
+			height: 100px;
+			font-size: 12px;
+		}
+		
+
 		#lock-modal {
 			background-color: black;
 			opacity: 0.6;
 			position: absolute;
+  			height: 915px;
 			top: 0;
 			left: 0;
 			right: 0;
@@ -69,7 +108,7 @@
 		}
 		#loading-circle{
 			position: absolute;
-			top: 0;
+			top: 50px;
 			bottom: 0;
 			z-index: 9999;
 			left: 0;

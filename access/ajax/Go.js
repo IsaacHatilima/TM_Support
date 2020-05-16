@@ -1,3 +1,9 @@
+$(document).bind('keypress', function(e) {
+    if(e.keyCode==13){
+         $('#login').trigger('click');
+     }
+});
+
 $('#login').click(function(e){
     if ($.trim($("#email").val()) === "" || $.trim($("#password").val()) === "") {
         $("#notif1").css("display", "block");

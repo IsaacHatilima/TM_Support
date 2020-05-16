@@ -84,12 +84,57 @@
     {
         $repdev = "active";
     }
-    if ($page == "CreateTicket.php")
+    if ($page == "CreateTicket.php" || $page == "EditTicket.php" || $page == "DeleteTicket.php" || $page == "POSCalls.php" || $page == "POSTicketDetails.php" || $page == "DeliveryTicketDetails.php")
     {
         $ticks = "active";
     }
     if ($page == "CreateTicket.php")
     {
         $newtick = "active";
+    }
+    if ($page == "EditTicket.php")
+    {
+        $edittick = "active";
+    }
+    if ($page == "DeleteTicket.php")
+    {
+        $deltick = "active"; 
+    }
+    if ($page == "POSCalls.php")
+    {
+        $ocals = "active";
+    }
+
+    if ($page == "YearlyTabularCalls.php" || $page == "MonthlyTabularCalls.php" || $page == "WeeklyTabularCalls.php" || $page == "DailyTabularCalls.php" || $page == "DateRangeTabularCalls.php" || $page == "YearlyCharts.php" || $page == "MonthlyCharts.php" || $page == "WeeklyCharts.php" || $page == "DailyCharts.php" || $page == "RangeCharts.php" || $page == "MonthlyRetail.php")
+    {
+        $reports = "active";
+    }
+    if ($page == "YearlyTabularCalls.php")
+    {
+        $year = "active";
+    }
+    if ($page == "MonthlyTabularCalls.php")
+    {
+        $month = "active";
+    }
+    if ($page == "WeeklyTabularCalls.php")
+    {
+        $week = "active";
+    }
+    if ($page == "DailyTabularCalls.php")
+    {
+        $days = "active";
+    }
+    if ($page == "DateRangeTabularCalls.php")
+    {
+        $range = "active";
+    }
+    if ($page == "YearlyCharts.php")
+    {
+        $yearchart = "active";
+    }
+    if ($page == "MonthlyRetail.php")
+    {
+        $monthret = "active";
     }
 ?>
