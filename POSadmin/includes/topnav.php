@@ -73,25 +73,27 @@
 					</a>
 
 					<ul class="dropdown-menu dropdown-menu-right">
-						<span class="menu-heading underlined">Tablura Reports</span>
-						<li class="<?php if(isset($year)){echo $year; } ?>"><a href="YearlyTabularCalls"><i class="icon-arrow-right5"></i> <span>Yearly</span></a></li>
-						<!-- <li class="<?php if(isset($month)){echo $month; } ?>"><a href="MonthlyTabularCalls"><i class="icon-arrow-right5"></i> <span>Monthly</span></a></li> -->
+						<li class="dropdown-submenu <?php if(isset($reports1)){echo $reports1; } ?>">
+							<a href="#"><i class="icon-arrow-right5"></i> Anual</a>
+							<ul class="dropdown-menu">
+								<li class="<?php if(isset($yearret)){echo $yearret; } ?>"><a href="AnualRetail"><i class="icon-arrow-right5"></i> Retail</a></li>
+								<li class="<?php if(isset($yearfor)){echo $yearfor; } ?>"><a href="AnualForecourt"><i class="icon-arrow-right5"></i> Forecourt</a></li>
+							</ul>
+						</li>
 						<li class="dropdown-submenu <?php if(isset($reports)){echo $reports; } ?>">
 							<a href="#"><i class="icon-arrow-right5"></i> Monthly</a>
 							<ul class="dropdown-menu">
 								<li class="<?php if(isset($monthret)){echo $monthret; } ?>"><a href="MonthlyRetail"><i class="icon-arrow-right5"></i> Retail</a></li>
-								<li><a href="#"><i class="icon-arrow-right5"></i> Forecourt</a></li>
+								<li class="<?php if(isset($monthfor)){echo $monthfor; } ?>"><a href="MonthlyForecourt"><i class="icon-arrow-right5"></i> Forecourt</a></li>
 							</ul>
 						</li>
-						<li class="<?php if(isset($week)){echo $week; } ?>"><a href="WeeklyTabularCalls"><i class="icon-arrow-right5"></i> <span>Weekly</span></a></li>	
-						<li class="<?php if(isset($days)){echo $days; } ?>"><a href="DailyTabularCalls"><i class="icon-arrow-right5"></i> <span>Daily (EOD)</span></a></li>	
-						<li class="<?php if(isset($range)){echo $range; } ?>"><a href="DateRangeTabularCalls"><i class="icon-arrow-right5"></i> <span>Date Range</span></a></li>
-
-						<span class="menu-heading underlined">Graphical Reports</span>
-						<li class="<?php if(isset($yearchart)){echo $yearchart; } ?>"><a href="YearlyCharts"><i class="icon-arrow-right5"></i> <span>Yearly</span></a></li>
-						<li class="<?php if(isset($year)){echo $year; } ?>"><a href="MonthlyCharts"><i class="icon-arrow-right5"></i> <span>Monthly</span></a></li>
-						<li class="<?php if(isset($year)){echo $year; } ?>"><a href="WeeklyCharts"><i class="icon-arrow-right5"></i> <span>Weekly</span></a></li>	
-						<li class="<?php if(isset($year)){echo $year; } ?>"><a href="DailyCharts"><i class="icon-arrow-right5"></i> <span>Daily</span></a></li>	
+						<li class="dropdown-submenu <?php if(isset($reports3)){echo $reports3; } ?>">
+							<a href="#"><i class="icon-arrow-right5"></i> EOD</a>
+							<ul class="dropdown-menu">
+								<li class="<?php if(isset($eodret)){echo $eodret; } ?>"><a href="EODRetail"><i class="icon-arrow-right5"></i> Retail</a></li>
+								<li class="<?php if(isset($eodfor)){echo $eodfor; } ?>"><a href="EODForecourt"><i class="icon-arrow-right5"></i> Forecourt</a></li>
+							</ul>
+						</li>
 					</ul>
 				</li>
 			</ul>

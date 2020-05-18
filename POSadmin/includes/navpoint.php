@@ -98,43 +98,47 @@
     }
     if ($page == "DeleteTicket.php")
     {
-        $deltick = "active"; 
+        $deltick = "active";
     }
     if ($page == "POSCalls.php")
     {
         $ocals = "active";
     }
 
-    if ($page == "YearlyTabularCalls.php" || $page == "MonthlyTabularCalls.php" || $page == "WeeklyTabularCalls.php" || $page == "DailyTabularCalls.php" || $page == "DateRangeTabularCalls.php" || $page == "YearlyCharts.php" || $page == "MonthlyCharts.php" || $page == "WeeklyCharts.php" || $page == "DailyCharts.php" || $page == "RangeCharts.php" || $page == "MonthlyRetail.php")
+    if ($page == "MonthlyForecourt.php" || $page == "MonthlyRetail.php")
     {
         $reports = "active";
     }
-    if ($page == "YearlyTabularCalls.php")
+    if ($page == "MonthlyForecourt.php")
     {
-        $year = "active";
-    }
-    if ($page == "MonthlyTabularCalls.php")
-    {
-        $month = "active";
-    }
-    if ($page == "WeeklyTabularCalls.php")
-    {
-        $week = "active";
-    }
-    if ($page == "DailyTabularCalls.php")
-    {
-        $days = "active";
-    }
-    if ($page == "DateRangeTabularCalls.php")
-    {
-        $range = "active";
-    }
-    if ($page == "YearlyCharts.php")
-    {
-        $yearchart = "active";
+        $monthfor = "active";
     }
     if ($page == "MonthlyRetail.php")
     {
         $monthret = "active";
+    }
+    if ($page == "EODForecourt.php" || $page == "EODRetail.php")
+    {
+        $reports3 = "active";
+    }
+    if ($page == "EODRetail.php")
+    {
+        $eodret = "active";
+    }
+    if ($page == "EODForecourt.php")
+    {
+        $eodfor = "active";
+    }
+    if ($page == "AnualForecourt.php" || $page == "AnualRetail.php")
+    {
+        $reports1 = "active";
+    }
+    if ($page == "AnualRetail.php")
+    {
+        $yearret = "active";
+    }
+    if ($page == "AnualForecourt.php")
+    {
+        $yearfor = "active";
     }
 ?>

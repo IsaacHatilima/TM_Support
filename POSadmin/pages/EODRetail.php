@@ -25,7 +25,7 @@
 					<div class="panel-heading">
 						<div class="row">
 							<div class="col-md-6">
-								<h6 class="panel-title">Monthly Retail Tickets</h6>
+								<h6 class="panel-title">EOD Retail Tickets</h6>
 							</div>
 							<div class="col-md-6">
 								<div class="text-right">
@@ -56,8 +56,8 @@
 																		$token = $id;
 
 																		$cipher_method = 'aes-128-ctr';
-																		$enc_key = openssl_digest(php_uname(), 'SHA256', TRUE);  
-																		$enc_iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($cipher_method));  
+																		$enc_key = openssl_digest(php_uname(), 'SHA256', TRUE);
+																		$enc_iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($cipher_method));
 																		$crypted_token = openssl_encrypt($token, $cipher_method, $enc_key, 0, $enc_iv) . "::" . bin2hex($enc_iv);
 
 																		echo '<option value="'.$crypted_token.'">'.$rows['client_name'].'</option>';
@@ -68,7 +68,7 @@
 													</div>
 												</div>
 											</div>
-											<div class="col-md-4">
+											<!-- <div class="col-md-4">
 												<div class="row">
 													<label class="col-md-4 control-label text-right">Start Date:<span style="color:red">*</span> </label>
 													<div class="col-md-8">
@@ -85,7 +85,7 @@
 													<span class="help-block">yyyy-mm-dd</span>
 													</div>
 												</div>
-											</div>
+											</div> -->
 										</div><br>
 										<div class="row">
 											<div class="col-md-6">
@@ -135,20 +135,20 @@
 												</thead>
 												<tbody>
 													<?php
-														if(isset($_GET['startdate']))
+														if(isset($_GET['client']))
 														{
-															$start = $_GET['startdate'];
-															$end = $_GET['enddate'];
-													
+															$start = date('Y-m-d'); //$_GET['startdate'];
+															//$end = $_GET['enddate'];
+
 															$client_id = $_GET['client'];
-															list($client_id, $enc_iv) = explode("::", $client_id);  
+															list($client_id, $enc_iv) = explode("::", $client_id);
 															$cipher_method = 'aes-128-ctr';
 															$enc_key = openssl_digest(php_uname(), 'SHA256', TRUE);
 															$token = openssl_decrypt($client_id, $cipher_method, $enc_key, 0, hex2bin($enc_iv));
 															$client_id = $token;
 															// Installation
 															$install_cate = '4';
-															$sql = "SELECT * FROM pos_device_calls x,device_info,client_users,mechants,pos_categories,pos_sub_categories WHERE logged_by=client_user_id AND x.call_device_serial=device_serial AND x.devcall_mechant_log_id_fk = mechant_log_id AND x.category_id_fk = category_id AND x.sub_category_id_fk = sub_category_id AND x.category_id_fk = ? AND clientID = ? AND mecha_type = 'Retail' AND date_loged BETWEEN  '$start%' AND '$end%' ORDER BY x.ticket_number DESC;";
+															$sql = "SELECT * FROM pos_device_calls x,device_info,client_users,mechants,pos_categories,pos_sub_categories WHERE logged_by=client_user_id AND x.call_device_serial=device_serial AND x.devcall_mechant_log_id_fk = mechant_log_id AND x.category_id_fk = category_id AND x.sub_category_id_fk = sub_category_id AND x.category_id_fk = ? AND clientID = ? AND mecha_type = 'Retail' AND date_loged LIKE '$start%' ORDER BY x.ticket_number DESC;";
 															$stmt = $object->connect()->prepare($sql);
 															$stmt->bindvalue(1, $install_cate);
 															$stmt->bindvalue(2, $client_id);
@@ -162,8 +162,8 @@
 																	$token = $id;
 
 																	$cipher_method = 'aes-128-ctr';
-																	$enc_key = openssl_digest(php_uname(), 'SHA256', TRUE);  
-																	$enc_iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($cipher_method));  
+																	$enc_key = openssl_digest(php_uname(), 'SHA256', TRUE);
+																	$enc_iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($cipher_method));
 																	$crypted_token = openssl_encrypt($token, $cipher_method, $enc_key, 0, $enc_iv) . "::" . bin2hex($enc_iv);
 
 																	if($rows['device_call_status'] == "New"){ $color = "label label-info";}
@@ -189,7 +189,7 @@
 																		</tr>
 																	';
 																}
-																
+
 																unset($token, $cipher_method, $enc_key, $enc_iv);
 															}
 														}
@@ -222,10 +222,11 @@
 												</thead>
 												<tbody>
 													<?php
-														if(isset($_GET['startdate']))
+														if(isset($_GET['client']))
 														{
-															//Other Calls
-															$sql = "SELECT * FROM pos_device_calls x,device_info,client_users,mechants,pos_categories,pos_sub_categories WHERE logged_by=client_user_id AND x.call_device_serial=device_serial AND x.devcall_mechant_log_id_fk = mechant_log_id AND x.category_id_fk = category_id AND x.sub_category_id_fk = sub_category_id  AND x.category_id_fk != ? AND clientID = ? AND mecha_type = 'Retail' AND date_loged BETWEEN  '$start%' AND '$end%' ORDER BY x.ticket_number DESC;";
+                                                            //Other Calls
+                                                            
+															$sql = "SELECT * FROM pos_device_calls x,device_info,client_users,mechants,pos_categories,pos_sub_categories WHERE logged_by=client_user_id AND x.call_device_serial=device_serial AND x.devcall_mechant_log_id_fk = mechant_log_id AND x.category_id_fk = category_id AND x.sub_category_id_fk = sub_category_id  AND x.category_id_fk != ? AND clientID = ? AND mecha_type = 'Retail' AND date_loged LIKE '$start%' ORDER BY x.ticket_number DESC;";
 															$stmt = $object->connect()->prepare($sql);
 															$stmt->bindvalue(1, $install_cate);
 															$stmt->bindvalue(2, $client_id);
@@ -239,8 +240,8 @@
 																	$token = $id;
 
 																	$cipher_method = 'aes-128-ctr';
-																	$enc_key = openssl_digest(php_uname(), 'SHA256', TRUE);  
-																	$enc_iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($cipher_method));  
+																	$enc_key = openssl_digest(php_uname(), 'SHA256', TRUE);
+																	$enc_iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($cipher_method));
 																	$crypted_token = openssl_encrypt($token, $cipher_method, $enc_key, 0, $enc_iv) . "::" . bin2hex($enc_iv);
 
 																	if($rows['device_call_status'] == "New"){ $color = "label label-info";}
@@ -266,7 +267,7 @@
 																		</tr>
 																	';
 																}
-																
+
 																unset($token, $cipher_method, $enc_key, $enc_iv);
 															}
 														}
@@ -275,7 +276,7 @@
 											</table>
                                         </div>
                                     </div>
-    
+
                                     <div class="tab-pane" id="delivery">
                                         <div class="panel-body">
 											<table class="table datatable-responsive datatable-button-html5-basic" style ='font-size: 11px' id="delivery">
@@ -298,10 +299,10 @@
 												</thead>
 												<tbody>
 													<?php
-														if(isset($_GET['startdate']))
+														if(isset($_GET['client']))
 														{
 															//Delivery
-															$sql = "SELECT * FROM pos_delivery_calls x,client_users,mechants,pos_categories,pos_sub_categories WHERE delivery_logged_by=client_user_id AND x.delivery_mechant_log_id_fk = mechant_log_id AND x.delivery_category_id_fk = category_id AND x.delivery_sub_category_id_fk = sub_category_id AND clientID = ? AND mech_type = 'Retail' AND delivery_date_loged BETWEEN  '$start%' AND '$end%' ORDER BY x.ticket_number DESC;";
+															$sql = "SELECT * FROM pos_delivery_calls x,client_users,mechants,pos_categories,pos_sub_categories WHERE delivery_logged_by=client_user_id AND x.delivery_mechant_log_id_fk = mechant_log_id AND x.delivery_category_id_fk = category_id AND x.delivery_sub_category_id_fk = sub_category_id AND clientID = ? AND mech_type = 'Retail' AND delivery_date_loged LIKE '$start%' ORDER BY x.ticket_number DESC;";
 															$stmt = $object->connect()->prepare($sql);
 															$stmt->bindvalue(1, $client_id);
 															$stmt->execute();
@@ -314,8 +315,8 @@
 																	$token = $id;
 
 																	$cipher_method = 'aes-128-ctr';
-																	$enc_key = openssl_digest(php_uname(), 'SHA256', TRUE);  
-																	$enc_iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($cipher_method));  
+																	$enc_key = openssl_digest(php_uname(), 'SHA256', TRUE);
+																	$enc_iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($cipher_method));
 																	$crypted_token = openssl_encrypt($token, $cipher_method, $enc_key, 0, $enc_iv) . "::" . bin2hex($enc_iv);
 
 																	if($rows['delivery_call_status'] == "New"){ $color = "label label-info";}
@@ -340,7 +341,7 @@
 																		</tr>
 																	';
 																}
-																
+
 																unset($token, $cipher_method, $enc_key, $enc_iv);
 															}
 														}
@@ -355,7 +356,7 @@
                     </div>
 				</div>
 				<!-- Pie Charts -->
-				<?php include '../core/PieChartsMonthly.php'; ?>
+				<?php include '../core/EODRetail.php'; ?>
 				<div class="panel panel-flat">
 					<div class="panel-heading">
 						<h6 class="panel-title text-semibold"> Total Call Statistics</h6>
@@ -428,7 +429,7 @@
     <div id="loading-circle"></div>
 	<!-- <script src="../ajax/Mechants.js"></script> -->
 	<script>
-		// Pie 1 
+		// Pie 1
 		var pie_chart = c3.generate({
             bindto: '#c3-pie-chart',
             size: { width: 360 },
@@ -451,7 +452,7 @@
 				}
 			}
         });
-        // Pie 2 
+        // Pie 2
         var pie_chart = c3.generate({
             bindto: '#c3-pie-chart2',
             size: { width: 360 },
@@ -477,7 +478,7 @@
 				}
 			},
         });
-		// Pie 3 
+		// Pie 3
 		var pie_chart = c3.generate({
             bindto: '#c3-pie-chart3',
             size: { width: 360 },
@@ -508,14 +509,14 @@
 				columns: [
 					['x', 'Central', 'Copperbelt', 'Eastern', 'Luapula', 'Lusaka', 'Muchinga', 'Northern', 'North-Western','Southern','Western'],
 
-					['Retail', <?php if(isset($dum)){ echo $central_tickets; }?>,<?php if(isset($dum)){ echo $cb_tickets; } ?>,<?php if(isset($dum)){ echo $east_tickets; } ?>,<?php if(isset($dum)){ echo $luap_tickets; } ?>, <?php if(isset($dum)){ echo $lsk_tickets; } ?>,<?php if(isset($dum)){ echo $muchi_tickets; } ?>,<?php if(isset($dum)){ echo $north_tickets; } ?>,<?php if(isset($dum)){ echo $northwest_tickets; } ?>,<?php if(isset($dum)){ echo $south_tickets; } ?>,<?php if(isset($dum)){ echo $west_tickets; } ?>],
+					['Forecourt', <?php if(isset($dum)){ echo $central_tickets; }?>,<?php if(isset($dum)){ echo $cb_tickets; } ?>,<?php if(isset($dum)){ echo $east_tickets; } ?>,<?php if(isset($dum)){ echo $luap_tickets; } ?>, <?php if(isset($dum)){ echo $lsk_tickets; } ?>,<?php if(isset($dum)){ echo $muchi_tickets; } ?>,<?php if(isset($dum)){ echo $north_tickets; } ?>,<?php if(isset($dum)){ echo $northwest_tickets; } ?>,<?php if(isset($dum)){ echo $south_tickets; } ?>,<?php if(isset($dum)){ echo $west_tickets; } ?>],
 				],
 				type: 'bar',
 				colors: {
-					Retail: '#FF5733'
+					Forecourt: '#FF5733'
 				}
 			},
-			
+
 			axis: {
 				x: {
 					type: 'category',
@@ -547,13 +548,13 @@
 							{
 								while ($rows = $stmt->fetch())
 								{
-									$sql1 = "SELECT COUNT(ticket_number) AS devtik FROM pos_device_calls WHERE logged_by=? AND clientID=? AND mecha_type = 'Retail' AND date_loged BETWEEN  '$start%' AND '$end%';";
+									$sql1 = "SELECT COUNT(ticket_number) AS devtik FROM pos_device_calls WHERE logged_by=? AND clientID=? AND mecha_type = 'Retail' AND date_loged LIKE '$start%';";
 									$stmt1 = $object->connect()->prepare($sql1);
 									$stmt1->bindvalue(1, $rows['client_user_id']);
 									$stmt1->bindvalue(2, $client_id);
 									$stmt1->execute();
 									$rows1 = $stmt1->fetch();
-									$sql2 = "SELECT COUNT(ticket_number) AS deltik FROM pos_delivery_calls WHERE delivery_logged_by=? AND clientID=? AND mech_type = 'Retail' AND delivery_date_loged BETWEEN  '$start%' AND '$end%';";
+									$sql2 = "SELECT COUNT(ticket_number) AS deltik FROM pos_delivery_calls WHERE delivery_logged_by=? AND clientID=? AND mech_type = 'Retail' AND delivery_date_loged LIKE '$start%';";
 									$stmt2 = $object->connect()->prepare($sql2);
 									$stmt2->bindvalue(1, $rows['client_user_id']);
 									$stmt2->bindvalue(2, $client_id);
@@ -571,7 +572,7 @@
 					Retail: '#FF5733'
 				}
 			},
-			
+
 			axis: {
 				x: {
 					type: 'category',

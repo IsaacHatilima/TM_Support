@@ -4,12 +4,12 @@
         $start = $_GET['startdate'];
 		$end = $_GET['enddate'];
 
-        $client_id = $_GET['client'];
-        list($client_id, $enc_iv) = explode("::", $client_id);  
-        $cipher_method = 'aes-128-ctr';
-        $enc_key = openssl_digest(php_uname(), 'SHA256', TRUE);
-        $token = openssl_decrypt($client_id, $cipher_method, $enc_key, 0, hex2bin($enc_iv));
-        $client_id = $token;
+        // $client_id = $_GET['client'];
+        // list($client_id, $enc_iv) = explode("::", $client_id);  
+        // $cipher_method = 'aes-128-ctr';
+        // $enc_key = openssl_digest(php_uname(), 'SHA256', TRUE);
+        // $token = openssl_decrypt($client_id, $cipher_method, $enc_key, 0, hex2bin($enc_iv));
+        // $client_id = $token;
         // PIE CHART 1
         // New Calls
         $state = 'New';

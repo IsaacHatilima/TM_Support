@@ -40,36 +40,6 @@
 										<div class="row">
 											<div class="col-md-4">
 												<div class="row">
-													<label class="col-md-4 control-label text-right">Client:<span style="color:red">*</span> </label>
-													<div class="col-md-8">
-														<select data-placeholder="Select Client" name="client" id="client" class="select-search" required="required" >
-															<option></option>
-															<optgroup label="Months">
-																<?php
-																	$sql = "SELECT * FROM clients;";
-																	$stmt = $object->connect()->prepare($sql);
-																	$stmt->execute();
-																	while ($rows = $stmt->fetch())
-																	{
-																		$id = $rows['client_id'];
-
-																		$token = $id;
-
-																		$cipher_method = 'aes-128-ctr';
-																		$enc_key = openssl_digest(php_uname(), 'SHA256', TRUE);  
-																		$enc_iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($cipher_method));  
-																		$crypted_token = openssl_encrypt($token, $cipher_method, $enc_key, 0, $enc_iv) . "::" . bin2hex($enc_iv);
-
-																		echo '<option value="'.$crypted_token.'">'.$rows['client_name'].'</option>';
-																	}
-																?>
-															</optgroup>
-														</select>
-													</div>
-												</div>
-											</div>
-											<div class="col-md-4">
-												<div class="row">
 													<label class="col-md-4 control-label text-right">Start Date:<span style="color:red">*</span> </label>
 													<div class="col-md-8">
 													<input type="text" name="startdate" id="startdate" class="form-control" data-mask="9999-99-99" placeholder="Enter Starting date">
@@ -140,12 +110,7 @@
 															$start = $_GET['startdate'];
 															$end = $_GET['enddate'];
 													
-															$client_id = $_GET['client'];
-															list($client_id, $enc_iv) = explode("::", $client_id);  
-															$cipher_method = 'aes-128-ctr';
-															$enc_key = openssl_digest(php_uname(), 'SHA256', TRUE);
-															$token = openssl_decrypt($client_id, $cipher_method, $enc_key, 0, hex2bin($enc_iv));
-															$client_id = $token;
+															$client_id = $_SESSION['clientID'];
 															// Installation
 															$install_cate = '4';
 															$sql = "SELECT * FROM pos_device_calls x,device_info,client_users,mechants,pos_categories,pos_sub_categories WHERE logged_by=client_user_id AND x.call_device_serial=device_serial AND x.devcall_mechant_log_id_fk = mechant_log_id AND x.category_id_fk = category_id AND x.sub_category_id_fk = sub_category_id AND x.category_id_fk = ? AND clientID = ? AND mecha_type = 'Retail' AND date_loged BETWEEN  '$start%' AND '$end%' ORDER BY x.ticket_number DESC;";
