@@ -62,9 +62,9 @@
 														</div>
 														<div class="col-md-12">
 															<div class="row">
-																<label class="col-md-4 control-label text-right">Device PTID:<span class="text-danger">*</span> </label>
+																<label class="col-md-4 control-label text-right">Device PTID: </label>
 																<div class="col-md-8">
-																	<input type="text" name="ptid" id="ptid" class="form-control"  placeholder="Enter Device PTID" required="required">
+																	<input type="text" name="ptid" id="ptid" class="form-control"  placeholder="Enter Device PTID">
 																</div>
 															</div>
 														</div>
@@ -72,43 +72,11 @@
 															<div class="row">
 																<label class="col-md-4 control-label text-right">Warranty Sticker:<span class="text-danger">*</span> </label>
 																<div class="col-md-8">
-																	<input type="text" name="warranty" id="warranty" class="form-control"  placeholder="Open or Sealed" required="required">
-																</div>
-															</div>
-														</div>
-														<div class="col-md-12">
-															<div class="row">
-																<label class="col-md-4 control-label text-right">Fault on Screen:<span class="text-danger">*</span> </label>
-																<div class="col-md-8">
-																	<input type="text" name="fault" id="fault" class="form-control"  placeholder="Enter Fault on Screen" required="required">
-																</div>
-															</div>
-														</div>
-														<div class="col-md-12">
-															<div class="row">
-																<label class="col-md-4 control-label text-right">General Problem:<span class="text-danger">*</span> </label>
-																<div class="col-md-8">
-																	<textarea rows="5" cols="5" name="gen_prob" id="gen_prob"  class="form-control" placeholder="Default textarea" required="required"></textarea>
-																</div>
-															</div>
-														</div>
-														<div class="col-md-12">
-															<div class="row">
-																<label class="col-md-4 control-label text-right">Parts Used:<span class="text-danger">*</span> </label>
-																<div class="col-md-8">
-																<textarea rows="5" cols="5" name="parts_used" id="parts_used"  class="form-control" placeholder="Default textarea" required="required"></textarea>
-																</div>
-															</div>
-														</div>
-														<div class="col-md-12">
-															<div class="row">
-																<label class="col-md-4 control-label text-right">EOS Reloaded:<span class="text-danger">*</span> </label>
-																<div class="col-md-8">
-																	<select data-placeholder="Select One" name="eos_reload" id="eos_reload" class="select-search" required="required">
-																		<option></option>
-																		<optgroup label="Available Options">
-																			<option value="Yes">Yes</option>
-																			<option value="No">No</option>
+																	<select data-placeholder="Select a state" class="select-icons" name="warranty" id="warranty">
+																	<option></option>
+																		<optgroup label="Seal State">
+																			<option value="Sealed" data-icon="checkmark">Sealed</option>
+																			<option value="Open" data-icon="cross">Open</option>
 																		</optgroup>
 																	</select>
 																</div>
@@ -116,33 +84,24 @@
 														</div>
 														<div class="col-md-12">
 															<div class="row">
-																<label class="col-md-4 control-label text-right">Date Repaired:<span class="text-danger">*</span> </label>
+																<label class="col-md-4 control-label text-right">Fault on Screen: </label>
 																<div class="col-md-8">
-																	<input type="text" name="repaire_date" id="repaire_date" class="form-control" data-mask="99/99/9999" placeholder="Enter Repaire Date" required="required">
-																	<span class="help-block">99/99/9999</span>
+																	<input type="text" name="fault" id="fault" class="form-control"  placeholder="Enter Fault on Screen">
 																</div>
 															</div>
 														</div>
 														<div class="col-md-12">
 															<div class="row">
-																<label class="col-md-4 control-label text-right">Final Test:<span class="text-danger">*</span> </label>
+																<label class="col-md-4 control-label text-right">General Problem:<span class="text-danger">*</span> </label>
 																<div class="col-md-8">
-																	<input type="text" name="final_test" id="final_test" class="form-control"  placeholder="Enter Final Test" required="required">
-																</div>
-															</div>
-														</div>
-														<div class="col-md-12">
-															<div class="row">
-																<label class="col-md-4 control-label text-right">Comment:<span class="text-danger">*</span> </label>
-																<div class="col-md-8">
-																	<input type="text" name="comment" id="comment" class="form-control"  placeholder="Enter Comment" required="required">
+																	<textarea rows="5" cols="5" name="gen_prob" id="gen_prob"  class="form-control" placeholder="General Problem" required="required"></textarea>
 																</div>
 															</div>
 														</div>
 													</div>
 												</div>
 												<div class="modal-footer">
-													<button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+													<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 													<button type="button" id="save" class="btn btn-primary">Save</button>
 												</div>
 											</form>
@@ -154,13 +113,11 @@
 							<table class="table datatable-responsive datatable-button-html5-basic">
 								<thead>
 									<tr>
+										<th>Reference #</th>
 										<th>Device Type</th>
 										<th>Serial Number</th>
 										<th>PTID</th>
-										<th>Fault on Screen</th>
-										<th>EOS Reload</th>
-										<th>Final Test</th>
-										<th>Date Repaired</th>
+										<th>Status</th>
 										<th>Action</th>
 									</tr>
 								</thead>
@@ -181,16 +138,17 @@
 												$enc_key = openssl_digest(php_uname(), 'SHA256', TRUE);  
 												$enc_iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($cipher_method));  
 												$crypted_token = openssl_encrypt($token, $cipher_method, $enc_key, 0, $enc_iv) . "::" . bin2hex($enc_iv);
-											
+												
+												if($rows['repair_status'] == "In Progress"){$color = "label label-warning";}
+												elseif($rows['repair_status'] == "Completed"){$color = "label label-success";}
 												echo '
 													<tr>
+													<td>'.$rows['reference_num'].'</td>
 													<td>'.$rows['device_type'].'</td>
 													<td>'.$rows['device_serial'].'</td>
 													<td>'.$rows['ptid'].'</td>
-													<td>'.$rows['fault_on_screen'].'</td>
-													<td>'.$rows['eos_reload'].'</td>
-													<td>'.$rows['final_test'].'</td>
-													<td>'.$rows['date_repaired'].'</td>
+													<td><span class="label label-'. $color .'">'.$rows['repair_status'].'</span></td>
+													
 
 													<td>
 													
@@ -204,100 +162,113 @@
 																		<button type="button" class="close" data-dismiss="modal">&times;</button>
 																		<h5 class="modal-title">Device Details</h5>
 																	</div>
-																	<div class="modal-body">
-																		<div class="form-group">
+																	<div class="form-group">
+																		<div class="modal-body">
+																			<div class="form-group">
 																			<div class="col-md-12">
-																				<div class="row">
-																					<label class="col-md-4 control-label text-right">Device Type:<span class="text-danger">*</span> </label>
-																					<div class="col-md-8">
-																						<input type="text" value="'.$rows['device_type'].'" readonly class="form-control" >
-																					</div>
+																			<div class="row">
+																				<label class="col-md-4 control-label text-right">Reference Number: </label>
+																				<div class="col-md-8">
+																					<input type="text" name="ref_num" value="'.$rows['reference_num'].'" readonly class="form-control" >
 																				</div>
 																			</div>
-																			<div class="col-md-12">
-																				<div class="row">
-																					<label class="col-md-4 control-label text-right">Device Serial:<span class="text-danger">*</span> </label>
-																					<div class="col-md-8">
-																						<input type="text" value="'.$rows['device_serial'].'" readonly class="form-control">
-																					</div>
+																		</div>
+																		<div class="col-md-12">
+																			<div class="row">
+																				<label class="col-md-4 control-label text-right">DRepair Status: </label>
+																				<div class="col-md-8">
+																					<input type="text" value="'.$rows['repair_status'].'" readonly class="form-control">
 																				</div>
 																			</div>
-																			<div class="col-md-12">
-																				<div class="row">
-																					<label class="col-md-4 control-label text-right">Device Serial:<span class="text-danger">*</span> </label>
-																					<div class="col-md-8">
-																						<input type="text" value="'.$rows['ptid'].'" readonly class="form-control">
-																					</div>
+																		</div>
+																		<div class="col-md-12">
+																			<div class="row">
+																				<label class="col-md-4 control-label text-right">Device Type: </label>
+																				<div class="col-md-8">
+																					<input type="text" value="'.$rows['device_type'].'" readonly class="form-control" >
 																				</div>
 																			</div>
-																			<div class="col-md-12">
-																				<div class="row">
-																					<label class="col-md-4 control-label text-right">Warranty Sticker: </label>
-																					<div class="col-md-8">
-																						<input type="text" value="'.$rows['warrant_sticker'].'" readonly class="form-control">
-																					</div>
+																		</div>
+																		<div class="col-md-12">
+																			<div class="row">
+																				<label class="col-md-4 control-label text-right">Device Serial: </label>
+																				<div class="col-md-8">
+																					<input type="text" value="'.$rows['device_serial'].'" readonly class="form-control">
 																				</div>
 																			</div>
-																			<div class="col-md-12">
-																				<div class="row">
-																					<label class="col-md-4 control-label text-right">Fault on Screen: </label>
-																					<div class="col-md-8">
-																						<input type="text" value="'.$rows['fault_on_screen'].'" readonly class="form-control" >
-																					</div>
+																		</div>
+																		<div class="col-md-12">
+																			<div class="row">
+																				<label class="col-md-4 control-label text-right">PTID: </label>
+																				<div class="col-md-8">
+																					<input type="text" value="'.$rows['ptid'].'" readonly class="form-control">
 																				</div>
 																			</div>
-																			<div class="col-md-12">
-																				<div class="row">
-																					<label class="col-md-4 control-label text-right">General Problem: </label>
-																					<div class="col-md-8">
-																						<textarea readonly rows="5" cols="5" class="form-control" placeholder="Default textarea">'.$rows['general_problem'].'</textarea>
-																					</div>
+																		</div>
+																		<div class="col-md-12">
+																			<div class="row">
+																				<label class="col-md-4 control-label text-right">Warranty Sticker: </label>
+																				<div class="col-md-8">
+																					<input type="text" value="'.$rows['warrant_sticker'].'" readonly class="form-control">
 																				</div>
 																			</div>
-																			<div class="col-md-12">
-																				<div class="row">
-																					<label class="col-md-4 control-label text-right">Parts Used: </label>
-																					<div class="col-md-8">
-																					<textarea rows="5" cols="5" class="form-control" readonly>'.$rows['parts_used'].'</textarea>
-																					</div>
+																		</div>
+																		<div class="col-md-12">
+																			<div class="row">
+																				<label class="col-md-4 control-label text-right">Fault on Screen: </label>
+																				<div class="col-md-8">
+																					<input type="text" value="'.$rows['fault_on_screen'].'" readonly class="form-control" >
 																				</div>
 																			</div>
-																			<div class="col-md-12">
-																				<div class="row">
-																					<label class="col-md-4 control-label text-right">EOS Reloaded: </label>
-																					<div class="col-md-8">
-																						<input type="text" value="'.$rows['eos_reload'].'" readonly class="form-control" >
-																					</div>
+																		</div>
+																		<div class="col-md-12">
+																			<div class="row">
+																				<label class="col-md-4 control-label text-right">General Problem: </label>
+																				<div class="col-md-8">
+																					<textarea readonly rows="5" cols="5" class="form-control" placeholder="Default textarea">'.$rows['general_problem'].'</textarea>
 																				</div>
 																			</div>
-																			<div class="col-md-12">
-																				<div class="row">
-																					<label class="col-md-4 control-label text-right">Date Repaired: </label>
-																					<div class="col-md-8">
-																						<input type="text" value="'.$rows['date_repaired'].'" readonly class="form-control" >
-																					</div>
+																		</div>
+																		<div class="col-md-12">
+																			<div class="row">
+																				<label class="col-md-4 control-label text-right">Parts Used: </label>
+																				<div class="col-md-8">
+																				<textarea rows="5" name="parts" cols="5" class="form-control" readonly>'.$rows['parts_used'].'</textarea>
 																				</div>
 																			</div>
-																			<div class="col-md-12">
-																				<div class="row">
-																					<label class="col-md-4 control-label text-right">Final Test: </label>
-																					<div class="col-md-8">
-																					<input type="text" value="'.$rows['final_test'].'" class="form-control" readonly >
-																					</div>
+																		</div>
+																		<div class="col-md-12">
+																			<div class="row">
+																				<label class="col-md-4 control-label text-right">EOS Reloaded: </label>
+																				<div class="col-md-8">
+																					<input type="text" value="'.$rows['eos_reload'].'" readonly class="form-control" name="eos_reload" >
 																				</div>
 																			</div>
-																			<div class="col-md-12">
-																				<div class="row">
-																					<label class="col-md-4 control-label text-right">Comment: </label>
-																					<div class="col-md-8">
-																						<input type="text" value="'.$rows['status_comment'].'" readonly class="form-control" >
-																					</div>
+																		</div>
+																		<div class="col-md-12">
+																			<div class="row">
+																				<label class="col-md-4 control-label text-right">Final Test: </label>
+																				<div class="col-md-8">
+																				<input type="text" value="'.$rows['final_test'].'" name="test_res" class="form-control" readonly >
+																				</div>
+																			</div>
+																		</div>
+																		<div class="col-md-12">
+																			<div class="row">
+																				<label class="col-md-4 control-label text-right">Comment: </label>
+																				<div class="col-md-8">
+																					<input type="text" value="'.$rows['status_comment'].'" class="form-control" name="comment" readonly>
 																				</div>
 																			</div>
 																		</div>
 																	</div>
 																	<div class="modal-footer">
-																		<button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+																		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>';
+																		if($rows['parts_used'] == null)
+																		{
+																			echo '<a href="DeviceRepair?id='.$crypted_token.' " type="button"class="btn btn-primary">Close</a>';
+																		}
+																		echo '
 																	</div>
 																</form>
 															</div>
@@ -313,13 +284,11 @@
 								</tbody>
 								<tfoot>
 									<tr>
+										<th>Reference #</th>
 										<th>Device Type</th>
 										<th>Serial Number</th>
 										<th>PTID</th>
-										<th>Fault on Screen</th>
-										<th>EOS Reload</th>
-										<th>Final Test</th>
-										<th>Date Repaired</th>
+										<th>Status</th>
 										<th>Action</th>
 									</tr>
 								</tfoot>
@@ -334,5 +303,8 @@
 	<div id="lock-modal"></div>
     <div id="loading-circle"></div>
 	<script src="../ajax/DeviceRepair.js"></script>
+	<script>
+
+	</script>
 </body>
 </html>

@@ -145,6 +145,7 @@ function getDevSubCate(event)
         }
     });
 }
+
 $('#delivery_call').click(function(e){
     $("#delivery_form_call").valid();
     if ($.trim($("#delivery_priority").val()) === "" || $.trim($("#mech_id").val()) === "" || $.trim($("#delivery_cate").val()) === "" || $.trim($("#delivery_sub_cat").val()) === "" || $.trim($("#item").val()) === "" || $.trim($("#delivery_manager_name").val()) === "" || $.trim($("delivery_manager_cell").val()) === null || $.trim($("delivery_requester").val()) === null ) {
