@@ -62,7 +62,7 @@
             }
         }
 
-        function deviceNewCall($call_priority,$mechant_log_id_fk,$call_device_serial,$category_id_fk,$sub_category_id_fk,$fault_details,$managers_name,$managers_cell,$date_loged,$mechtype)
+        function deviceNewCall($call_priority,$mechant_log_id_fk,$call_device_serial,$category_id_fk,$sub_category_id_fk,$fault_details,$managers_name,$managers_cell,$date_loged,$mechtype,$clientID)
         {
             $sql = "SELECT ticket_number FROM ticket_numbers;";
             $stmt = $this->connect()->prepare($sql);
@@ -91,7 +91,7 @@
                     $qota = '4';
                 }
                 $status = "New";
-                $sql = "INSERT INTO pos_device_calls(ticket_number,call_priority,devcall_mechant_log_id_fk,call_device_serial,category_id_fk,sub_category_id_fk,fault_details,managers_name,managers_cell,logged_by,date_loged,device_call_status,call_month,call_year,mecha_type,device_qota) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+                $sql = "INSERT INTO pos_device_calls(ticket_number,call_priority,devcall_mechant_log_id_fk,call_device_serial,category_id_fk,sub_category_id_fk,fault_details,managers_name,managers_cell,logged_by,date_loged,device_call_status,call_month,call_year,mecha_type,device_qota,clientID) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
                 $stmt = $this->connect()->prepare($sql);
                 $stmt->bindvalue(1, $ticket_number);
                 $stmt->bindvalue(2, $call_priority);
@@ -109,6 +109,7 @@
                 $stmt->bindvalue(14, date('Y'));
                 $stmt->bindvalue(15, $mechtype);
                 $stmt->bindvalue(16, $qota);
+                $stmt->bindvalue(17, $clientID);
                 if($stmt->execute())
                 {
                     $sql1 = "UPDATE ticket_numbers SET ticket_number = ?;";
@@ -366,7 +367,7 @@
             }
         }
 
-        function deliveryNewCall($delivery_call_priority,$delivery_mechant_log_id_fk,$delivery_category_id_fk,$delivery_sub_category_id_fk,$item_to_deliver,$delivery_managers_name,$delivery_managers_cell,$delivery_date_loged,$delivery_mechtype)
+        function deliveryNewCall($delivery_call_priority,$delivery_mechant_log_id_fk,$delivery_category_id_fk,$delivery_sub_category_id_fk,$item_to_deliver,$delivery_managers_name,$delivery_managers_cell,$delivery_date_loged,$delivery_mechtype,$clientID)
         {
             $sql = "SELECT ticket_number FROM ticket_numbers;";
             $stmt = $this->connect()->prepare($sql);
@@ -394,7 +395,7 @@
                     $qota = '4';
                 }
                 $delivery_status = "New";
-                $sql = "INSERT INTO pos_delivery_calls(ticket_number,delivery_call_priority,delivery_mechant_log_id_fk,delivery_category_id_fk,delivery_sub_category_id_fk,item_to_deliver,delivery_managers_name,delivery_managers_cell,delivery_logged_by,delivery_date_loged,delivery_call_status,delivery_call_month,delivery_call_year,mech_type,delivery_qota) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+                $sql = "INSERT INTO pos_delivery_calls(ticket_number,delivery_call_priority,delivery_mechant_log_id_fk,delivery_category_id_fk,delivery_sub_category_id_fk,item_to_deliver,delivery_managers_name,delivery_managers_cell,delivery_logged_by,delivery_date_loged,delivery_call_status,delivery_call_month,delivery_call_year,mech_type,delivery_qota,clientID) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
                 $stmt = $this->connect()->prepare($sql);
                 $stmt->bindvalue(1, $ticket_number);
                 $stmt->bindvalue(2, $delivery_call_priority);
@@ -411,6 +412,7 @@
                 $stmt->bindvalue(13, date('Y'));
                 $stmt->bindvalue(14, $delivery_mechtype);
                 $stmt->bindvalue(15, $qota);
+                $stmt->bindvalue(16, $clientID);
                 if($stmt->execute())
                 {
                     $sql1 = "UPDATE ticket_numbers SET ticket_number = ?;";
@@ -738,7 +740,14 @@
         
         $date_loged = date('Y-m-d H:i:s');
 
-        $tikets -> deviceNewCall($call_priority,$mechant_log_id_fk,$call_device_serial,$category_id_fk,$sub_category_id_fk,$fault_details,$managers_name,$managers_cell,$date_loged,$mechtype);
+        $sqle1 = "SELECT client_id_fk FROM client_users WHERE client_user_id = ?;";
+        $stmte1 = $object->connect()->prepare($sqle1);
+        $stmte1->bindvalue(1,$_SESSION['person']);
+        $stmte1->execute();
+        $row = $stmte1->fetch(PDO::FETCH_ASSOC);
+        $clientID = $row['client_id_fk'];
+
+        $tikets -> deviceNewCall($call_priority,$mechant_log_id_fk,$call_device_serial,$category_id_fk,$sub_category_id_fk,$fault_details,$managers_name,$managers_cell,$date_loged,$mechtype,$clientID);
     }
 
     // Delivery
@@ -785,7 +794,14 @@
         
         $delivery_date_loged = date('Y-m-d H:i:s');
 
-        $tikets -> deliveryNewCall($delivery_call_priority,$delivery_mechant_log_id_fk,$delivery_category_id_fk,$delivery_sub_category_id_fk,$item_to_deliver,$delivery_managers_name,$delivery_managers_cell,$delivery_date_loged,$delivery_mechtype);
+        $sqle1 = "SELECT client_id_fk FROM client_users WHERE client_user_id = ?;";
+        $stmte1 = $object->connect()->prepare($sqle1);
+        $stmte1->bindvalue(1,$_SESSION['person']);
+        $stmte1->execute();
+        $row = $stmte1->fetch(PDO::FETCH_ASSOC);
+        $clientID = $row['client_id_fk'];
+
+        $tikets -> deliveryNewCall($delivery_call_priority,$delivery_mechant_log_id_fk,$delivery_category_id_fk,$delivery_sub_category_id_fk,$item_to_deliver,$delivery_managers_name,$delivery_managers_cell,$delivery_date_loged,$delivery_mechtype,$clientID);
     }
     
 

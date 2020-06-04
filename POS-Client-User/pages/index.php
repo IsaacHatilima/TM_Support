@@ -126,7 +126,7 @@
 												<tbody>
 													<?php
 													//AND client_id=logged_by
-														$sql = "SELECT * FROM pos_device_calls x,device_info,client_users,mechants,pos_categories,pos_sub_categories WHERE logged_by=client_user_id AND x.call_device_serial=device_serial AND x.devcall_mechant_log_id_fk = mechant_log_id AND x.category_id_fk = category_id AND x.sub_category_id_fk = sub_category_id ORDER BY x.device_call_id DESC LIMIT 10;";
+														$sql = "SELECT * FROM pos_device_calls x,device_info,client_users,mechants,pos_categories,pos_sub_categories WHERE logged_by=client_user_id AND x.call_device_serial=device_serial AND x.devcall_mechant_log_id_fk = mechant_log_id AND x.category_id_fk = category_id AND x.sub_category_id_fk = sub_category_id ORDER BY x.device_call_id DESC;";
 														$stmt = $object->connect()->prepare($sql);
 														$stmt->execute();
 														if($stmt->rowCount())

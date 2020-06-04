@@ -581,7 +581,7 @@
                             You can log in with the following details:<br>
                             Username <b>'.$username.'</b><br>
                             OTP <b>'.$plain_password.'</b><br>
-                            You can sign in <b><a href="https://www.techmasters.co.zm/UAT2">here.</a></b><br><br><br>
+                            You can sign in <b><a href="https://www.techmasters.co.zm/UAT2/login">here.</a></b><br><br><br>
             
                             Yours Sincerely<br>
                             TechMasters Support.<br>

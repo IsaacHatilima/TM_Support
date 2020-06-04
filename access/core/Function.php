@@ -36,6 +36,12 @@
                         $_SESSION['person'] = $row['person_id'];
                         $_SESSION['timestamp'] = time(); 
                         $_SESSION['password'] = $row['password'];
+                        $sql1 = "SELECT client_id_fk FROM client_users WHERE client_user_id = ?;";
+                        $stmt1 = $this->connect()->prepare($sql1);
+                        $stmt1->bindvalue(1, $row['person_id']);
+                        $stmt1->execute();
+                        $row1 = $stmt1->fetch();
+                        $_SESSION['clientID'] = $row1['client_id_fk'];
                         if($row['status'] == "ACTIVE")
                         {
                             if ($row['changed_password'] != 0)

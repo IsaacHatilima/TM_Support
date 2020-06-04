@@ -68,7 +68,7 @@
                             }
                             else
                             {
-                                echo 'ChangePassword';
+                                echo 'ChangePasswords';
                                 // $location = "../../POSadmin/pages"; POSadmin/pages
                                 // self::redirect($location);
                             }
@@ -203,6 +203,7 @@
             }
             else
             {
+                //echo $new_password;
                 $go -> change_password($new_password, $changed);
             }
         }

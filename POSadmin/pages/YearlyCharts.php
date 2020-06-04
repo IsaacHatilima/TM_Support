@@ -80,7 +80,7 @@
 					</div>
 				</div>
                 <!-- Bars Province stats -->
-                <!-- <div class="panel panel-flat">
+                <div class="panel panel-flat">
 					<div class="panel-heading">
 						<h6 class="panel-title text-semibold">Annual Provincial Statistics</h6>
 						<div class="heading-elements">
@@ -95,7 +95,7 @@
 							<div class="chart" id="province"></div>
 						</div>
 					</div>
-				</div> -->
+				</div>
 			</div>
 		</div>
 	</div>

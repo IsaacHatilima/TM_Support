@@ -10,11 +10,8 @@
         public function connect()
         {
             $this->servername = "localhost";
-            //$this->username = "root";
             $this->username = "root";
-            //$this->password = "Password123$$";
             $this->password = "";
-            //$this->dbname = "tm_support_2.0";
             $this->dbname = "tm_support_2";
             $this->charset = "utf8mb4";
 

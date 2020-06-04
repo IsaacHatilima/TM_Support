@@ -164,19 +164,22 @@ CREATE TABLE sms_notifications
 CREATE TABLE device_repair
 (
     repair_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    reference_num VARCHAR(200) NOT NULL,
     device_type VARCHAR(200) NOT NULL,
     device_serial VARCHAR(200) NOT NULL,
     ptid VARCHAR(200) NOT NULL,
     warrant_sticker VARCHAR(200) NOT NULL,
-    fault_on_screen VARCHAR(200) NOT NULL,
+    fault_on_screen VARCHAR(200) NULL,
     general_problem VARCHAR(200) NOT NULL,
-    parts_used VARCHAR(200) NOT NULL,
-    eos_reload VARCHAR(200) NOT NULL,
-    date_repaired VARCHAR(200) NOT NULL,
-    final_test VARCHAR(200) NOT NULL,
-    status_comment VARCHAR(200) NOT NULL,
+    parts_used VARCHAR(200) NULL,
+    eos_reload VARCHAR(200) NULL,
+    date_repaired VARCHAR(200) NULL,
+    final_test VARCHAR(200) NULL,
+    status_comment VARCHAR(200) NULL,
     created_by INT NOT NULL,
-    date_created DATETIME NOT NULL
+    date_created DATETIME NOT NULL,
+    repair_status VARCHAR(200) NULL,
+    repaired_by INT NULL
 );
 
 CREATE TABLE pos_device_calls
@@ -205,8 +208,8 @@ CREATE TABLE pos_device_calls
     call_year VARCHAR(50) NOT NULL,
     engineer_idz INT NULL,
     mecha_type VARCHAR(45) NOT NULL,
-    device_qota INT NOT NULL
-
+    device_qota INT NOT NULL,
+    clientID INT NOT NULL
 );
 
 CREATE TABLE pos_delivery_calls
@@ -232,9 +235,10 @@ CREATE TABLE pos_delivery_calls
     delivery_call_status VARCHAR(150) NULL,
     delivery_call_month VARCHAR(50) NOT NULL,
     delivery_call_year VARCHAR(50) NOT NULL,
-    delivery_engineer_idz INT NULL,
+    delivery_engineer_idz INT NULL
     mech_type VARCHAR(45) NOT NULL,
-    delivery_qota INT NOT NULL
+    delivery_qota INT NOT NULL,
+    clientID INT NOT NULL
 );
 
 CREATE TABLE ticket_numbers

@@ -52,6 +52,9 @@
 
 	<script type="text/javascript" src="../../assets/js/plugins/ui/prism.min.js"></script>
 	<script type="text/javascript" src="../../assets/js/plugins/buttons/hover_dropdown.min.js"></script>
+	
+
+
 	<script type="text/javascript" src="../../assets/js/core/app.js"></script>
 	<!-- <script type="text/javascript" src="../../assets/js/pages/layout_sidebar_sticky_native.js"></script> -->
 

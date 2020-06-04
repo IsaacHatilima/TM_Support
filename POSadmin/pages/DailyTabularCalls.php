@@ -164,7 +164,7 @@
 																elseif($rows['delivery_call_status'] == "Open Escalation"){$color = "label label-danger";}
 																echo '
 																	<tr>
-																	<td><a href="POSTicketDetails?pos_ticket_id='.$crypted_token.'">'.sprintf("%04d", $rows['ticket_number']).'</a></td>
+																	<td><a href="DeliveryTicketDetails?pos_ticket_id='.$crypted_token.'">'.sprintf("%04d", $rows['ticket_number']).'</a></td>
 																	<td>'.$rows['mechant_type'].'</td>
 																	<td>'.$rows['mechant_name'].'</td>
 																	<td>'.$rows['mechant_province'].'</td>
