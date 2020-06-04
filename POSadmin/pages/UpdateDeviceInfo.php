@@ -9,10 +9,9 @@
 
 <body class="navbar-bottom navbar-top">
 	<?php include '../includes/topnav.php'; ?>
-
+	<div class="page-container">
     <div id="lock-modal"></div>
     <div id="loading-circle"></div>
-	<div class="page-container">
 		<div class="page-content">
 			<div class="content-wrapper">
                 <div class="row">
@@ -123,7 +122,17 @@
                                                     <div class="row">
                                                         <label class="col-md-4 control-label text-right">Device Serial:<span class="text-danger">*</span> </label>
                                                         <div class="col-md-8">
-                                                            <input type="text" class="form-control" name="device_serial2" id="device_serial2" value="<?php echo $rows['device_serial'] ?>" >
+                                                            <input type="text" class="form-control" name="device_serial2" id="device_serial2" value="<?php echo $rows['device_serial'] ?>" required = "required">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-md-12">
+                                                    <div class="row">
+                                                        <label class="col-md-4 control-label text-right">PTID: </label>
+                                                        <div class="col-md-8">
+                                                            <input type="text" class="form-control" name="ptid2" id="ptid2" value="<?php echo $rows['ptid'] ?>" >
                                                         </div>
                                                     </div>
                                                 </div>
@@ -161,9 +170,9 @@
                                             <div class="form-group">
                                                 <div class="col-md-12">
                                                     <div class="row">
-                                                        <label class="col-md-4 control-label text-right">IP Address:<span class="text-danger">*</span> </label>
+                                                        <label class="col-md-4 control-label text-right">IP Address: </label>
                                                         <div class="col-md-8">
-                                                            <input type="text" class="form-control" name="ip_address2" id="ip_address2" value="<?php echo $rows['ip_address'] ?>" required="required">
+                                                            <input type="text" class="form-control" name="ip_address2" id="ip_address2" value="<?php echo $rows['ip_address'] ?>">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -171,9 +180,9 @@
                                             <div class="form-group">
                                                 <div class="col-md-12">
                                                     <div class="row">
-                                                        <label class="col-md-4 control-label text-right">FNB Asset Code:<span class="text-danger">*</span> </label>
+                                                        <label class="col-md-4 control-label text-right">FNB Asset Code: </label>
                                                         <div class="col-md-8">
-                                                            <input type="text" class="form-control" name="asset_code2" id="asset_code2" value="<?php echo $rows['fnb_asset_code'] ?>" required="required">
+                                                            <input type="text" class="form-control" name="asset_code2" id="asset_code2" value="<?php echo $rows['fnb_asset_code'] ?>">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -181,9 +190,9 @@
                                             <div class="form-group">
                                                 <div class="col-md-12">
                                                     <div class="row">
-                                                        <label class="col-md-4 control-label text-right">Installation Date:<span class="text-danger">*</span> </label>
+                                                        <label class="col-md-4 control-label text-right">Installation Date: </label>
                                                         <div class="col-md-8">
-                                                            <input type="text" name="installation_date2" id="installation_date2" class="form-control" data-mask="99/99/9999" value="<?php echo $rows['installation_date'] ?>" required="required">
+                                                            <input type="text" name="installation_date2" id="installation_date2" class="form-control" data-mask="99/99/9999" value="<?php echo $rows['installation_date'] ?>">
                                                             <span class="help-block">99/99/9999</span>
                                                         </div>
                                                     </div>
@@ -207,8 +216,7 @@
 			</div>
 		</div>
 	</div>
-	<div id="lock-modal"></div>
-    <div id="loading-circle"></div>
+
 	<script src="../ajax/DeviceInfo.js"></script>
 
 </body>

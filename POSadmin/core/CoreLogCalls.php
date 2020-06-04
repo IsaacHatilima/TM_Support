@@ -5,9 +5,6 @@
     use PHPMailer\PHPMailer\PHPMailer;
     use PHPMailer\PHPMailer\Exception;
 
-    // include_once('../PHPMailer/src/Exception.php');
-    // include_once('../PHPMailer/src/PHPMailer.php');
-    // include_once('../PHPMailer/src/SMTP.php');
     include_once('../../PHPMailer/src/Exception.php');
     include_once('../../PHPMailer/src/PHPMailer.php');
     include_once('../../PHPMailer/src/SMTP.php');
@@ -65,7 +62,7 @@
             }
         }
 
-        function deviceNewCall($call_priority,$mechant_log_id_fk,$call_device_serial,$category_id_fk,$sub_category_id_fk,$fault_details,$managers_name,$managers_cell,$logged_by,$date_loged)
+        function deviceNewCall($call_priority,$mechant_log_id_fk,$call_device_serial,$category_id_fk,$sub_category_id_fk,$fault_details,$managers_name,$managers_cell,$logged_by,$date_loged,$mechtype)
         {
             $sql = "SELECT ticket_number FROM ticket_numbers;";
             $stmt = $this->connect()->prepare($sql);
@@ -76,8 +73,25 @@
 
             try
             {
+                $month = date('F');
+                if ($month == 'January' || $month == 'February' || $month == 'March')
+                {
+                    $qota = '1';
+                }
+                if ($month == 'April' || $month == 'May' || $month == 'June')
+                {
+                    $qota = '2';
+                }
+                if ($month == 'July' || $month == 'August' || $month == 'September')
+                {
+                    $qota = '3';
+                }
+                if ($month == 'October' || $month == 'November' || $month == 'December')
+                {
+                    $qota = '4';
+                }
                 $status = "New";
-                $sql = "INSERT INTO pos_device_calls(ticket_number,call_priority,devcall_mechant_log_id_fk,call_device_serial,category_id_fk,sub_category_id_fk,fault_details,managers_name,managers_cell,logged_by,date_loged,device_call_status,call_month,call_year) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+                $sql = "INSERT INTO pos_device_calls(ticket_number,call_priority,devcall_mechant_log_id_fk,call_device_serial,category_id_fk,sub_category_id_fk,fault_details,managers_name,managers_cell,logged_by,date_loged,device_call_status,call_month,call_year,mecha_type,device_qota) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
                 $stmt = $this->connect()->prepare($sql);
                 $stmt->bindvalue(1, $ticket_number);
                 $stmt->bindvalue(2, $call_priority);
@@ -93,6 +107,8 @@
                 $stmt->bindvalue(12, $status);
                 $stmt->bindvalue(13, date('F'));
                 $stmt->bindvalue(14, date('Y'));
+                $stmt->bindvalue(15, $mechtype);
+                $stmt->bindvalue(16, $qota);
                 if($stmt->execute())
                 {
                     $sql1 = "UPDATE ticket_numbers SET ticket_number = ?;";
@@ -100,8 +116,8 @@
                     $stmt1->bindvalue(1, $ticket_number);
                     if($stmt1->execute())
                     {
-                        //echo "Success";
-                        self::sendEmail($logged_by);
+                        //echo $ticket_number;
+                        self::sendEmail($logged_by,$ticket_number);
                     }
                     else
                     {
@@ -120,7 +136,7 @@
             }
         }
 
-        function sendEmail($logged_by)
+        function sendEmail($logged_by,$ticket_number)
         {
             $mail = new PHPMailer(true);
             try
@@ -159,17 +175,17 @@
 
                     // Ticket Number   
                     // Engineers
-                    $sqltik = "SELECT COUNT(device_call_id) AS tikid FROM pos_device_calls;";
-                    $stmttik = $this->connect()->prepare($sqltik);
-                    $stmttik->execute();
-                    $rowtik = $stmttik->fetch(PDO::FETCH_ASSOC);
+                    // $sqltik = "SELECT COUNT(device_call_id) AS tikid FROM pos_device_calls;";
+                    // $stmttik = $this->connect()->prepare($sqltik);
+                    // $stmttik->execute();
+                    // $rowtik = $stmttik->fetch(PDO::FETCH_ASSOC);
                     $email = $rowclientID['email'];
-                    $message_subject = 'Ticket '.sprintf("%04d", $rowtik['tikid']).' Has Been Created';
+                    $message_subject = 'Ticket '.sprintf("%04d", $ticket_number).' Has Been Created';
 
                     // Get Ticket Details
-                    $sqldets = "SELECT * FROM pos_device_calls x,device_info,client_users,mechants,pos_categories,pos_sub_categories WHERE logged_by=client_user_id AND x.call_device_serial=device_serial AND x.devcall_mechant_log_id_fk = mechant_log_id AND x.category_id_fk = category_id AND x.sub_category_id_fk = sub_category_id AND device_call_id = ?;";
+                    $sqldets = "SELECT * FROM pos_device_calls x,device_info,client_users,mechants,pos_categories,pos_sub_categories WHERE logged_by=client_user_id AND x.call_device_serial=device_serial AND x.devcall_mechant_log_id_fk = mechant_log_id AND x.category_id_fk = category_id AND x.sub_category_id_fk = sub_category_id AND ticket_number = ?;";
                     $stmtdets = $this->connect()->prepare($sqldets);
-                    $stmtdets->bindvalue(1, $rowtik['tikid']);
+                    $stmtdets->bindvalue(1, $ticket_number);
                     $stmtdets->execute();
                     $rowdets = $stmtdets->fetch(PDO::FETCH_ASSOC);
                     //echo 'MTN '.$rowdets['mtn_sim_serial'].' Airtel '.$rowdets['airtel_sim_serial']; die();
@@ -183,7 +199,7 @@
                     }
                     if($rowdets['airtel_sim_serial'] != null && $rowdets['mtn_sim_serial'] != null)
                     {
-                        $simSerial = $rowdets['mtn_sim_serial'];
+                        $simSerial = 'MTN('.$rowdets['mtn_sim_serial'].'/ Airtel('.$rowdets['airtel_sim_serial'].')';
                     }
 
                     $message = '
@@ -210,7 +226,7 @@
                                     <table style="font-size: 20px">
                                         <tr>
                                             <td style="padding-right: 10px"><b>Ticket Number</b></td>
-                                            <td>'.sprintf("%04d", $rowtik['tikid']).'</td>
+                                            <td>'.sprintf("%04d", $ticket_number).'</td>
                                         </tr>
                                         <tr>
                                             <td style="padding-right: 10px"><b>Ticket Status</b></td>
@@ -350,7 +366,7 @@
             }
         }
 
-        function deliveryNewCall($delivery_call_priority,$delivery_mechant_log_id_fk,$delivery_category_id_fk,$delivery_sub_category_id_fk,$item_to_deliver,$delivery_managers_name,$delivery_managers_cell,$delivery_logged_by,$delivery_date_loged)
+        function deliveryNewCall($delivery_call_priority,$delivery_mechant_log_id_fk,$delivery_category_id_fk,$delivery_sub_category_id_fk,$item_to_deliver,$delivery_managers_name,$delivery_managers_cell,$delivery_logged_by,$delivery_date_loged,$delivery_mechtype)
         {
             $sql = "SELECT ticket_number FROM ticket_numbers;";
             $stmt = $this->connect()->prepare($sql);
@@ -360,8 +376,25 @@
             $ticket_number = $ticket_number + 1;
             try
             {
+                $month = date('F');
+                if ($month == 'January' || $month == 'February' || $month == 'March')
+                {
+                    $qota = '1';
+                }
+                if ($month == 'April' || $month == 'May' || $month == 'June')
+                {
+                    $qota = '2';
+                }
+                if ($month == 'July' || $month == 'August' || $month == 'September')
+                {
+                    $qota = '3';
+                }
+                if ($month == 'October' || $month == 'November' || $month == 'December')
+                {
+                    $qota = '4';
+                }
                 $delivery_status = "New";
-                $sql = "INSERT INTO pos_delivery_calls(ticket_number,delivery_call_priority,delivery_mechant_log_id_fk,delivery_category_id_fk,delivery_sub_category_id_fk,item_to_deliver,delivery_managers_name,delivery_managers_cell,delivery_logged_by,delivery_date_loged,delivery_call_status,delivery_call_month,delivery_call_year) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?);";
+                $sql = "INSERT INTO pos_delivery_calls(ticket_number,delivery_call_priority,delivery_mechant_log_id_fk,delivery_category_id_fk,delivery_sub_category_id_fk,item_to_deliver,delivery_managers_name,delivery_managers_cell,delivery_logged_by,delivery_date_loged,delivery_call_status,delivery_call_month,delivery_call_year,mech_type,delivery_qota) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
                 $stmt = $this->connect()->prepare($sql);
                 $stmt->bindvalue(1, $ticket_number);
                 $stmt->bindvalue(2, $delivery_call_priority);
@@ -376,10 +409,24 @@
                 $stmt->bindvalue(11, $delivery_status);
                 $stmt->bindvalue(12, date('F'));
                 $stmt->bindvalue(13, date('Y'));
+                $stmt->bindvalue(14, $delivery_mechtype);
+                $stmt->bindvalue(15, $qota);
                 if($stmt->execute())
                 {
+                    $sql1 = "UPDATE ticket_numbers SET ticket_number = ?;";
+                    $stmt1 = $this->connect()->prepare($sql1);
+                    $stmt1->bindvalue(1, $ticket_number);
+                    if($stmt1->execute())
+                    {
+                        //echo $ticket_number;
+                        self::sendDeliveryEmail($delivery_logged_by,$ticket_number);
+                    }
+                    else
+                    {
+                        echo "Failed";
+                    }
                     //echo "Success";
-                    self::sendDeliveryEmail($delivery_logged_by);
+                    
                 }
                 else
                 {
@@ -393,7 +440,7 @@
             }
         }
 
-        function sendDeliveryEmail($delivery_logged_by)
+        function sendDeliveryEmail($delivery_logged_by,$ticket_number)
         {
             $mail = new PHPMailer(true);
             try
@@ -432,17 +479,17 @@
 
                     // Ticket Number   
                     // Engineers
-                    $sqltik = "SELECT COUNT(delivery_call_id) AS tikid FROM pos_delivery_calls;";
-                    $stmttik = $this->connect()->prepare($sqltik);
-                    $stmttik->execute();
-                    $rowtik = $stmttik->fetch(PDO::FETCH_ASSOC);
+                    // $sqltik = "SELECT COUNT(delivery_call_id) AS tikid FROM pos_delivery_calls;";
+                    // $stmttik = $this->connect()->prepare($sqltik);
+                    // $stmttik->execute();
+                    // $rowtik = $stmttik->fetch(PDO::FETCH_ASSOC);
                     $email = $rowclientID['email'];
-                    $message_subject = 'Ticket '.sprintf("%04d", $rowtik['tikid']).' Has Been Created';
+                    $message_subject = 'Ticket '.sprintf("%04d", $ticket_number).' Has Been Created';
 
                     // Get Ticket Details
                     $sqldets = "SELECT * FROM pos_delivery_calls x,device_info,client_users,mechants,pos_categories,pos_sub_categories WHERE delivery_logged_by=client_user_id AND x.delivery_mechant_log_id_fk = mechant_log_id AND x.delivery_category_id_fk = category_id AND x.delivery_sub_category_id_fk = sub_category_id AND delivery_call_id = ?;";
                     $stmtdets = $this->connect()->prepare($sqldets);
-                    $stmtdets->bindvalue(1, $rowtik['tikid']);
+                    $stmtdets->bindvalue(1, $ticket_number);
                     $stmtdets->execute();
                     $rowdets = $stmtdets->fetch(PDO::FETCH_ASSOC);
 
@@ -470,7 +517,7 @@
                                     <table style="font-size: 20px">
                                         <tr>
                                             <td style="padding-right: 10px"><b>Ticket Number</b></td>
-                                            <td>'.sprintf("%04d", $rowtik['tikid']).'</td>
+                                            <td>'.sprintf("%04d", $ticket_number).'</td>
                                         </tr>
                                         <tr>
                                             <td style="padding-right: 10px"><b>Ticket Status</b></td>
@@ -574,8 +621,6 @@
                 // .$e->getMessage()
             }
         }
-
-
         // 
         function UpdateDevice($mechant_id,$device_type,$terminal_id,$device_serial,$base_serial,$mtn_sim_serial,$airtel_sim_serial,$installation_date,$ip_address,$asset_code,$devID)
         {
@@ -688,6 +733,7 @@
         $fault_details = ucwords($_POST['fault']);
         $managers_name = ucwords($_POST['manager_name']);
         $managers_cell = $_POST['manager_cell'];
+        $mechtype = $_POST['mechtype'];
 
         // get client user
         $user = $_POST['requester'];
@@ -700,7 +746,7 @@
         $logged_by = $user;
         $date_loged = date('Y-m-d H:i:s');
 
-        $tikets -> deviceNewCall($call_priority,$mechant_log_id_fk,$call_device_serial,$category_id_fk,$sub_category_id_fk,$fault_details,$managers_name,$managers_cell,$logged_by,$date_loged);
+        $tikets -> deviceNewCall($call_priority,$mechant_log_id_fk,$call_device_serial,$category_id_fk,$sub_category_id_fk,$fault_details,$managers_name,$managers_cell,$logged_by,$date_loged,$mechtype);
     }
 
     // Delivery
@@ -742,6 +788,7 @@
         $item_to_deliver = ucwords($_POST['item']);
         $delivery_managers_name = ucwords($_POST['delivery_manager_name']);
         $delivery_managers_cell = $_POST['delivery_manager_cell'];
+        $delivery_mechtype = $_POST['delivery_mechtype'];
 
         // get client user
         $user = $_POST['delivery_requester'];
@@ -754,45 +801,8 @@
         $delivery_logged_by = $user;
         $delivery_date_loged = date('Y-m-d H:i:s');
 
-        $tikets -> deliveryNewCall($delivery_call_priority,$delivery_mechant_log_id_fk,$delivery_category_id_fk,$delivery_sub_category_id_fk,$item_to_deliver,$delivery_managers_name,$delivery_managers_cell,$delivery_logged_by,$delivery_date_loged);
+        $tikets -> deliveryNewCall($delivery_call_priority,$delivery_mechant_log_id_fk,$delivery_category_id_fk,$delivery_sub_category_id_fk,$item_to_deliver,$delivery_managers_name,$delivery_managers_cell,$delivery_logged_by,$delivery_date_loged,$delivery_mechtype);
     }
     
-
-
-    // if(!empty($_POST['mechID2']) && empty($_POST['mechID']))
-    // {
-    //     $catez = $_POST['devID'];
-        // list($catez, $enc_iv) = explode("::", $catez);  
-        // $cipher_method = 'aes-128-ctr';
-        // $enc_key = openssl_digest(php_uname(), 'SHA256', TRUE);
-        // $token = openssl_decrypt($catez, $cipher_method, $enc_key, 0, hex2bin($enc_iv));
-        // $devID = $token;
-
-    //     $mechant_id = $_POST['mechID2'];
-    //     $device_type = $_POST['devtype2'];
-    //     $terminal_id = $_POST['terminaID2'];
-    //     $device_serial = $_POST['device_serial2'];
-    //     $base_serial = $_POST['base_serial2'];
-    //     $mtn_sim_serial = $_POST['mtn_sim_serial2'];
-    //     $airtel_sim_serial = $_POST['airtel_sim_serial2'];
-    //     $installation_date = $_POST['installation_date2'];
-    //     $ip_address = $_POST['ip_address2'];
-    //     $asset_code = $_POST['asset_code2'];
-    //     $dev -> UpdateDevice($mechant_id,$device_type,$terminal_id,$device_serial,$base_serial,$mtn_sim_serial,$airtel_sim_serial,$installation_date,$ip_address,$asset_code,$devID);
-    // }
-
-    // if(isset($_POST['deletedev']))
-    // {
-    //     $catez = $_POST['deletedev'];
-    //     list($catez, $enc_iv) = explode("::", $catez);  
-    //     $cipher_method = 'aes-128-ctr';
-    //     $enc_key = openssl_digest(php_uname(), 'SHA256', TRUE);
-    //     $token = openssl_decrypt($catez, $cipher_method, $enc_key, 0, hex2bin($enc_iv));
-    //     $deviceID = $token;
-    //     $dev -> DeleteDevice($deviceID);
-    //     unset($token, $cipher_method, $enc_key, $enc_iv);
-    // }
-
-
 
 ?>

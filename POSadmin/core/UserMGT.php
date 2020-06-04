@@ -138,13 +138,12 @@
                 $stmt = $this->connect()->prepare($sql);
                 $stmt->bindvalue(1,$bank_id);
                 $stmt->execute();
-                $rows = $stmt->fetch();
-                $count = $rows['available'];
-                if($count > 0)
+                // $count = $rows['available'];
+                if($rows = $stmt->fetch())
                 {
                     echo "<option value='Secondary'>Secondary</option>";
                 }
-                elseif($count <= 0)
+                else
                 {
                     echo '<option value="Primary">Primary</option>';
                     echo '<option value="Secondary">Secondary</option>';
@@ -396,7 +395,7 @@
         $status = 'ACTIVE';
         $plain_password = substr(str_shuffle("ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 1) . substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 7);
         $FinalPassword = password_hash($plain_password, PASSWORD_BCRYPT);
-        $role = 'Client POS';
+        $role = 'POS Client';
         $chng_password = '0';
         $uuid = substr(str_shuffle("ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 1) . substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 7);
 

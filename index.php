@@ -80,7 +80,7 @@
 									<a href="ForgotPassword">Forgot password?</a>
 								</div>
 							</div>
-						</div>
+						</div> 
 						<div class="form-group">
 							<button type="button" id='login' class="btn bg-blue btn-block">Login <i class="icon-spinner2 spinner position-right" id="spinner" style="display:none;"></i><i class="icon-arrow-right14 position-right" id="arrow"></i></button>
 						</div>

@@ -62,26 +62,29 @@
 
 					<ul class="dropdown-menu dropdown-menu-right">
 						<li class="<?php if(isset($newtick)){echo $newtick; } ?>"><a href="CreateTicket"><i class="icon-arrow-right5"></i> <span>Create Ticket</span></a></li>
-						<li class="<?php if(isset($edittick)){echo $edittick; } ?>"><a href="index.html"><i class="icon-arrow-right5"></i> <span>Edit Ticket</span></a></li>
-						<li class="<?php if(isset($deltick)){echo $deltick; } ?>"><a href="index.html"><i class="icon-arrow-right5"></i> <span>Delete Ticket</span></a></li>
+						<li class="<?php if(isset($edittick)){echo $edittick; } ?>"><a href="EditTicket"><i class="icon-arrow-right5"></i> <span>Edit Ticket</span></a></li>
+						<li class="<?php if(isset($deltick)){echo $deltick; } ?>"><a href="DeleteTicket"><i class="icon-arrow-right5"></i> <span>Delete Ticket</span></a></li>
+						<li class="<?php if(isset($ocals)){echo $ocals; } ?>"><a href="POSCalls"><i class="icon-arrow-right5"></i> <span>All Ticket</span></a></li>
 					</ul>
 				</li>
-				<li class="dropdown">
+				<li class="dropdown <?php if(isset($reports)){echo $reports; } ?>">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown">
 						<i class="icon-chart position-left"></i> Reports <span class="caret"></span>
 					</a>
 
 					<ul class="dropdown-menu dropdown-menu-right">
 						<span class="menu-heading underlined">Tablura Reports</span>
-						<li><a href="index.html"><i class="icon-arrow-right5"></i> <span>Yearly</span></a></li>
-						<li><a href="MonthlyDeviceCalls"><i class="icon-arrow-right5"></i> <span>Monthly</span></a></li>
-						<li><a href="index.html"><i class="icon-arrow-right5"></i> <span>Daily</span></a></li>	
-						<li><a href="index.html"><i class="icon-arrow-right5"></i> <span>Date Range</span></a></li>
+						<li class="<?php if(isset($year)){echo $year; } ?>"><a href="YearlyTabularCalls"><i class="icon-arrow-right5"></i> <span>Yearly</span></a></li>
+						<li class="<?php if(isset($month)){echo $month; } ?>"><a href="MonthlyTabularCalls"><i class="icon-arrow-right5"></i> <span>Monthly</span></a></li>
+						<li class="<?php if(isset($week)){echo $week; } ?>"><a href="WeeklyTabularCalls"><i class="icon-arrow-right5"></i> <span>Weekly</span></a></li>	
+						<li class="<?php if(isset($days)){echo $days; } ?>"><a href="DailyTabularCalls"><i class="icon-arrow-right5"></i> <span>Daily (EOD)</span></a></li>	
+						<li class="<?php if(isset($range)){echo $range; } ?>"><a href="DateRangeTabularCalls"><i class="icon-arrow-right5"></i> <span>Date Range</span></a></li>
+
 						<span class="menu-heading underlined">Graphical Reports</span>
-						<li><a href="index.html"><i class="icon-arrow-right5"></i> <span>Yearly</span></a></li>
-						<li><a href="MonthlyDeviceCalls"><i class="icon-arrow-right5"></i> <span>Monthly</span></a></li>
-						<li><a href="index.html"><i class="icon-arrow-right5"></i> <span>Daily</span></a></li>	
-						<li><a href="index.html"><i class="icon-arrow-right5"></i> <span>Date Range</span></a></li>
+						<li class="<?php if(isset($yearchart)){echo $yearchart; } ?>"><a href="YearlyCharts"><i class="icon-arrow-right5"></i> <span>Yearly</span></a></li>
+						<li class="<?php if(isset($year)){echo $year; } ?>"><a href="MonthlyCharts"><i class="icon-arrow-right5"></i> <span>Monthly</span></a></li>
+						<li class="<?php if(isset($year)){echo $year; } ?>"><a href="WeeklyCharts"><i class="icon-arrow-right5"></i> <span>Weekly</span></a></li>	
+						<li class="<?php if(isset($year)){echo $year; } ?>"><a href="DailyCharts"><i class="icon-arrow-right5"></i> <span>Daily</span></a></li>	
 					</ul>
 				</li>
 			</ul>
@@ -96,7 +99,7 @@
 					</a>
 
 					<ul class="dropdown-menu dropdown-menu-right">
-						<li><a href="#"><i class="icon-cog5"></i> Account settings</a></li>
+						<li><a href="ChangePassword"><i class="icon-cog5"></i> Change Password</a></li>
 						<li><a href="../core/Logout"><i class="icon-switch2"></i> Logout</a></li>
 					</ul>
 				</li>

@@ -52,9 +52,9 @@
                                 }
                                 else
                                 {
-                                    if ($row['role'] == "POS Admin")
+                                    if ($row['role'] == "POS Client")
                                     {
-                                        echo 'POSadmin/pages';
+                                        echo 'POS-Client-User/pages';
                                     }
                                 }
                             }
@@ -96,9 +96,9 @@
                 {
                     unset($_SESSION['password']);
                     $_SESSION['password'] = null;
-                    if ($_SESSION['roles'] == "POS Admin")
+                    if ($_SESSION['roles'] == "POS Client")
                     {
-                        echo "POSadmin/pages";
+                        echo "POS-Client-User/pages";
                     }
                     
                 }

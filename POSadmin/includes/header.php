@@ -55,18 +55,12 @@
 	<script type="text/javascript" src="../../assets/js/core/app.js"></script>
 	<!-- <script type="text/javascript" src="../../assets/js/pages/layout_sidebar_sticky_native.js"></script> -->
 
-	<script type="text/javascript" src="../../assets/js/plugins/ui/ripple.min.js"></script>
-
-
-
 	<!-- /theme JS files -->
 	<script type="text/javascript" src="../../assets/js/plugins/visualization/c3/c3.min.js"></script>
   	<script type="text/javascript" src="../../assets/js/charts/c3/c3_advanced.js"></script>
   	<script type="text/javascript" src="../../assets/js/charts/c3/c3_axis.js"></script>
 	  <script type="text/javascript" src="../../assets/js/pages/form_inputs.js"></script>
 
-
-	
     <link rel="stylesheet" href="../../iziToast/dist/css/iziToast.min.css">
     <script src="../../iziToast/dist/js/iziToast.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="../../assets/js/pages/components_modals.js"></script>
@@ -81,9 +75,13 @@
 	<script type="text/javascript" src="../../assets/js/plugins/forms/inputs/typeahead/handlebars.min.js"></script>
 	<script type="text/javascript" src="../../assets/js/plugins/forms/inputs/passy.js"></script>
 	<script type="text/javascript" src="../../assets/js/plugins/forms/inputs/maxlength.min.js"></script>
-	<script type="text/javascript" src="../../assets/js/pages/navigation_horizontal_mega.js"></script>
 	<script type="text/javascript" src="../../assets/js/plugins/ui/nicescroll.min.js"></script>
 	<script type="text/javascript" src="../../assets/js/plugins/ui/drilldown.js"></script>
+
+	<!-- charts -->
+	<!-- <script type="text/javascript" src="../../assets/js/charts/c3/c3_bars_pies.js"></script> -->
+
+	<script type="text/javascript" src="../../assets/js/plugins/ui/ripple.min.js"></script>
 	
 	 
 	  
@@ -99,6 +97,7 @@
 			background-color: black;
 			opacity: 0.6;
 			position: absolute;
+  			height: auto;
 			top: 0;
 			left: 0;
 			right: 0;

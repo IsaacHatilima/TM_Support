@@ -85,7 +85,7 @@
                                                                         <option></option>
                                                                         <optgroup label="Available Category">
                                                                             <?php
-                                                                                $sql = "SELECT * FROM pos_categories ORDER BY category_id DESC;";
+                                                                                $sql = "SELECT * FROM pos_categories WHERE category_id != 5 ORDER BY category_id DESC;";
                                                                                 $stmt = $object->connect()->prepare($sql);
                                                                                 $stmt->execute();
                                                                                 while ($rows = $stmt->fetch())
@@ -236,7 +236,7 @@
                                                                         <option></option>
                                                                         <optgroup label="Available Category">
                                                                             <?php
-                                                                                $sql = "SELECT * FROM pos_categories ORDER BY category_id DESC;";
+                                                                                $sql = "SELECT * FROM pos_categories WHERE category_id = 5 ORDER BY category_id DESC;";
                                                                                 $stmt = $object->connect()->prepare($sql);
                                                                                 $stmt->execute();
                                                                                 while ($rows = $stmt->fetch())

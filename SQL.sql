@@ -7,6 +7,7 @@ CREATE TABLE client_users
     cell VARCHAR(15) NULL,
     client_id_fk INT NOT NULL,
     contact_type VARCHAR(50) NOT NULL,
+    uuid VARCHAR(50) NOT NULL,
     created_by INT NOT NULL,
     date_created DATETIME NOT NULL,
     modified_by INT NULL,
@@ -67,7 +68,7 @@ CREATE TABLE engineers
     created_by INT NOT NULL,
     date_created DATETIME NOT NULL,
     modified_by INT NULL,
-    date_modified DATETIME NULL,
+    date_modified DATETIME NULL
 );
 
 CREATE TABLE engineer_login
@@ -76,7 +77,7 @@ CREATE TABLE engineer_login
     tech_id INT NOT NULL,
     engineer_email VARCHAR(50) NOT NULL,
     engineer_passcode VARCHAR(150) not NULL,
-    engineer_status INT NOT NULL,
+    engineer_status VARCHAR(150) NOT NULL,
     engineer_role VARCHAR(20) NOT NULL,
     engineer_last_login DATETIME NULL,
     changed_password INT NOT NULL,
@@ -111,6 +112,17 @@ CREATE TABLE pos_categories
     created_by INT NOT NULL,
     date_created DATETIME NOT NULL
 );
+
+INSERT INTO pos_categories
+  ( category, created_by, date_created )
+VALUES
+  ('Hardware', 1, '2020-04-16 12:02:22'), 
+  ('Software', 1, '2020-04-16 12:02:22'), 
+  ('Infrastructure', 1, '2020-04-16 12:02:22'),
+  ('Installation', 1, '2020-04-16 12:02:22'),
+  ('Stationary', 1, '2020-04-16 12:02:22'),
+  ('Connectivity', 1, '2020-04-16 12:02:22');
+
 
 CREATE TABLE pos_sub_categories
 (
@@ -152,7 +164,7 @@ CREATE TABLE sms_notifications
 CREATE TABLE device_repair
 (
     repair_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    device_type VARCHAR[200] NOT NULL,
+    device_type VARCHAR(200) NOT NULL,
     device_serial VARCHAR(200) NOT NULL,
     ptid VARCHAR(200) NOT NULL,
     warrant_sticker VARCHAR(200) NOT NULL,
@@ -190,7 +202,11 @@ CREATE TABLE pos_device_calls
     escalated_to VARCHAR(150) NULL,
     device_call_status VARCHAR(150) NULL,
     call_month VARCHAR(50) NOT NULL,
-    call_year VARCHAR(50) NOT NULL
+    call_year VARCHAR(50) NOT NULL,
+    engineer_idz INT NULL,
+    mecha_type VARCHAR(45) NOT NULL,
+    device_qota INT NOT NULL
+
 );
 
 CREATE TABLE pos_delivery_calls
@@ -215,7 +231,10 @@ CREATE TABLE pos_delivery_calls
     delivery_escalated_to VARCHAR(150) NULL,
     delivery_call_status VARCHAR(150) NULL,
     delivery_call_month VARCHAR(50) NOT NULL,
-    delivery_call_year VARCHAR(50) NOT NULL
+    delivery_call_year VARCHAR(50) NOT NULL,
+    delivery_engineer_idz INT NULL,
+    mech_type VARCHAR(45) NOT NULL,
+    delivery_qota INT NOT NULL
 );
 
 CREATE TABLE ticket_numbers
@@ -225,33 +244,3 @@ CREATE TABLE ticket_numbers
 );
 
 INSERT INTO ticket_numbers (ticket_number) VALUES ('0');
--- PENDING
-
-CREATE TABLE sla_times
-(
-    sla_time_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    client_id_fk INT NOT NULL,
-    resolution_time INT NOT NULL,
-    created_by INT NOT NULL,
-    date_created DATETIME NOT NULL,
-    modified_by INT NULL,
-    date_modified DATETIME NULL
-);
-
-CREATE TABLE email_list
-(
-    emailList_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    client_id_fk INT NOT NULL,
-    emailID VARCHAR(45) NOT NULL,
-    created_by INT NOT NULL,
-    date_created DATETIME NOT NULL
-);
-
-INSERT INTO ticket_numbers (ticket_number) VALUES ('0');
-
-
-
-
-
-
-

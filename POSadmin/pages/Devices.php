@@ -97,9 +97,9 @@
 														</div>
 														<div class="col-md-12">
 															<div class="row">
-																<label class="col-md-4 control-label text-right">PTID:<span class="text-danger">*</span> </label>
+																<label class="col-md-4 control-label text-right">PTID: </label>
 																<div class="col-md-8">
-																	<input type="text" name="ptid" id="ptid" class="form-control"  placeholder="Enter PTID" required="required">
+																	<input type="text" name="ptid" id="ptid" class="form-control"  placeholder="Enter PTID">
 																</div>
 															</div>
 														</div>
@@ -107,7 +107,7 @@
 															<div class="row">
 																<label class="col-md-4 control-label text-right">Base Serial: </label>
 																<div class="col-md-8">
-																	<input type="text" name="base_serial" id="base_serial" class="form-control"  placeholder="Enter Base Serial" required="required">
+																	<input type="text" name="base_serial" id="base_serial" class="form-control"  placeholder="Enter Base Serial">
 																</div>
 															</div>
 														</div>
@@ -115,7 +115,7 @@
 															<div class="row">
 																<label class="col-md-4 control-label text-right">MTN SIM Serial: </label>
 																<div class="col-md-8">
-																	<input type="text" name="mtn_sim_serial" id="mtn_sim_serial" class="form-control"  placeholder="Enter MTN SIM Serial" required="required">
+																	<input type="text" name="mtn_sim_serial" id="mtn_sim_serial" class="form-control"  placeholder="Enter MTN SIM Serial">
 																</div>
 															</div>
 														</div>
@@ -123,31 +123,31 @@
 															<div class="row">
 																<label class="col-md-4 control-label text-right">Airtel SIM Serial: </label>
 																<div class="col-md-8">
-																	<input type="text" name="airtel_sim_serial" id="airtel_sim_serial" class="form-control"  placeholder="Enter Airtel SIM Serial" required="required">
+																	<input type="text" name="airtel_sim_serial" id="airtel_sim_serial" class="form-control"  placeholder="Enter Airtel SIM Serial">
 																</div>
 															</div>
 														</div>
 														<div class="col-md-12">
 															<div class="row">
-																<label class="col-md-4 control-label text-right">IP Address:<span class="text-danger">*</span> </label>
+																<label class="col-md-4 control-label text-right">IP Address: </label>
 																<div class="col-md-8">
-																	<input type="text" name="ip_address" id="ip_address" class="form-control"  placeholder="Enter IP Address" required="required">
+																	<input type="text" name="ip_address" id="ip_address" class="form-control"  placeholder="Enter IP Address">
 																</div>
 															</div>
 														</div>
 														<div class="col-md-12">
 															<div class="row">
-																<label class="col-md-4 control-label text-right">FNB Asset Code:<span class="text-danger">*</span> </label>
+																<label class="col-md-4 control-label text-right">FNB Asset Code: </label>
 																<div class="col-md-8">
-																<input type="text" name="asset_code" id="asset_code" class="form-control"  placeholder="Enter FNB Asset Code" required="required">
+																<input type="text" name="asset_code" id="asset_code" class="form-control"  placeholder="Enter FNB Asset Code">
 																</div>
 															</div>
 														</div>
 														<div class="col-md-12">
 															<div class="row">
-																<label class="col-md-4 control-label text-right">Installation:<span class="text-danger">*</span> </label>
+																<label class="col-md-4 control-label text-right">Installation: </label>
 																<div class="col-md-8">
-																	<input type="text" name="installation_date" id="installation_date" class="form-control" data-mask="99/99/9999" placeholder="Enter Installation Date" required="required">
+																	<input type="text" name="installation_date" id="installation_date" class="form-control" data-mask="99/99/9999" placeholder="Enter Installation Date">
 																	<span class="help-block">99/99/9999</span>
 																</div>
 															</div>
@@ -287,7 +287,7 @@
 																			</div>
 																			<div class="col-md-12">
 																				<div class="row">
-																					<label class="col-md-4 control-label text-right">PTID:<span class="text-danger">*</span> </label>
+																					<label class="col-md-4 control-label text-right">PTID: </label>
 																					<div class="col-md-8">
 																						<input type="text" class="form-control"  value="'.$rows['ptid'].'" readonly>
 																					</div>
