@@ -47,7 +47,8 @@
                 }
                 else
                 {
-                    $sql = "INSERT INTO client_users(client_user_first_name,client_user_last_name,email,cell,client_id_fk,contact_type,uuid,created_by,date_created) VALUES(?,?,?,?,?,?,?,?,?);";
+                  $module = 'POS';
+                    $sql = "INSERT INTO client_users(client_user_first_name,client_user_last_name,email,cell,client_id_fk,contact_type,uuid,created_by,date_created, module) VALUES(?,?,?,?,?,?,?,?,?,?);";
                     $stmt = $this->connect()->prepare($sql);
                     $stmt->bindvalue(1, $first_name);
                     $stmt->bindvalue(2, $last_name);
@@ -58,6 +59,7 @@
                     $stmt->bindvalue(7, $uuid);
                     $stmt->bindvalue(8, $_SESSION['person']);
                     $stmt->bindvalue(9, date('Y-m-d H:i:s'));
+                    $stmt->bindvalue(10, $module);
                     if($stmt->execute())
                     {
                         $sqlg = "SELECT client_user_id FROM client_users WHERE uuid = ?;";
@@ -66,7 +68,7 @@
                         $stmtg->execute();
                         $row = $stmtg->fetch(PDO::FETCH_ASSOC);
                         $cliID = $row['client_user_id'];
-    
+
                         $sql2 = "INSERT INTO client_login(person_id,emails,password,status,role,changed_password,created_by,date_created) VALUES(?,?,?,?,?,?,?,?);";
                         $stmt = $this->connect()->prepare($sql2);
                         $stmt->bindvalue(1, $cliID);
@@ -80,7 +82,7 @@
                         if($stmt->execute())
                         {
                             self::logEmail($first_name,$last_name,$email,$username,$plain_password,$bank_id,$cell);
-                            
+
                         }
                         else
                         {
@@ -181,51 +183,171 @@
             $statuse = 'SUCCESS';
             $count = '3';
             $message = '
+            <!doctype html>
             <html>
-                <head>
-                    <style>
-                        .container {
-                            padding: 2px 16px;
-                        }
-                        .tr,table,td
-                        {
-                            border:1px solid black;
-                            border-collapse: collapse;
-                        }
-                    </style>
-                </head>
-                <body>
-                    <div class="card">
-                        <div class="container" style="font-size: 20px">
-                        <br><br>
-                            Dear '.$first_name.' '.$last_name.',<br><br>
-                            Your TechMasters Support System account has been created successfully.<br>
-                            You can log in with the following details:<br>
-                            Username <b>'.$username.'</b><br>
-                            OTP <b>'.$plain_password.'</b><br>
-                            You can sign in <b><a href="https://www.techmasters.co.zm/UAT2">here.</a></b><br><br><br>
-            
-                            Yours Sincerely<br>
-                            TechMasters Support.<br>
-                        </div>
+            <head>
+              <meta name="viewport" content="width=device-width">
+              <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+              <title>S.M.S Account Creation Email</title>
+              <style>
+              @media only screen and (max-width: 620px) {
+                table[class=body] h1 {
+                  font-size: 28px !important;
+                  margin-bottom: 10px !important;
+                }
+                table[class=body] p,
+                      table[class=body] ul,
+                      table[class=body] ol,
+                      table[class=body] td,
+                      table[class=body] span,
+                      table[class=body] a {
+                  font-size: 16px !important;
+                }
+                table[class=body] .wrapper,
+                      table[class=body] .article {
+                  padding: 10px !important;
+                }
+                table[class=body] .content {
+                  padding: 0 !important;
+                }
+                table[class=body] .container {
+                  padding: 0 !important;
+                  width: 100% !important;
+                }
+                table[class=body] .main {
+                  border-left-width: 0 !important;
+                  border-radius: 0 !important;
+                  border-right-width: 0 !important;
+                }
+                table[class=body] .btn table {
+                  width: 100% !important;
+                }
+                table[class=body] .btn a {
+                  width: 100% !important;
+                }
+                table[class=body] .img-responsive {
+                  height: auto !important;
+                  max-width: 100% !important;
+                  width: auto !important;
+                }
+              }
+              @media all {
+                .ExternalClass {
+                  width: 100%;
+                }
+                .ExternalClass,
+                      .ExternalClass p,
+                      .ExternalClass span,
+                      .ExternalClass font,
+                      .ExternalClass td,
+                      .ExternalClass div {
+                  line-height: 100%;
+                }
+                .apple-link a {
+                  color: inherit !important;
+                  font-family: inherit !important;
+                  font-size: inherit !important;
+                  font-weight: inherit !important;
+                  line-height: inherit !important;
+                  text-decoration: none !important;
+                }
+                #MessageViewBody a {
+                  color: inherit;
+                  text-decoration: none;
+                  font-size: inherit;
+                  font-family: inherit;
+                  font-weight: inherit;
+                  line-height: inherit;
+                }
+                .btn-primary table td:hover {
+                  background-color: #34495e !important;
+                }
+                .btn-primary a:hover {
+                  background-color: #34495e !important;
+                  border-color: #34495e !important;
+                }
+              }
+              </style>
+            </head>
+            <body class="" style="background-color: #f6f6f6; font-family: sans-serif; -webkit-font-smoothing: antialiased; font-size: 14px; line-height: 1.4; margin: 0; padding: 0; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;">
+              <table border="0" cellpadding="0" cellspacing="0" class="body" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%; background-color: #f6f6f6;">
+                <tr>
+                  <td style="font-family: sans-serif; font-size: 14px; vertical-align: top;">&nbsp;</td>
+                  <td class="container" style="font-family: sans-serif; font-size: 14px; vertical-align: top; display: block; Margin: 0 auto; max-width: 580px; padding: 10px; width: 580px;">
+                    <div class="content" style="box-sizing: border-box; display: block; Margin: 0 auto; max-width: 580px; padding: 10px;">
+
+                      <span class="preheader" style="color: transparent; display: none; height: 0; max-height: 0; max-width: 0; opacity: 0; overflow: hidden; mso-hide: all; visibility: hidden; width: 0;">TechMasters Support System Account Details</span>
+                      <table class="main" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%; background: #ffffff; border-radius: 3px;">
+
+                        <tr>
+                          <td class="wrapper" style="font-family: sans-serif; font-size: 14px; vertical-align: top; box-sizing: border-box; padding: 20px;">
+                            <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">
+                              <tr>
+                                <td style="font-family: sans-serif; font-size: 14px; vertical-align: top;">
+                                  <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">Hi '.$first_name.' '.$last_name.'</p>
+                                  <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">You account for Techmasters Support System has been created and you can login using the following details.</p>
+                                  <p>Email: <b>'.$username.'</b></p>
+                                  <p>Password: <b>'.$plain_password.'</b></p>
+                                  <table border="0" cellpadding="0" cellspacing="0" class="btn btn-primary" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%; box-sizing: border-box;">
+                                    <tbody>
+                                      <tr>
+                                        <td align="left" style="font-family: sans-serif; font-size: 14px; vertical-align: top; padding-bottom: 15px;">
+                                          <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: auto;">
+                                            <tbody>
+                                              <tr>
+                                                <td style="font-family: sans-serif; font-size: 14px; vertical-align: top; background-color: #3498db; border-radius: 5px; text-align: center;"> <a href="https://www.techmasters.co.zm/TechMasters_Support/" target="_blank" style="display: inline-block; color: #ffffff; background-color: #3498db; border: solid 1px #3498db; border-radius: 5px; box-sizing: border-box; cursor: pointer; text-decoration: none; font-size: 14px; font-weight: bold; margin: 0; padding: 12px 25px; text-transform: capitalize; border-color: #3498db;">Click here to login..</a> </td>
+                                              </tr>
+                                            </tbody>
+                                          </table>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                  <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">Happy Working! <br>Techmasters Team.</p>
+                                </td>
+                              </tr>
+                            </table>
+                          </td>
+                        </tr>
+
+                      </table>
+
+                      <div class="footer" style="clear: both; Margin-top: 10px; text-align: center; width: 100%;">
+                        <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">
+                          <tr>
+                            <td class="content-block" style="font-family: sans-serif; vertical-align: top; padding-bottom: 10px; padding-top: 10px; font-size: 12px; color: #999999; text-align: center;">
+                              <span class="apple-link" style="color: #999999; font-size: 12px; text-align: center;">Techmasters Support System</span>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="content-block powered-by" style="font-family: sans-serif; vertical-align: top; padding-bottom: 10px; padding-top: 10px; font-size: 12px; color: #999999; text-align: center;">
+                              Powered by <a href="https://www.techmasters.co.zm" style="color: #999999; font-size: 12px; text-align: center; text-decoration: none;">Techmasters</a>.
+                            </td>
+                          </tr>
+                        </table>
+                      </div>
                     </div>
-                </body>
+                  </td>
+                  <td style="font-family: sans-serif; font-size: 14px; vertical-align: top;">&nbsp;</td>
+                </tr>
+              </table>
+            </body>
             </html>
             ';
-            
-            $mail->isSMTP(); 
+
+            $mail->isSMTP();
             $mail->SMTPDebug = 2;
-            $mail->Debugoutput = 'html';                                           
-            $mail->Host       = 'smtp.office365.com';  
-            $mail->SMTPAuth   = true;                                  
-            $mail->Username   = 'support@techmasters.co.zm';                     
-            $mail->Password   = 'Password123';                             
-            $mail->SMTPSecure = 'TLS'; 
-            $mail->Port       = 587;                                    
+            $mail->Debugoutput = 'html';
+            $mail->Host       = 'smtp.office365.com';
+            $mail->SMTPAuth   = true;
+            $mail->Username   = 'support@techmasters.co.zm';
+            $mail->Password   = 'Password123';
+            $mail->SMTPSecure = 'TLS';
+            $mail->Port       = 587;
             $mail->setFrom('support@techmasters.co.zm', 'Techmasters Support');
             $mail->addAddress($email);
             $mail->WordWrap = 70;
-            $mail->isHTML(true);   
+            $mail->isHTML(true);
             $mail->Subject = $message_subject;
             $mail->Body    = $message;
             $mail->AltBody = $message;
@@ -257,12 +379,12 @@
                 echo "Email Not Sent";
             }
         }
-        
+
 
         function logSMS($first_name,$last_name,$cell,$username,$plain_password)
         {
             $message = "Dear $first_name $last_name, your TM Support System account has been created. Login using the Username $username and Password $plain_password.";
-            
+
             try
             {
                 $sql = "INSERT INTO sms_notifications(cell,text_message,local_date,logdate) VALUES(?,?,?,?);";
@@ -362,7 +484,7 @@
                     {
                         echo "Failed";
                     }
-                    
+
                 }
                 else
                 {
@@ -385,7 +507,7 @@
         $email = $_POST['email'];
         $cell = $_POST['cell'];
         $id = $_POST['bankName'];
-        list($id, $enc_iv) = explode("::", $id);  
+        list($id, $enc_iv) = explode("::", $id);
         $cipher_method = 'aes-128-ctr';
         $enc_key = openssl_digest(php_uname(), 'SHA256', TRUE);
         $token = openssl_decrypt($id, $cipher_method, $enc_key, 0, hex2bin($enc_iv));
@@ -406,7 +528,7 @@
     if(isset($_POST['conBank']))
     {
         $id = $_POST['conBank'];
-        list($id, $enc_iv) = explode("::", $id);  
+        list($id, $enc_iv) = explode("::", $id);
         $cipher_method = 'aes-128-ctr';
         $enc_key = openssl_digest(php_uname(), 'SHA256', TRUE);
         $token = openssl_decrypt($id, $cipher_method, $enc_key, 0, hex2bin($enc_iv));
@@ -418,7 +540,7 @@
     if(isset($_POST['geting']))
     {
         $id = $_POST['geting'];
-        list($id, $enc_iv) = explode("::", $id);  
+        list($id, $enc_iv) = explode("::", $id);
         $cipher_method = 'aes-128-ctr';
         $enc_key = openssl_digest(php_uname(), 'SHA256', TRUE);
         $token = openssl_decrypt($id, $cipher_method, $enc_key, 0, hex2bin($enc_iv));
@@ -429,7 +551,7 @@
     if(isset($_POST['conBank2']))
     {
         $id = $_POST['conBank2'];
-        list($id, $enc_iv) = explode("::", $id);  
+        list($id, $enc_iv) = explode("::", $id);
         $cipher_method = 'aes-128-ctr';
         $enc_key = openssl_digest(php_uname(), 'SHA256', TRUE);
         $token = openssl_decrypt($id, $cipher_method, $enc_key, 0, hex2bin($enc_iv));
@@ -441,7 +563,7 @@
     if(isset($_POST['personID']))
     {
         $uuid = $_POST['personID'];
-        list($uuid, $enc_iv) = explode("::", $uuid);  
+        list($uuid, $enc_iv) = explode("::", $uuid);
         $cipher_method = 'aes-128-ctr';
         $enc_key = openssl_digest(php_uname(), 'SHA256', TRUE);
         $token = openssl_decrypt($uuid, $cipher_method, $enc_key, 0, hex2bin($enc_iv));
@@ -459,7 +581,7 @@
     if(isset($_POST['deleteUser']))
     {
         $userID = $_POST['deleteUser'];
-        list($userID, $enc_iv) = explode("::", $userID);  
+        list($userID, $enc_iv) = explode("::", $userID);
         $cipher_method = 'aes-128-ctr';
         $enc_key = openssl_digest(php_uname(), 'SHA256', TRUE);
         $token = openssl_decrypt($userID, $cipher_method, $enc_key, 0, hex2bin($enc_iv));
@@ -516,7 +638,7 @@
                         $stmtg->execute();
                         $row = $stmtg->fetch(PDO::FETCH_ASSOC);
                         $cliID = $row['engineer_id'];
-    
+
                         $sql2 = "INSERT INTO engineer_login(tech_id,engineer_email,engineer_passcode,engineer_status,engineer_role,changed_password,created_by,date_created) VALUES(?,?,?,?,?,?,?,?);";
                         $stmt = $this->connect()->prepare($sql2);
                         $stmt->bindvalue(1, $cliID);
@@ -530,7 +652,7 @@
                         if($stmt->execute())
                         {
                             self::logEmail($first_name,$last_name,$email,$username,$plain_password,$cell);
-                            
+
                         }
                         else
                         {
@@ -559,47 +681,167 @@
             $statuse = 'SUCCESS';
             $count = '3';
             $message = '
+            <!doctype html>
             <html>
-                <head>
-                    <style>
-                        .container {
-                            padding: 2px 16px;
-                        }
-                        .tr,table,td
-                        {
-                            border:1px solid black;
-                            border-collapse: collapse;
-                        }
-                    </style>
-                </head>
-                <body>
-                    <div class="card">
-                        <div class="container" style="font-size: 20px">
-                        <br><br>
-                            Dear '.$first_name.' '.$last_name.',<br><br>
-                            Your TechMasters Support System account has been created successfully.<br>
-                            You can log in with the following details:<br>
-                            Username <b>'.$username.'</b><br>
-                            OTP <b>'.$plain_password.'</b><br>
-                            You can sign in <b><a href="https://www.techmasters.co.zm/UAT2/login">here.</a></b><br><br><br>
-            
-                            Yours Sincerely<br>
-                            TechMasters Support.<br>
-                        </div>
+            <head>
+              <meta name="viewport" content="width=device-width">
+              <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+              <title>S.M.S Account Creation Email</title>
+              <style>
+              @media only screen and (max-width: 620px) {
+                table[class=body] h1 {
+                  font-size: 28px !important;
+                  margin-bottom: 10px !important;
+                }
+                table[class=body] p,
+                      table[class=body] ul,
+                      table[class=body] ol,
+                      table[class=body] td,
+                      table[class=body] span,
+                      table[class=body] a {
+                  font-size: 16px !important;
+                }
+                table[class=body] .wrapper,
+                      table[class=body] .article {
+                  padding: 10px !important;
+                }
+                table[class=body] .content {
+                  padding: 0 !important;
+                }
+                table[class=body] .container {
+                  padding: 0 !important;
+                  width: 100% !important;
+                }
+                table[class=body] .main {
+                  border-left-width: 0 !important;
+                  border-radius: 0 !important;
+                  border-right-width: 0 !important;
+                }
+                table[class=body] .btn table {
+                  width: 100% !important;
+                }
+                table[class=body] .btn a {
+                  width: 100% !important;
+                }
+                table[class=body] .img-responsive {
+                  height: auto !important;
+                  max-width: 100% !important;
+                  width: auto !important;
+                }
+              }
+              @media all {
+                .ExternalClass {
+                  width: 100%;
+                }
+                .ExternalClass,
+                      .ExternalClass p,
+                      .ExternalClass span,
+                      .ExternalClass font,
+                      .ExternalClass td,
+                      .ExternalClass div {
+                  line-height: 100%;
+                }
+                .apple-link a {
+                  color: inherit !important;
+                  font-family: inherit !important;
+                  font-size: inherit !important;
+                  font-weight: inherit !important;
+                  line-height: inherit !important;
+                  text-decoration: none !important;
+                }
+                #MessageViewBody a {
+                  color: inherit;
+                  text-decoration: none;
+                  font-size: inherit;
+                  font-family: inherit;
+                  font-weight: inherit;
+                  line-height: inherit;
+                }
+                .btn-primary table td:hover {
+                  background-color: #34495e !important;
+                }
+                .btn-primary a:hover {
+                  background-color: #34495e !important;
+                  border-color: #34495e !important;
+                }
+              }
+              </style>
+            </head>
+            <body class="" style="background-color: #f6f6f6; font-family: sans-serif; -webkit-font-smoothing: antialiased; font-size: 14px; line-height: 1.4; margin: 0; padding: 0; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;">
+              <table border="0" cellpadding="0" cellspacing="0" class="body" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%; background-color: #f6f6f6;">
+                <tr>
+                  <td style="font-family: sans-serif; font-size: 14px; vertical-align: top;">&nbsp;</td>
+                  <td class="container" style="font-family: sans-serif; font-size: 14px; vertical-align: top; display: block; Margin: 0 auto; max-width: 580px; padding: 10px; width: 580px;">
+                    <div class="content" style="box-sizing: border-box; display: block; Margin: 0 auto; max-width: 580px; padding: 10px;">
+
+                      <span class="preheader" style="color: transparent; display: none; height: 0; max-height: 0; max-width: 0; opacity: 0; overflow: hidden; mso-hide: all; visibility: hidden; width: 0;">TechMasters Support System Account Details</span>
+                      <table class="main" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%; background: #ffffff; border-radius: 3px;">
+
+                        <tr>
+                          <td class="wrapper" style="font-family: sans-serif; font-size: 14px; vertical-align: top; box-sizing: border-box; padding: 20px;">
+                            <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">
+                              <tr>
+                                <td style="font-family: sans-serif; font-size: 14px; vertical-align: top;">
+                                  <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">Hi '.$first_name.' '.$last_name.'</p>
+                                  <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">You account for Techmasters Support System has been created and you can login using the following details.</p>
+                                  <p>Email: <b>'.$username.'</b></p>
+                                  <p>Password: <b>'.$plain_password.'</b></p>
+                                  <table border="0" cellpadding="0" cellspacing="0" class="btn btn-primary" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%; box-sizing: border-box;">
+                                    <tbody>
+                                      <tr>
+                                        <td align="left" style="font-family: sans-serif; font-size: 14px; vertical-align: top; padding-bottom: 15px;">
+                                          <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: auto;">
+                                            <tbody>
+                                              <tr>
+                                                <td style="font-family: sans-serif; font-size: 14px; vertical-align: top; background-color: #3498db; border-radius: 5px; text-align: center;"> <a href="https://www.techmasters.co.zm/TechMasters_Support/" target="_blank" style="display: inline-block; color: #ffffff; background-color: #3498db; border: solid 1px #3498db; border-radius: 5px; box-sizing: border-box; cursor: pointer; text-decoration: none; font-size: 14px; font-weight: bold; margin: 0; padding: 12px 25px; text-transform: capitalize; border-color: #3498db;">Click here to login..</a> </td>
+                                              </tr>
+                                            </tbody>
+                                          </table>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                  <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">Happy Working! <br>Techmasters Team.</p>
+                                </td>
+                              </tr>
+                            </table>
+                          </td>
+                        </tr>
+
+                      </table>
+
+                      <div class="footer" style="clear: both; Margin-top: 10px; text-align: center; width: 100%;">
+                        <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">
+                          <tr>
+                            <td class="content-block" style="font-family: sans-serif; vertical-align: top; padding-bottom: 10px; padding-top: 10px; font-size: 12px; color: #999999; text-align: center;">
+                              <span class="apple-link" style="color: #999999; font-size: 12px; text-align: center;">Techmasters Support System</span>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="content-block powered-by" style="font-family: sans-serif; vertical-align: top; padding-bottom: 10px; padding-top: 10px; font-size: 12px; color: #999999; text-align: center;">
+                              Powered by <a href="https://www.techmasters.co.zm" style="color: #999999; font-size: 12px; text-align: center; text-decoration: none;">Techmasters</a>.
+                            </td>
+                          </tr>
+                        </table>
+                      </div>
                     </div>
-                </body>
+                  </td>
+                  <td style="font-family: sans-serif; font-size: 14px; vertical-align: top;">&nbsp;</td>
+                </tr>
+              </table>
+            </body>
             </html>
             ';
 
-            $mail->isSMTP(); 
+            $mail->isSMTP();
             $mail->SMTPDebug = 2;
-            $mail->Debugoutput = 'html';                                           
-            $mail->Host       = 'smtp.office365.com';  
-            $mail->SMTPAuth   = true;                                  
-            $mail->Username   = 'support@techmasters.co.zm';                     
-            $mail->Password   = 'Password123';                             
-            $mail->SMTPSecure = 'TLS'; 
-            $mail->Port       = 587;                                    
+            $mail->Debugoutput = 'html';
+            $mail->Host       = 'smtp.office365.com';
+            $mail->SMTPAuth   = true;
+            $mail->Username   = 'support@techmasters.co.zm';
+            $mail->Password   = 'Password123';
+            $mail->SMTPSecure = 'TLS';
+            $mail->Port       = 587;
             $mail->setFrom('support@techmasters.co.zm', 'Techmasters Support');
             $mail->addAddress($email);
             // foreach($output as $recipient){
@@ -607,7 +849,7 @@
             //     //print_r($recipient['emailaddress']);
             // }
             $mail->WordWrap = 70;
-            $mail->isHTML(true);   
+            $mail->isHTML(true);
             $mail->Subject = $message_subject;
             $mail->Body    = $message;
             $mail->AltBody = $message;
@@ -639,7 +881,7 @@
         function logSMS($first_name,$last_name,$cell,$username,$plain_password)
         {
             $message = "Dear $first_name $last_name, your TM Support System account has been created. Login using the Username $username and Password $plain_password.";
-            
+
             try
             {
                 $sql = "INSERT INTO sms_notifications(cell,text_message,local_date,logdate) VALUES(?,?,?,?);";
@@ -737,7 +979,7 @@
                     {
                         echo "Failed";
                     }
-                    
+
                 }
                 else
                 {
@@ -774,7 +1016,7 @@
     if(isset($_POST['getengineer']))
     {
         $id = $_POST['getengineer'];
-        list($id, $enc_iv) = explode("::", $id);  
+        list($id, $enc_iv) = explode("::", $id);
         $cipher_method = 'AES-256-CTR';
         $enc_key = openssl_digest(php_uname(), 'SHA256', TRUE);
         $token = openssl_decrypt($id, $cipher_method, $enc_key, 0, hex2bin($enc_iv));
@@ -786,7 +1028,7 @@
     if(isset($_POST['EpersonID']))
     {
         $uuid = $_POST['EpersonID'];
-        list($uuid, $enc_iv) = explode("::", $uuid);  
+        list($uuid, $enc_iv) = explode("::", $uuid);
         $cipher_method = 'AES-256-CTR';
         $enc_key = openssl_digest(php_uname(), 'SHA256', TRUE);
         $token = openssl_decrypt($uuid, $cipher_method, $enc_key, 0, hex2bin($enc_iv));
@@ -803,7 +1045,7 @@
     if(isset($_POST['deleteEUser']))
     {
         $userID = $_POST['deleteEUser'];
-        list($userID, $enc_iv) = explode("::", $userID);  
+        list($userID, $enc_iv) = explode("::", $userID);
         $cipher_method = 'AES-256-CTR';
         $enc_key = openssl_digest(php_uname(), 'SHA256', TRUE);
         $token = openssl_decrypt($userID, $cipher_method, $enc_key, 0, hex2bin($enc_iv));

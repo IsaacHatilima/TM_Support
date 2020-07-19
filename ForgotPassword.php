@@ -33,9 +33,6 @@
 </head>
 
 <body class="navbar-bottom login-container">
-
-
-
 	<div class="page-container">
 		<div class="page-content">
 			<div class="content-wrapper">
@@ -46,10 +43,13 @@
                         </div>
                         <div class="alert alert-info  alert-styled-right" id="notif2" style="display:none;">
                             Processing, Please wait....
+						</div>
+						<div class="alert alert-success  alert-styled-right" id="notif10" style="display:none;">
+                            Password Reset Instructions Were Sent To Your Email.
                         </div>
                         <div class="alert alert-danger  alert-styled-right" id="notif3" style="display:none;">
-								An Error Occured. Please Try Again.
-							</div>
+							An Error Occured. Please Try Again.
+						</div>
 						<div class="text-center">
 							<div class="icon-object border-warning text-warning"><i class="icon-spinner11"></i></div>
 							<h5 class="content-group">Password recovery <small class="display-block">We'll send you an email with instructions</small></h5>
@@ -81,31 +81,9 @@
 			<div class="navbar-right">
 				<ul class="nav navbar-nav">
 					<li><a href="https://www.techmasters.co.zm/about">About</a></li>
-					<li><a  data-toggle="modal" data-target="#modal_backdrop">Contact</a></li>
+					<li><a type="button" data-popup="popover" data-placement="top" title="System Queries" data-content="For all system queries contact Techmasters Support on support@techmasters.co.zm" style="width: 200px;">Contact</a></li>
 				</ul>
 			</div>
-            <div id="modal_backdrop" class="modal fade" data-backdrop="false">
-                <div class="modal-dialog modal-xs">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h5 class="modal-title">For System Queries</h5>
-                        </div>
-
-                        <div class="modal-body">
-                            <p><b>For all system queries contact Isaac on:</b></p>
-                            <p>Email: isaac@techmasters.co.zm</p>
-                            <p>Cell: +260977477311</p>
-
-                            <hr>
-                        </div>
-
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
 		</div>
 	</div>
     <script src="access/ajax/Go.js"></script>

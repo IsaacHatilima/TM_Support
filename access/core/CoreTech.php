@@ -58,6 +58,11 @@
                                         echo 'POSadmin/pages';
                                         // $location = "admin-console/pages";
                                     }
+                                    if ($row['engineer_role'] == "ATM Admin")
+                                    {
+                                        echo 'ATMadmin/pages';
+                                        // $location = "admin-console/pages";
+                                    }
                                     if ($row['engineer_role'] == "POS Engineer")
                                     {
     

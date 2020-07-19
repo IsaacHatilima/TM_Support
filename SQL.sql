@@ -12,7 +12,8 @@ CREATE TABLE client_users
     date_created DATETIME NOT NULL,
     modified_by INT NULL,
     date_modified DATETIME NULL,
-    modification_reason TEXT NULL 
+    modification_reason TEXT NULL,
+    module VARCHAR(5) NOT NULL
 );
 
 CREATE TABLE client_login
@@ -209,7 +210,8 @@ CREATE TABLE pos_device_calls
     engineer_idz INT NULL,
     mecha_type VARCHAR(45) NOT NULL,
     device_qota INT NOT NULL,
-    clientID INT NOT NULL
+    clientID INT NOT NULL,
+    logger INT NOT NULL
 );
 
 CREATE TABLE pos_delivery_calls
@@ -238,7 +240,8 @@ CREATE TABLE pos_delivery_calls
     delivery_engineer_idz INT NULL
     mech_type VARCHAR(45) NOT NULL,
     delivery_qota INT NOT NULL,
-    clientID INT NOT NULL
+    clientID INT NOT NULL,
+    logger INT NOT NULL
 );
 
 CREATE TABLE ticket_numbers
@@ -248,3 +251,67 @@ CREATE TABLE ticket_numbers
 );
 
 INSERT INTO ticket_numbers (ticket_number) VALUES ('0');
+
+CREATE TABLE atm_calls (
+  call_id INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  client_id_fk INT(11) NOT NULL,
+  atm_id_fk INT(11) NOT NULL,
+  call_status VARCHAR(45) NOT NULL,
+  logged_by INT(11) NOT NULL,
+  time_logged DATETIME NOT NULL,
+  category_id_fk VARCHAR(45) NOT NULL,
+  sub_category_id_fk VARCHAR(45) NOT NULL,
+  fault_details TEXT NOT NULL,
+  engineer_on_site INT(11) NULL,
+  solution TEXT NULL,
+  close_time DATETIME NULL,
+  resolution_time VARCHAR(45) NULL,
+  opened_by INT(11) NULL,
+  open_date DATETIME NULL,
+  log_month VARCHAR(15) NOT NULL,
+  log_year INT(11) NOT NULL,
+  call_quota INT NOT NULL,
+  reson_for_delay TEXT NULL,
+  custodian_status TEXT NULL,
+  custodian_id_1 INT(60) NOT NULL,
+  custodian_id_2 INT(60) NOT NULL,
+  created_at DATETIME NULL,
+  updated_at DATETIME NULL
+);
+
+CREATE TABLE atm_categories (
+  category_id INT(11) NOT NULL,
+  category VARCHAR(100) NOT NULL,
+  created_by INT(11) NOT NULL,
+  date_created DATETIME NOT NULL
+);
+
+CREATE TABLE atm_sub_categories (
+  sub_category_id INT(11) NOT NULL,
+  category_id_fk INT(11) NOT NULL,
+  sub_category VARCHAR(100) NOT NULL,
+  created_by INT(11) NOT NULL,
+  date_created DATETIME NOT NULL
+)
+
+CREATE TABLE atm_details (
+  atm_id INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  atm_name VARCHAR(45) NOT NULL,
+  atm_site VARCHAR(45) NOT NULL,
+  atm_type VARCHAR(45) NOT NULL,
+  atm_model VARCHAR(45) NOT NULL,
+  client_id_fk INT(11) NOT NULL,
+  province VARCHAR(100) NOT NULL,
+  created_by INT(11) NOT NULL,
+  date_created DATETIME NOT NULL
+);
+
+CREATE TABLE atm_sla(
+    sla_id INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    client_sla_for INT(11) NOT NULL,
+    time_period VARCHAR(45) NOT NULL,
+    start_time TIME NOT NULL,
+    end_time TIME NOT NULL,
+    created_by INT(11) NOT NULL,
+    date_created DATETIME NOT NULL
+);

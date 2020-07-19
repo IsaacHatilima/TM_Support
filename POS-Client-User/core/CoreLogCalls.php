@@ -142,199 +142,316 @@
             $mail = new PHPMailer(true);
             try
             {
-                    // Client ID
-                    $sqlclientID = "SELECT client_id_fk,email FROM client_users WHERE client_user_id = ?;";
-                    $stmtclientID = $this->connect()->prepare($sqlclientID);
-                    $stmtclientID->bindvalue(1, $_SESSION['person']);
-                    $stmtclientID->execute();
-                    $rowclientID = $stmtclientID->fetch(PDO::FETCH_ASSOC);
-                    //echo $rowclientID['client_id_fk']; die();
+                // Client ID
+                $sqlclientID = "SELECT client_id_fk,email FROM client_users WHERE client_user_id = ?;";
+                $stmtclientID = $this->connect()->prepare($sqlclientID);
+                $stmtclientID->bindvalue(1, $_SESSION['person']);
+                $stmtclientID->execute();
+                $rowclientID = $stmtclientID->fetch(PDO::FETCH_ASSOC);
+                //echo $rowclientID['client_id_fk']; die();
+                $emil = $rowclientID['email'];
+                $sqlcl = "SELECT email as emailaddress FROM client_users WHERE client_id_fk = ? AND email != '' AND email != '$emil';";
+                $stmtcl = $this->connect()->prepare($sqlcl);
+                $stmtcl->bindvalue(1, $rowclientID['client_id_fk']);
+                $stmtcl->execute();
+                $listclients = array();
+                $listclients = $rowcl = $stmtcl->fetchAll(PDO::FETCH_ASSOC);
+                // Engineers
+                $sqle = "SELECT email as emailaddress FROM engineers WHERE department = 'POS Engineer';";
+                $stmte = $this->connect()->prepare($sqle);
+                $stmte->execute();
+                $liste = array();
+                $liste = $rowz = $stmte->fetchAll(PDO::FETCH_ASSOC);
+                //$output = array();
+                $output = array_merge( $listclients , $liste); //$listmds ,
+                //print_r($output);
 
-                    // MDs
-                    // $sqlmd = "SELECT emailID as emailaddress FROM email_list WHERE bank_id_fk = ?;";
-                    // $stmtmd = $object->connect()->prepare($sqlmd);
-                    // $stmtmd->bindvalue(1, $clientID['client_id_fk']);
-                    // $stmtmd->execute();
-                    // $listmds = array();
-                    // $listmds = $rowmd = $stmtmd->fetchAll(PDO::FETCH_ASSOC);
-                    // Clients
-                    $sqlcl = "SELECT email as emailaddress FROM client_users WHERE client_id_fk = ? AND contact_type != 'Primary';";
-                    $stmtcl = $this->connect()->prepare($sqlcl);
-                    $stmtcl->bindvalue(1, $rowclientID['client_id_fk']);
-                    $stmtcl->execute();
-                    $listclients = array();
-                    $listclients = $rowcl = $stmtcl->fetchAll(PDO::FETCH_ASSOC);
-                    // Engineers
-                    $sqle = "SELECT email as emailaddress FROM engineers WHERE department = 'POS Engineer';";
-                    $stmte = $this->connect()->prepare($sqle);
-                    $stmte->execute();
-                    $liste = array();
-                    $liste = $rowz = $stmte->fetchAll(PDO::FETCH_ASSOC);
-                    //$output = array();
-                    $output = array_merge( $listclients , $liste); //$listmds ,
-                    //print_r($output);
+                $email = $rowclientID['email'];
+                $message_subject = 'Ticket '.sprintf("%04d", $ticket_number).' Has Been Created';
 
-                    // Ticket Number   
-                    // Engineers
-                    // $sqltik = "SELECT COUNT(device_call_id) AS tikid FROM pos_device_calls;";
-                    // $stmttik = $this->connect()->prepare($sqltik);
-                    // $stmttik->execute();
-                    // $rowtik = $stmttik->fetch(PDO::FETCH_ASSOC);
-                    $email = $rowclientID['email'];
-                    $message_subject = 'Ticket '.sprintf("%04d", $ticket_number).' Has Been Created';
+                // Get Ticket Details
+                $sqldets = "SELECT * FROM pos_device_calls x,device_info,client_users,mechants,pos_categories,pos_sub_categories WHERE logged_by=client_user_id AND x.call_device_serial=device_serial AND x.devcall_mechant_log_id_fk = mechant_log_id AND x.category_id_fk = category_id AND x.sub_category_id_fk = sub_category_id AND ticket_number = ?;";
+                $stmtdets = $this->connect()->prepare($sqldets);
+                $stmtdets->bindvalue(1, $ticket_number);
+                $stmtdets->execute();
+                $rowdets = $stmtdets->fetch(PDO::FETCH_ASSOC);
+                //echo 'MTN '.$rowdets['mtn_sim_serial'].' Airtel '.$rowdets['airtel_sim_serial']; die();
+                if($rowdets['mtn_sim_serial'] == null)
+                {
+                    $simSerial = $rowdets['airtel_sim_serial'];
+                }
+                if($rowdets['airtel_sim_serial'] == null)
+                {
+                    $simSerial = $rowdets['mtn_sim_serial'];
+                }
+                if($rowdets['airtel_sim_serial'] != null && $rowdets['mtn_sim_serial'] != null)
+                {
+                    $simSerial = 'MTN('.$rowdets['mtn_sim_serial'].'/ Airtel('.$rowdets['airtel_sim_serial'].')';
+                }
 
-                    // Get Ticket Details
-                    $sqldets = "SELECT * FROM pos_device_calls x,device_info,client_users,mechants,pos_categories,pos_sub_categories WHERE logged_by=client_user_id AND x.call_device_serial=device_serial AND x.devcall_mechant_log_id_fk = mechant_log_id AND x.category_id_fk = category_id AND x.sub_category_id_fk = sub_category_id AND ticket_number = ?;";
-                    $stmtdets = $this->connect()->prepare($sqldets);
-                    $stmtdets->bindvalue(1, $ticket_number);
-                    $stmtdets->execute();
-                    $rowdets = $stmtdets->fetch(PDO::FETCH_ASSOC);
-                    //echo 'MTN '.$rowdets['mtn_sim_serial'].' Airtel '.$rowdets['airtel_sim_serial']; die();
-                    if($rowdets['mtn_sim_serial'] == null)
-                    {
-                        $simSerial = $rowdets['airtel_sim_serial'];
-                    }
-                    if($rowdets['airtel_sim_serial'] == null)
-                    {
-                        $simSerial = $rowdets['mtn_sim_serial'];
-                    }
-                    if($rowdets['airtel_sim_serial'] != null && $rowdets['mtn_sim_serial'] != null)
-                    {
-                        $simSerial = 'MTN('.$rowdets['mtn_sim_serial'].'/ Airtel('.$rowdets['airtel_sim_serial'].')';
-                    }
+                if($rowdets['device_call_status'] == 'New')
+                {
+                    $color = 'blue';
+                }
+                if($rowdets['device_call_status'] == 'Open')
+                {
+                    $color = 'orange';
+                }
+                if($rowdets['device_call_status'] == 'Closed')
+                {
+                    $color = 'green';
+                }
 
-                    $message = '
+                $message = '
+                    <!doctype html>
                     <html>
-                        <head>
-                            <style>
-                                .container {
-                                    padding: 2px 16px;
-                                }
-                                .tr,table,td
-                                {
-                                    border:1px solid black;
-                                    border-collapse: collapse;
-                                }
-                            </style>
-                        </head>
-                        <body>
-                            <div class="card">
-                                <div class="container" style="font-size: 20px">
-                                    <br>
-                                    Hello Team,<br><br><br>
-                                    A call with the following details has been created.
-                                    <br><br>
-                                    <table style="font-size: 20px">
+                    <head>
+                        <meta name="viewport" content="width=device-width">
+                        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+                        <title>S.M.S</title>
+                        <style>
+                        @media only screen and (max-width: 620px) {
+                        table[class=body] h1 {
+                            font-size: 28px !important;
+                            margin-bottom: 10px !important;
+                        }
+                        table[class=body] p,
+                                table[class=body] ul,
+                                table[class=body] ol,
+                                table[class=body] td,
+                                table[class=body] span,
+                                table[class=body] a {
+                            font-size: 16px !important;
+                        }
+                        table[class=body] .wrapper,
+                                table[class=body] .article {
+                            padding: 10px !important;
+                        }
+                        table[class=body] .content {
+                            padding: 0 !important;
+                        }
+                        table[class=body] .container {
+                            padding: 0 !important;
+                            width: 100% !important;
+                        }
+                        table[class=body] .main {
+                            border-left-width: 0 !important;
+                            border-radius: 0 !important;
+                            border-right-width: 0 !important;
+                        }
+                        table[class=body] .btn table {
+                            width: 100% !important;
+                        }
+                        table[class=body] .btn a {
+                            width: 100% !important;
+                        }
+                        table[class=body] .img-responsive {
+                            height: auto !important;
+                            max-width: 100% !important;
+                            width: auto !important;
+                        }
+                        }
+                        @media all {
+                        .ExternalClass {
+                            width: 100%;
+                        }
+                        .ExternalClass,
+                                .ExternalClass p,
+                                .ExternalClass span,
+                                .ExternalClass font,
+                                .ExternalClass td,
+                                .ExternalClass div {
+                            line-height: 100%;
+                        }
+                        .apple-link a {
+                            color: inherit !important;
+                            font-family: inherit !important;
+                            font-size: inherit !important;
+                            font-weight: inherit !important;
+                            line-height: inherit !important;
+                            text-decoration: none !important;
+                        }
+                        #MessageViewBody a {
+                            color: inherit;
+                            text-decoration: none;
+                            font-size: inherit;
+                            font-family: inherit;
+                            font-weight: inherit;
+                            line-height: inherit;
+                        }
+                        .btn-primary table td:hover {
+                            background-color: #34495e !important;
+                        }
+                        .btn-primary a:hover {
+                            background-color: #34495e !important;
+                            border-color: #34495e !important;
+                        }
+                        }
+                        </style>
+                    </head>
+                    <body class="" style="background-color: #f6f6f6; font-family: sans-serif; -webkit-font-smoothing: antialiased; font-size: 14px; line-height: 1.4; margin: 0; padding: 0; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;">
+                        <table border="0" cellpadding="0" cellspacing="0" class="body" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%; background-color: #f6f6f6;">
+                        <tr>
+                            <td style="font-family: sans-serif; font-size: 14px; vertical-align: top;">&nbsp;</td>
+                            <td class="container" style="font-family: sans-serif; font-size: 14px; vertical-align: top; display: block; Margin: 0 auto; max-width: 580px; padding: 10px; width: 580px;">
+                            <div class="content" style="box-sizing: border-box; display: block; Margin: 0 auto; max-width: 580px; padding: 10px;">
+
+                                <span class="preheader" style="color: transparent; display: none; height: 0; max-height: 0; max-width: 0; opacity: 0; overflow: hidden; mso-hide: all; visibility: hidden; width: 0;">Ticket Notifications.</span>
+                                <table class="main" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%; background: #ffffff; border-radius: 3px;">
+
+                                <tr>
+                                    <td class="wrapper" style="font-family: sans-serif; font-size: 14px; vertical-align: top; box-sizing: border-box; padding: 20px;">
+                                    <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">
+                                    Ticket Number '.sprintf("%04d", $rowdets['ticket_number']).'  <br> <br>
                                         <tr>
-                                            <td style="padding-right: 10px"><b>Ticket Number</b></td>
-                                            <td>'.sprintf("%04d", $ticket_number).'</td>
-                                        </tr>
-                                        <tr>
-                                            <td style="padding-right: 10px"><b>Ticket Status</b></td>
-                                            <td>New</td>
-                                        </tr>
-                                        <tr>
-                                            <td><b>Mechant Name</b></td>
-                                            <td>'.$rowdets['mechant_name'].' ('.$rowdets['mechant_type'].')</td>
-                                        </tr>
-                                        <tr>
-                                            <td><b>Location</b></td>
-                                            <td>'.$rowdets['mechant_province'].' ('.$rowdets['mechant_town'].')</td>
-                                        </tr>
-                                        <tr>
-                                            <td><b>Device Serial</b></td>
-                                            <td>'.$rowdets['device_serial'].'</td>
-                                        </tr>
-                                        <tr>
-                                            <td><b>SIM Serial</b></td>
-                                            <td>'.$simSerial.'</td>
-                                        </tr>
-                                        <tr>
-                                            <td><b>Contact Name</b></td>
-                                            <td>'.$rowdets['managers_name'].'</td>
-                                        </tr>
-                                        <tr>
-                                            <td><b>Contact Cell</b></td>
-                                            <td>'.$rowdets['managers_cell'].'</td>
-                                        </tr>
-                                        <tr>
-                                            <td><b>Fault Details</b></td>
-                                            <td>'.$rowdets['fault_details'].'</td>
-                                        </tr>
-                                        <tr>
-                                            <td><b>Logged BY</b></td>
-                                            <td>'.$rowdets['client_user_first_name'].' '.$rowdets['client_user_last_name'].'</td>
+                                            <td style="font-family: sans-serif; font-size: 14px; vertical-align: top;">
+                                            <table border="1" cellpadding="0" cellspacing="0" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">
+                                                <tr>
+                                                    <td align="left"
+                                                        style="font-family: sans-serif;  vertical-align: top; ">
+                                                        Ticket Status: </td>
+                                                    <td class="lines"> <i class="fa fa-bell" style="color:'.$color.';">
+                                                            '.$rowdets['device_call_status'].'</i></td>
+                                                </tr>
+                                                <tr>
+                                                    <td align="left"
+                                                        style=" font-family: sans-serif; vertical-align: top; ">
+                                                        Mechant Name: </td>
+                                                    <td class="lines"> '.$rowdets['mechant_name'].' ('.$rowdets['mechant_type'].')</td>
+                                                </tr>
+                                                <tr>
+                                                    <td align="left"
+                                                        style="font-family: sans-serif; vertical-align: top">
+                                                        Location: </td>
+                                                    <td class="lines">'.$rowdets['mechant_province'].' ('.$rowdets['mechant_town'].')</td>
+                                                </tr>
+                                                <tr>
+                                                    <td align="left"
+                                                        style="font-family: sans-serif; vertical-align: top">
+                                                        Device Serial: </td>
+                                                    <td class="lines">'.$rowdets['call_device_serial'].'</td>
+                                                </tr>
+                                                <tr>
+                                                    <td align="left"
+                                                        style="font-family: sans-serif; vertical-align: top">
+                                                        SIM Serials: </td>
+                                                    <td class="lines">'. $simSerial.'</td>
+                                                </tr>
+                                                <tr>
+                                                    <td align="left"
+                                                        style="font-family: sans-serif; vertical-align: top">
+                                                        Contact Person: </td>
+                                                    <td class="lines">'.$rowdets['managers_cell'].' / '.$rowdets['managers_cell'].'</td>
+                                                </tr>
+                                                <tr>
+                                                    <td align="left"
+                                                        style="font-family: sans-serif; vertical-align: top">
+                                                        Category: </td>
+                                                    <td class="lines">'.$rowdets['category'].'</td>
+                                                </tr>
+                                                <tr>
+                                                    <td align="left"
+                                                        style="font-family: sans-serif; vertical-align: top">
+                                                        Sub-Category: </td>
+                                                    <td class="lines">'.$rowdets['sub_category'].'</td>
+                                                </tr>
+                                                <tr>
+                                                    <td align="left"
+                                                        style="font-family: sans-serif; vertical-align: top">
+                                                        Fault Details: </td>
+                                                    <td class="lines">'.$rowdets['fault_details'].'</td>
+                                                </tr>
+                                                <tr>
+                                                    <td align="left"
+                                                        style="font-family: sans-serif; vertical-align: top">
+                                                        Request User: </td>
+                                                    <td class="lines">'.$rowdets['client_user_first_name'].' '.$rowdets['client_user_last_name'].'</td>
+                                                </tr>
+                                            </table>
+                                            <br><br>
+                                            <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">Happy Working! <br>Techmasters Team.</p>
+                                        </td>
                                         </tr>
                                     </table>
+                                    </td>
+                                </tr>
 
-                                    <br><br>
-                                    <br><br>
-                                    Team TechMasters
-                                    <br>
-                                    web: www.techmasters.co.zm
-                                    <br><br>
-                                    <br><br>
-                                    <br><br>
-                                    <small>
-                                    <i><b>Disclaimer</b></i>: Please do not reply to this email as it is system generated.<br> Furthermore. All contents of this email are strictly for the use of ticket notification, if you think you received this in error please send an email to support@techmasters.co.zm to have that rectified.
-                                </small>
+                                </table>
+
+                                <div class="footer" style="clear: both; Margin-top: 10px; text-align: center; width: 100%;">
+                                <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">
+                                    <tr>
+                                    <td class="content-block" style="font-family: sans-serif; vertical-align: top; padding-bottom: 10px; padding-top: 10px; font-size: 12px; color: #999999; text-align: center;">
+                                        <span class="apple-link" style="color: #999999; font-size: 12px; text-align: center;">Techmasters Support System</span>
+                                    </td>
+                                    </tr>
+                                    <tr>
+                                    <td class="content-block powered-by" style="font-family: sans-serif; vertical-align: top; padding-bottom: 10px; padding-top: 10px; font-size: 12px; color: #999999; text-align: center;">
+                                        Powered by <a href="https://www.techmasters.co.zm" style="color: #999999; font-size: 12px; text-align: center; text-decoration: none;">Techmasters</a>.
+                                    </td>
+                                    </tr>
+                                </table>
                                 </div>
                             </div>
-                        </body>
+                            </td>
+                            <td style="font-family: sans-serif; font-size: 14px; vertical-align: top;">&nbsp;</td>
+                        </tr>
+                        </table>
+                    </body>
                     </html>
-                    ';
-                    
-    
-                    $mail->isSMTP(); 
-                    $mail->SMTPDebug = 2;
-                    $mail->Debugoutput = 'html';                                           
-                    $mail->Host       = 'smtp.office365.com';  
-                    $mail->SMTPAuth   = true;                                  
-                    $mail->Username   = 'support@techmasters.co.zm';                     
-                    $mail->Password   = 'Password123';                             
-                    $mail->SMTPSecure = 'TLS'; 
-                    $mail->Port       = 587;                                    
-                    $mail->setFrom('support@techmasters.co.zm', 'Techmasters Support');
-                    $mail->addAddress($email);
-                    // if($rows['email_type'] == 'ATM Call' || $rows['email_type'] == 'POS Call' )
-                    // {
-                        // $mail->addAddress($email); 
-                        foreach($output as $recipient){
-                            $mail->addCC($recipient['emailaddress']);
-                            //print_r($recipient['emailaddress']);
-                        }
-                    // }
-                    $mail->WordWrap = 70;
-                    $mail->isHTML(true);   
-                    $mail->Subject = $message_subject;
-                    $mail->Body    = $message;
-                    $mail->AltBody = $message;
-                    if($mail->send())
-                    {
-                        $statuse = 'SUCCESS';
-                        $count = '3';
-                        $from = 'POS Call';
+                ';
+                
 
-                        $sql = "INSERT INTO email_notifications(email_type,email_addres,email_status,email_subject,email_message,local_date,logdate,send_count,bankID) VALUES(?,?,?,?,?,?,?,?,?);";
-                        $stmt = $this->connect()->prepare($sql);
-                        $stmt->bindvalue(1, $from);
-                        $stmt->bindvalue(2, $email);
-                        $stmt->bindvalue(3, $statuse);
-                        $stmt->bindvalue(4, $message_subject);
-                        $stmt->bindvalue(5, $message);
-                        $stmt->bindvalue(6, date('Y-m-d'));
-                        $stmt->bindvalue(7, date('Y-m-d H:i:s'));
-                        $stmt->bindvalue(8, $count);
-                        $stmt->bindvalue(9, $rowclientID['client_id_fk']);
-                        if($stmt->execute())
-                        {
-                            echo "Success";
-                        }
-                        else
-                        {
-                            echo "Failed";
-                        }
+                $mail->isSMTP(); 
+                $mail->SMTPDebug = 2;
+                $mail->Debugoutput = 'html';                                           
+                $mail->Host       = 'smtp.office365.com';  
+                $mail->SMTPAuth   = true;                                  
+                $mail->Username   = 'support@techmasters.co.zm';                     
+                $mail->Password   = 'Password123';                             
+                $mail->SMTPSecure = 'TLS'; 
+                $mail->Port       = 587;                                    
+                $mail->setFrom('support@techmasters.co.zm', 'Techmasters Support');
+                $mail->addAddress($email);
+                // if($rows['email_type'] == 'ATM Call' || $rows['email_type'] == 'POS Call' )
+                // {
+                    // $mail->addAddress($email); 
+                    foreach($output as $recipient){
+                        $mail->addCC($recipient['emailaddress']);
+                        //print_r($recipient['emailaddress']);
                     }
+                // }
+                $mail->WordWrap = 70;
+                $mail->isHTML(true);   
+                $mail->Subject = $message_subject;
+                $mail->Body    = $message;
+                $mail->AltBody = $message;
+                if($mail->send())
+                {
+                    $statuse = 'SUCCESS';
+                    $count = '3';
+                    $from = 'POS Call';
+
+                    $sql = "INSERT INTO email_notifications(email_type,email_addres,email_status,email_subject,email_message,local_date,logdate,send_count,bankID) VALUES(?,?,?,?,?,?,?,?,?);";
+                    $stmt = $this->connect()->prepare($sql);
+                    $stmt->bindvalue(1, $from);
+                    $stmt->bindvalue(2, $email);
+                    $stmt->bindvalue(3, $statuse);
+                    $stmt->bindvalue(4, $message_subject);
+                    $stmt->bindvalue(5, $message);
+                    $stmt->bindvalue(6, date('Y-m-d'));
+                    $stmt->bindvalue(7, date('Y-m-d H:i:s'));
+                    $stmt->bindvalue(8, $count);
+                    $stmt->bindvalue(9, $rowclientID['client_id_fk']);
+                    if($stmt->execute())
+                    {
+                        echo "Success";
+                    }
+                    else
+                    {
+                        echo "Failed";
+                    }
+                }
             }
             catch(PDOException $e)
             {
@@ -454,21 +571,14 @@
                     $stmtclientID->execute();
                     $rowclientID = $stmtclientID->fetch(PDO::FETCH_ASSOC);
                     //echo $rowclientID['client_id_fk']; die();
-
-                    // MDs
-                    // $sqlmd = "SELECT emailID as emailaddress FROM email_list WHERE bank_id_fk = ?;";
-                    // $stmtmd = $object->connect()->prepare($sqlmd);
-                    // $stmtmd->bindvalue(1, $clientID['client_id_fk']);
-                    // $stmtmd->execute();
-                    // $listmds = array();
-                    // $listmds = $rowmd = $stmtmd->fetchAll(PDO::FETCH_ASSOC);
+                    $emil = $rowclientID['email'];
                     // Clients
-                    $sqlcl = "SELECT email as emailaddress FROM client_users WHERE client_id_fk = ? AND contact_type != 'Primary';";
+                    $sqlcl = "SELECT email as emailaddress FROM client_users WHERE client_id_fk = ? AND email != '' AND email != '$emil';";
                     $stmtcl = $this->connect()->prepare($sqlcl);
                     $stmtcl->bindvalue(1, $rowclientID['client_id_fk']);
                     $stmtcl->execute();
                     $listclients = array();
-                    $listclients = $rowcl = $stmtcl->fetchAll(PDO::FETCH_ASSOC);
+                    $listclients =  $stmtcl->fetchAll(PDO::FETCH_ASSOC);
                     // Engineers
                     $sqle = "SELECT email as emailaddress FROM engineers WHERE department = 'POS Engineer';";
                     $stmte = $this->connect()->prepare($sqle);
@@ -478,94 +588,200 @@
                     //$output = array();
                     $output = array_merge( $listclients , $liste); //$listmds ,
                     //print_r($output);
-
-                    // Ticket Number   
-                    // Engineers
-                    // $sqltik = "SELECT COUNT(delivery_call_id) AS tikid FROM pos_delivery_calls;";
-                    // $stmttik = $this->connect()->prepare($sqltik);
-                    // $stmttik->execute();
-                    // $rowtik = $stmttik->fetch(PDO::FETCH_ASSOC);
                     $email = $rowclientID['email'];
                     $message_subject = 'Ticket '.sprintf("%04d", $ticket_number).' Has Been Created';
 
                     // Get Ticket Details
-                    $sqldets = "SELECT * FROM pos_delivery_calls x,device_info,client_users,mechants,pos_categories,pos_sub_categories WHERE delivery_logged_by=client_user_id AND x.delivery_mechant_log_id_fk = mechant_log_id AND x.delivery_category_id_fk = category_id AND x.delivery_sub_category_id_fk = sub_category_id AND delivery_call_id = ?;";
+                    $sqldets = "SELECT * FROM pos_delivery_calls x,client_users,mechants,pos_categories,pos_sub_categories WHERE delivery_logged_by=client_user_id AND x.delivery_mechant_log_id_fk = mechant_log_id AND x.delivery_category_id_fk = category_id AND x.delivery_sub_category_id_fk = sub_category_id AND ticket_number = ?;";
                     $stmtdets = $this->connect()->prepare($sqldets);
                     $stmtdets->bindvalue(1, $ticket_number);
                     $stmtdets->execute();
                     $rowdets = $stmtdets->fetch(PDO::FETCH_ASSOC);
 
+                    if($rowdets['delivery_call_status'] == 'New')
+                    {
+                        $color = 'blue';
+                    }
+                    if($rowdets['delivery_call_status'] == 'Open')
+                    {
+                        $color = 'orange';
+                    }
+                    if($rowdets['delivery_call_status'] == 'Closed')
+                    {
+                        $color = 'green';
+                    }
+
                     $message = '
-                    <html>
+                        <!doctype html>
+                        <html>
                         <head>
+                            <meta name="viewport" content="width=device-width">
+                            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+                            <title>S.M.S</title>
                             <style>
-                                .container {
-                                    padding: 2px 16px;
-                                }
-                                .tr,table,td
-                                {
-                                    border:1px solid black;
-                                    border-collapse: collapse;
-                                }
+                            @media only screen and (max-width: 620px) {
+                            table[class=body] h1 {
+                                font-size: 28px !important;
+                                margin-bottom: 10px !important;
+                            }
+                            table[class=body] p,
+                                    table[class=body] ul,
+                                    table[class=body] ol,
+                                    table[class=body] td,
+                                    table[class=body] span,
+                                    table[class=body] a {
+                                font-size: 16px !important;
+                            }
+                            table[class=body] .wrapper,
+                                    table[class=body] .article {
+                                padding: 10px !important;
+                            }
+                            table[class=body] .content {
+                                padding: 0 !important;
+                            }
+                            table[class=body] .container {
+                                padding: 0 !important;
+                                width: 100% !important;
+                            }
+                            table[class=body] .main {
+                                border-left-width: 0 !important;
+                                border-radius: 0 !important;
+                                border-right-width: 0 !important;
+                            }
+                            table[class=body] .btn table {
+                                width: 100% !important;
+                            }
+                            table[class=body] .btn a {
+                                width: 100% !important;
+                            }
+                            table[class=body] .img-responsive {
+                                height: auto !important;
+                                max-width: 100% !important;
+                                width: auto !important;
+                            }
+                            }
+                            @media all {
+                            .ExternalClass {
+                                width: 100%;
+                            }
+                            .ExternalClass,
+                                    .ExternalClass p,
+                                    .ExternalClass span,
+                                    .ExternalClass font,
+                                    .ExternalClass td,
+                                    .ExternalClass div {
+                                line-height: 100%;
+                            }
+                            .apple-link a {
+                                color: inherit !important;
+                                font-family: inherit !important;
+                                font-size: inherit !important;
+                                font-weight: inherit !important;
+                                line-height: inherit !important;
+                                text-decoration: none !important;
+                            }
+                            #MessageViewBody a {
+                                color: inherit;
+                                text-decoration: none;
+                                font-size: inherit;
+                                font-family: inherit;
+                                font-weight: inherit;
+                                line-height: inherit;
+                            }
+                            .btn-primary table td:hover {
+                                background-color: #34495e !important;
+                            }
+                            .btn-primary a:hover {
+                                background-color: #34495e !important;
+                                border-color: #34495e !important;
+                            }
+                            }
                             </style>
                         </head>
-                        <body>
-                            <div class="card">
-                                <div class="container" style="font-size: 20px">
-                                    <br>
-                                    Hello Team,<br><br><br>
-                                    A call with the following details has been created.
-                                    <br><br>
-                                    <table style="font-size: 20px">
-                                        <tr>
-                                            <td style="padding-right: 10px"><b>Ticket Number</b></td>
-                                            <td>'.sprintf("%04d", $ticket_number).'</td>
-                                        </tr>
-                                        <tr>
-                                            <td style="padding-right: 10px"><b>Ticket Status</b></td>
-                                            <td>New</td>
-                                        </tr>
-                                        <tr>
-                                            <td><b>Mechant Name</b></td>
-                                            <td>'.$rowdets['mechant_name'].' ('.$rowdets['mechant_type'].')</td>
-                                        </tr>
-                                        <tr>
-                                            <td><b>Location</b></td>
-                                            <td>'.$rowdets['mechant_province'].' ('.$rowdets['mechant_town'].')</td>
-                                        </tr>
-                                        <tr>
-                                            <td><b>Contact Name</b></td>
-                                            <td>'.$rowdets['delivery_managers_name'].'</td>
-                                        </tr>
-                                        <tr>
-                                            <td><b>Contact Cell</b></td>
-                                            <td>'.$rowdets['delivery_managers_cell'].'</td>
-                                        </tr>
-                                        <tr>
-                                            <td><b>Delivery Item</b></td>
-                                            <td>'.$rowdets['item_to_deliver'].'</td>
-                                        </tr>
-                                        <tr>
-                                            <td><b>Logged BY</b></td>
-                                            <td>'.$rowdets['client_user_first_name'].' '.$rowdets['client_user_last_name'].'</td>
-                                        </tr>
+                        <body class="" style="background-color: #f6f6f6; font-family: sans-serif; -webkit-font-smoothing: antialiased; font-size: 14px; line-height: 1.4; margin: 0; padding: 0; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;">
+                            <table border="0" cellpadding="0" cellspacing="0" class="body" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%; background-color: #f6f6f6;">
+                            <tr>
+                                <td style="font-family: sans-serif; font-size: 14px; vertical-align: top;">&nbsp;</td>
+                                <td class="container" style="font-family: sans-serif; font-size: 14px; vertical-align: top; display: block; Margin: 0 auto; max-width: 580px; padding: 10px; width: 580px;">
+                                <div class="content" style="box-sizing: border-box; display: block; Margin: 0 auto; max-width: 580px; padding: 10px;">
+
+                                    <span class="preheader" style="color: transparent; display: none; height: 0; max-height: 0; max-width: 0; opacity: 0; overflow: hidden; mso-hide: all; visibility: hidden; width: 0;">Ticket Notifications.</span>
+                                    <table class="main" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%; background: #ffffff; border-radius: 3px;">
+
+                                    <tr>
+                                        <td class="wrapper" style="font-family: sans-serif; font-size: 14px; vertical-align: top; box-sizing: border-box; padding: 20px;">
+                                        <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">
+                                        Ticket Number '.sprintf("%04d", $rowdets['ticket_number']).'  <br> <br>
+                                            <tr>
+                                                <td style="font-family: sans-serif; font-size: 14px; vertical-align: top;">
+                                                <table border="1" cellpadding="0" cellspacing="0" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">
+                                                    <tr>
+                                                        <td class="lines" align="left"
+                                                            style="font-family: sans-serif;  font-size: 14px; vertical-align: top; ">
+                                                            Ticket Status</td>
+                                                        <td class="lines"> <i class="fa fa-bell" style="color:'.$color.';">'.$rowdets['delivery_call_status'].'</i></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="lines" align="left"
+                                                            style=" font-family: sans-serif; font-size: 14px; vertical-align: top; ">
+                                                            Mechant Name</td>
+                                                        <td class="lines"> '.$rowdets['mechant_name'].' ('.$rowdets['mechant_type'].')</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="lines" align="left"
+                                                            style="font-family: sans-serif; font-size: 14px; vertical-align: top">
+                                                            Location</td>
+                                                        <td class="lines">'.$rowdets['mechant_province'].' ('.$rowdets['mechant_town'].')</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="lines" align="left"
+                                                            style="font-family: sans-serif; font-size: 14px; vertical-align: top">
+                                                            Contact Person</td>
+                                                        <td class="lines">'.$rowdets['delivery_managers_name'].' / '.$rowdets['delivery_managers_cell'].'</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="lines" align="left"
+                                                            style="font-family: sans-serif; font-size: 14px; vertical-align: top">Delivery Item</td>
+                                                        <td class="lines">'.$rowdets['item_to_deliver'].'</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="lines" align="left"
+                                                            style="font-family: sans-serif; font-size: 14px; vertical-align: top">
+                                                            Request User</td>
+                                                        <td class="lines">'.$rowdets['client_user_first_name'].' '.$rowdets['client_user_last_name'].'</td>
+                                                    </tr>
+                                                </table>
+                                                <br><br>
+                                                <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px;">Happy Working! <br>Techmasters Team.</p>
+                                            </td>
+                                            </tr>
+                                        </table>
+                                        </td>
+                                    </tr>
+
                                     </table>
 
-                                    <br><br>
-                                    <br><br>
-                                    Team TechMasters
-                                    <br>
-                                    web: www.techmasters.co.zm
-                                    <br><br>
-                                    <br><br>
-                                    <br><br>
-                                    <small>
-                                    <i><b>Disclaimer</b></i>: Please do not reply to this email as it is system generated.<br> Furthermore. All contents of this email are strictly for the use of ticket notification, if you think you received this in error please send an email to support@techmasters.co.zm to have that rectified.
-                                </small>
+                                    <div class="footer" style="clear: both; Margin-top: 10px; text-align: center; width: 100%;">
+                                    <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">
+                                        <tr>
+                                        <td class="content-block" style="font-family: sans-serif; vertical-align: top; padding-bottom: 10px; padding-top: 10px; font-size: 12px; color: #999999; text-align: center;">
+                                            <span class="apple-link" style="color: #999999; font-size: 12px; text-align: center;">Techmasters Support System</span>
+                                        </td>
+                                        </tr>
+                                        <tr>
+                                        <td class="content-block powered-by" style="font-family: sans-serif; vertical-align: top; padding-bottom: 10px; padding-top: 10px; font-size: 12px; color: #999999; text-align: center;">
+                                            Powered by <a href="https://www.techmasters.co.zm" style="color: #999999; font-size: 12px; text-align: center; text-decoration: none;">Techmasters</a>.
+                                        </td>
+                                        </tr>
+                                    </table>
+                                    </div>
                                 </div>
-                            </div>
+                                </td>
+                                <td style="font-family: sans-serif; font-size: 14px; vertical-align: top;">&nbsp;</td>
+                            </tr>
+                            </table>
                         </body>
-                    </html>
+                        </html>
                     ';
                     
     

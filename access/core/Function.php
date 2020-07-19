@@ -62,6 +62,10 @@
                                     {
                                         echo 'POS-Client-User/pages';
                                     }
+                                    if ($row['role'] == "ATM Client")
+                                    {
+                                        echo 'ATM-Client-User/pages';
+                                    }
                                 }
                             }
                             else

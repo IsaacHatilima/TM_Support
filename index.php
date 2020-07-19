@@ -102,31 +102,9 @@
 			<div class="navbar-right">
 				<ul class="nav navbar-nav">
 					<li><a href="https://www.techmasters.co.zm/about">About</a></li>
-					<li><a  data-toggle="modal" data-target="#modal_backdrop">Contact</a></li>
+					<li><a type="button" data-popup="popover" data-placement="top" title="System Queries" data-content="For all system queries contact Techmasters Support on support@techmasters.co.zm" style="width: 200px;">Contact</a></li>
 				</ul>
 			</div>
-            <div id="modal_backdrop" class="modal fade" data-backdrop="false">
-                <div class="modal-dialog modal-xs">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h5 class="modal-title">For System Queries</h5>
-                        </div>
-
-                        <div class="modal-body">
-                            <p><b>For all system queries contact Isaac on:</b></p>
-                            <p>Email: isaac@techmasters.co.zm</p>
-                            <p>Cell: +260977477311</p>
-
-                            <hr>
-                        </div>
-
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
 		</div>
 	</div>
 	<script src="access/ajax/Go.js"></script>

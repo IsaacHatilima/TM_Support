@@ -10,6 +10,17 @@ $('#login').click(function(e){
         return false;
     }
     else{
+        var em = document.getElementById("email").value;
+        var last_email_part = em.substr(em.length - 17);
+        var urls;
+        if(last_email_part === "techmasters.co.zm")
+        {
+            urls = "access/core/CoreTech.php";
+        }
+        else
+        {
+            urls = "access/core/Function.php";
+        }
         $("#notif2").css("display", "block");
         var btn = document.getElementById('login');
         btn.disabled = true;
@@ -18,46 +29,50 @@ $('#login').click(function(e){
         $("#arrow").css("display", "none");
         $.ajax({
             type: "post",
-            url: "access/core/Function.php",
+            url: urls,
             data: $("form").serialize(),
             cache: false,
-            processData:false,
-            success: function(strMessage) {
+            processData: false,
+            success: function (strMessage) {
                 console.log(strMessage);
                 // $('#saver').removeAttr('disabled');
                 var xx = strMessage;
-                if (xx !== 'Wala' && xx !== 'Non Existing' && xx !== 'Error') {
+                if (xx !== "Wala" && xx !== "Non Existing" && xx !== "Error") 
+                {
                     $("#notif2").css("display", "none");
-                    $("#notif3").css("display", "none"); 
+                    $("#notif3").css("display", "none");
                     $("#notif4").css("display", "none");
                     $("#notif5").css("display", "block");
-                    var page = xx;    
-                    setTimeout(function(){
+                    var page = xx;
+                    setTimeout(function () {
                         window.location.href = page;
-                    }, 2500); 
-                }
-                else if (xx === 'Wala') { 
+                    }, 2500);
+                } 
+                else if (xx === "Wala") 
+                {
                     $("#notif2").css("display", "none");
-                    $("#notif3").css("display", "block"); 
-                    btn.disabled = false;  
+                    $("#notif3").css("display", "block");
+                    btn.disabled = false;
                     $("#spinner").css("display", "none");
-                    $("#arrow").css("display", "block");  
-                }
-                else if (xx === 'Non Existing') { 
+                    $("#arrow").css("display", "block");
+                } 
+                else if (xx === "Non Existing") 
+                {
                     $("#notif2").css("display", "none");
-                    $("#notif3").css("display", "block"); 
-                    btn.disabled = false;  
+                    $("#notif3").css("display", "block");
+                    btn.disabled = false;
                     $("#spinner").css("display", "none");
-                    $("#arrow").css("display", "block");      
-                }
-                else if (xx === 'Error') {   
+                    $("#arrow").css("display", "block");
+                } 
+                else if (xx === "Error") 
+                {
                     $("#notif2").css("display", "none");
-                    $("#notif4").css("display", "block"); 
-                    btn.disabled = false;  
+                    $("#notif4").css("display", "block");
+                    btn.disabled = false;
                     $("#spinner").css("display", "none");
-                    $("#arrow").css("display", "block");     
+                    $("#arrow").css("display", "block");
                 }
-            }
+          },
         });
     }
 });
@@ -176,6 +191,17 @@ $('#reset').click(function(e){
         return false;
     }
     else{
+        var em = document.getElementById("emailz").value;
+        var last_email_part = em.substr(em.length - 17);
+        var urls;
+        if(last_email_part === "techmasters.co.zm")
+        {
+            urls = "access/core/CoreTech.php";
+        }
+        else
+        {
+            urls = "access/core/Function.php";
+        }
         $("#notif2").css("display", "block");
         var btn = document.getElementById('reset');
         btn.disabled = true;
@@ -184,7 +210,7 @@ $('#reset').click(function(e){
         $("#arrow").css("display", "none");
         $.ajax({
             type: "post",
-            url: "access/core/Function.php",
+            url: urls,
             data: $("form").serialize(),
             cache: false,
             processData:false,
@@ -192,13 +218,14 @@ $('#reset').click(function(e){
                 console.log(strMessage);
                 var xx = strMessage;
                 if (xx == 'Back') {
-                    $("#notif2").css("display", "block");   
+                    $("#notif10").css("display", "block");   
                     setTimeout(function(){
                         window.location.href = "./";
                     }, 2500); 
                 }
                 if (xx == 'Error') {   
                     $("#notif2").css("display", "none");
+                    $("#notif10").css("display", "none");
                     $("#notif3").css("display", "block");    
                 }
             }

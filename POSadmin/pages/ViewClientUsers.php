@@ -39,7 +39,7 @@
 						</thead>
 						<tbody>
 							<?php
-								$sql = "SELECT * FROM client_users,clients WHERE client_id = client_id_fk;";
+								$sql = "SELECT * FROM client_users,clients WHERE client_id = client_id_fk AND module = 'POS';";
 								$stmt = $object->connect()->prepare($sql);
 								$stmt->execute();
 								if($stmt->rowCount())

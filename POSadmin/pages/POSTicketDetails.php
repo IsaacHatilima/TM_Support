@@ -10,6 +10,8 @@
 	<?php include '../includes/topnav.php'; ?>
 	<div class="page-container">
 		<div class="page-content">
+            <div id="lock-modal"></div>
+            <div id="loading-circle"></div>
 			<div class="content-wrapper">
                 <div class="row">
                     <div class="col-md-2"></div>
@@ -206,8 +208,6 @@
 			</div>
 		</div>
 	</div>
-    <div id="lock-modal"></div>
-    <div id="loading-circle"></div>
 	<script src="../ajax/AcceptCall.js"></script>
     <script>
         $(document).ready(function(){
